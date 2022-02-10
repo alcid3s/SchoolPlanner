@@ -1,8 +1,10 @@
 package data.persons;
 
-public class Teacher extends Person {
+import data.Person;
 
-    public Teacher(String name) {
+public class Teacher extends Person{
+
+    public Teacher(String name){
         super(name);
     }
 
