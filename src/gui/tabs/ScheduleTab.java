@@ -4,18 +4,16 @@ import data.Schedule;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditTeachersPopup;
 import javafx.collections.ObservableList;
-import javafx.embed.swt.FXCanvas;
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import org.jfree.fx.FXGraphics2D;
 
-import java.util.RandomAccess;
+import javax.xml.soap.Text;
+import java.awt.*;
+import java.awt.geom.Area;
 
 public class ScheduleTab extends Tab {
     private ObservableList list;
@@ -26,18 +24,25 @@ public class ScheduleTab extends Tab {
     public ScheduleTab() {
         super("Schedule");
 
-        canvas = new Canvas();
         mainPane = new BorderPane();
+
+        System.out.println(mainPane.getWidth() + " and " + this.mainPane.getHeight());
+
+        canvas = new Canvas();
+
+        if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
+            canvas.setWidth(1000);
+            canvas.setHeight(800);
+        }else{
+            canvas.setWidth(mainPane.getWidth());
+            canvas.setHeight(mainPane.getHeight());
+        }
 
         mainPane.setTop(canvas);
 
-        Group timeBlockGroup = new Group();
-        Group timeTextGroup = new Group();
-        final int size = 50;
-        for (int i = 0; i < 12; i++) {
-            timeBlockGroup.getChildren().add(new Rectangle(i * size, 0, size, size));
-            timeTextGroup.getChildren().add(new Text(i * size, 0, "TIME HERE"));
-        }
+        System.out.println("Drawing...");
+        DrawTime(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        System.out.println("Drew context");
 
         this.schedule = Schedule.getInstance();
         Button editTeachers = getDefaultButton("Edit Teachers", 50,100);
@@ -49,11 +54,18 @@ public class ScheduleTab extends Tab {
             new EditGroupsPopup().show();
         });
 
-
         HBox hBox = new HBox(editTeachers, editGroups);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
+    }
+
+    private void DrawTime(FXGraphics2D graphics) {
+        final int size = 100;
+        final int factor = 2;
+        for (int i = 0; i < 5; i++) {
+            graphics.draw(new Rectangle(i * size * factor, 0, size * factor, 40));
+        }
     }
 
     /*
