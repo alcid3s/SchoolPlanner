@@ -33,6 +33,7 @@ public class EditTeachersPopup extends Stage {
             new CreateTeacherPopup().show();
             close();
         });
+
         Button removeTeacher = Util.getDefaultButton("Remove teacher", 50,150);
         removeTeacher.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
@@ -47,6 +48,7 @@ public class EditTeachersPopup extends Stage {
                 }
             }
         });
+
         Button editTeacher = Util.getDefaultButton("Edit teacher", 50,150);
         editTeacher.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
@@ -61,6 +63,7 @@ public class EditTeachersPopup extends Stage {
                 }
             }
         });
+
         Button close = Util.getDefaultButton("Close", 50,100);
         HBox hBox = new HBox(createTeacher, removeTeacher, editTeacher,close);
         close.setOnAction(e -> {
