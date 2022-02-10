@@ -1,5 +1,5 @@
-import data.Room;
-import data.Teacher;
+import data.rooms.Room;
+import data.persons.Teacher;
 
 import java.time.LocalDateTime;
 

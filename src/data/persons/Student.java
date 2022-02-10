@@ -1,4 +1,6 @@
-package data;
+package data.persons;
+
+import data.Person;
 
 public class Student extends Person {
 
