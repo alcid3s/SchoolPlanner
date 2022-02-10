@@ -1,10 +1,6 @@
 package data.persons;
 
-public class Student extends Person{
-
 import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
