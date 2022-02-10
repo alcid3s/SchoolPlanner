@@ -1,2 +1,2 @@
-public class Schedule{
+public class Schedule {
 }
