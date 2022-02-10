@@ -1,6 +1,7 @@
 package data;
 
 import data.persons.Teacher;
+import data.rooms.Room;
 
 import java.util.ArrayList;
 
@@ -10,11 +11,13 @@ public class Schedule {
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
     private ArrayList<Teacher> teacherList;
+    private ArrayList<Room> roomList;
 
     public Schedule() {
-        lessonList = new ArrayList<>();
-        groupList = new ArrayList<>();
-        teacherList = new ArrayList<>();
+        this.lessonList = new ArrayList<>();
+        this.groupList = new ArrayList<>();
+        this.teacherList = new ArrayList<>();
+        this.roomList = new ArrayList<>();
     }
 
     /**
@@ -30,7 +33,11 @@ public class Schedule {
      * @param group to be added.
      */
     public void addGroup(Group group) {
-        groupList.add(group);
+        this.groupList.add(group);
+    }
+
+    public void addRoom(Room room){
+        this.roomList.add(room);
     }
 
     /**
@@ -56,6 +63,15 @@ public class Schedule {
         for(Group g : groupList) {
             if(g.getName().equals(name))
                 return g;
+        }
+        return null;
+    }
+
+    public Room getRoom(String name){
+        for(Room room : this.roomList){
+            if(room.getName().equals(name)){
+                return room;
+            }
         }
         return null;
     }
@@ -104,6 +120,10 @@ public class Schedule {
 
     public boolean removeTeacher(Teacher teacher) {
         return this.teacherList.remove(teacher);
+    }
+
+    public void removeLesson(Lesson lesson){
+        this.lessonList.remove(lesson);
     }
 
     public void removeGroup(Group group) {

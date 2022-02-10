@@ -27,23 +27,46 @@ public class Lesson{
         return room;
     }
 
+    public void setRoom(Room room){
+        this.room = room;
+    }
+
     public Teacher getTeacher() {
         return teacher;
+    }
+    public void setTeacher(Teacher teacher){
+        this.teacher = teacher;
     }
 
     public Group getGroup() {
         return group;
     }
 
+    public void setGroup(Group group){
+        this.group = group;
+    }
+
     public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public void setStartDate(LocalDateTime time){
+        this.startDate = time;
+    }
+
+    public LocalDateTime getEndDate(){
         return endDate;
+    }
+
+    public void setEndDate(LocalDateTime time){
+        this.endDate = time;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

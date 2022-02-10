@@ -2,6 +2,7 @@ package gui.tabs;
 
 import data.Schedule;
 import gui.popups.EditGroupsPopup;
+import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
 import javafx.collections.ObservableList;
 import javafx.embed.swt.FXCanvas;
@@ -48,9 +49,13 @@ public class ScheduleTab extends Tab {
         editGroups.setOnAction(e -> {
             new EditGroupsPopup().show();
         });
+        Button editLessons = getDefaultButton("Edit Lessons", 50, 100);
+        editLessons.setOnAction(e -> {
+            new EditLessonsPopup().show();
+        });
 
 
-        HBox hBox = new HBox(editTeachers, editGroups);
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
