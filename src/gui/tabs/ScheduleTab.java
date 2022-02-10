@@ -60,11 +60,15 @@ public class ScheduleTab extends Tab {
         setContent(mainPane);
     }
 
+    /*
+    Draws rectangles for time indication.
+     */
     private void DrawTime(FXGraphics2D graphics) {
-        final int size = 100;
+        final int size = 90;
         final int factor = 2;
+        graphics.draw(new Rectangle(0, 0, 100, 40));
         for (int i = 0; i < 5; i++) {
-            graphics.draw(new Rectangle(i * size * factor, 0, size * factor, 40));
+            graphics.draw(new Rectangle((i * size * factor) + 100, 0, size * factor, 40));
         }
     }
 
