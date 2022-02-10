@@ -4,6 +4,7 @@ import data.Group;
 import data.Schedule;
 import data.persons.Teacher;
 import gui.Util;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -50,6 +51,8 @@ public class EditGroupsPopup extends Stage {
                 }
             }
         });
+        Scene scene = new Scene(borderPane);
+        setScene(scene);
         edit.setOnAction(e -> {
 
         });
