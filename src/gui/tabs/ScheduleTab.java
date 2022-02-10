@@ -1,18 +1,31 @@
 package gui.tabs;
 
+import data.Schedule;
+import gui.popups.EditTeachersPopup;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import sun.net.www.content.text.Generic;
 
 public class ScheduleTab extends Tab {
     private ObservableList list;
+    private Schedule schedule;
 
     public ScheduleTab() {
         super("Schedule");
-        Button editTeachers = getDefaultButton("Edit Teachers", 100,100);
-        Button editGroups = getDefaultButton("Edit Groups", 100,100);
+        this.schedule = Schedule.getInstance();
+        Button editTeachers = getDefaultButton("Edit Teachers", 50,100);
+        editTeachers.setOnMouseClicked(e -> {
+            new EditTeachersPopup().show();
+        });
+        Button editGroups = getDefaultButton("Edit Groups", 50,100);
+
+
+        ListView<Generic> list = new ListView<>();
+
 
         HBox hBox = new HBox(editTeachers, editGroups);
 
@@ -31,5 +44,7 @@ public class ScheduleTab extends Tab {
 
         return b;
     }
+
+
 
 }

@@ -1,6 +1,6 @@
 package data;
 
-import data.Person;
+import data.persons.Person;
 
 import java.util.ArrayList;
 

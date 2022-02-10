@@ -1,4 +1,4 @@
-package data;
+package data.persons;
 
 public abstract class Person {
     String name;
