@@ -1,4 +1,3 @@
-import data.Person;
 import data.persons.Student;
 import data.persons.Person;
 
@@ -14,12 +13,12 @@ public class Group{
         this.name = name;
         this.size = size;
         this.studentList = new ArrayList<>();
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < getSize(); i++) {
             this.studentList.add(new Student(Student.getRandomName()));
         }
     }
     public ArrayList<Person> getStudents() {
-        return students;
+        return studentList;
     }
     public String getName() {
         return name;

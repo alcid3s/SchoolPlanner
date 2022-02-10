@@ -11,9 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.xml.soap.Text;
 import java.awt.*;
-import java.awt.geom.Area;
 
 public class ScheduleTab extends Tab {
     private ObservableList list;
@@ -25,14 +23,12 @@ public class ScheduleTab extends Tab {
         super("Schedule");
 
         mainPane = new BorderPane();
-
         System.out.println(mainPane.getWidth() + " and " + this.mainPane.getHeight());
-
         canvas = new Canvas();
 
         if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
-            canvas.setWidth(1000);
-            canvas.setHeight(800);
+            canvas.setWidth(1920);
+            canvas.setHeight(1080);
         }else{
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
@@ -40,9 +36,7 @@ public class ScheduleTab extends Tab {
 
         mainPane.setTop(canvas);
 
-        System.out.println("Drawing...");
         DrawTime(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        System.out.println("Drew context");
 
         this.schedule = Schedule.getInstance();
         Button editTeachers = getDefaultButton("Edit Teachers", 50,100);
@@ -64,12 +58,35 @@ public class ScheduleTab extends Tab {
     Draws rectangles for time indication.
      */
     private void DrawTime(FXGraphics2D graphics) {
-        final int size = 90;
-        final int factor = 2;
+        String[] temporaryTeacherList = {"Johan", "Etienne", "Maurice", "Joli", "Bart", "Jan", "Jessica"};
+        String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
+
+        java.awt.Font font = new Font("Verdana", 16, 20);
+
+
+        //TODO: 10-02-2022 add list of teachers to the left side.
         graphics.draw(new Rectangle(0, 0, 100, 40));
-        for (int i = 0; i < 5; i++) {
+        graphics.setFont(font);
+
+        graphics.drawString("Teachers", 0, 30);
+
+        final int size = 114;
+        final int factor = 2;
+        for (int i = 0; i < 8; i++) {
+
+            // horizontal and vertical rectangles
             graphics.draw(new Rectangle((i * size * factor) + 100, 0, size * factor, 40));
+            graphics.draw(new Rectangle(0, 40, 100, i * (size - 20) * factor));
+
+            // teacher list
+            if(i != 0){
+                graphics.drawString(temporaryTeacherList[i - 1], 0, i * 170);
+            }
+
+            // time list
+            graphics.drawString(temporaryTimeList[i], 130 + (i * 230), 30);
         }
+
     }
 
     /*
