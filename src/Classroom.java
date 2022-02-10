@@ -1,3 +1,5 @@
+import data.Room;
+
 public class Classroom extends Room {
 
     public Classroom(String name, int capacity){

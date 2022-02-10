@@ -1,3 +1,5 @@
+import data.Person;
+
 import java.util.ArrayList;
 
 public class Group{

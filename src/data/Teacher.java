@@ -1,4 +1,6 @@
-public class Teacher extends Person{
+package data;
+
+public class Teacher extends Person {
 
     public Teacher(String name) {
         super(name);

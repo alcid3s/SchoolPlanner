@@ -1,3 +1,6 @@
+import data.Room;
+import data.Teacher;
+
 import java.time.LocalDateTime;
 
 public class Lesson{
