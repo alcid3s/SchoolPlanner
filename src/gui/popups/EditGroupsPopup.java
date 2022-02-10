@@ -1,7 +1,10 @@
 package gui.popups;
 
+import data.Group;
 import data.Schedule;
+import data.persons.Teacher;
 import gui.Util;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -33,6 +36,22 @@ public class EditGroupsPopup extends Stage {
         create.setOnAction(e -> {
             new CreateGroupPopup().show();
             close();
+        });
+        remove.setOnAction(e -> {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+                int selected = listView.getSelectionModel().getSelectedIndex();
+                String teacherName = (String) listView.getItems().get(selected);
+                Group selectedGroup = schedule.getGroup(teacherName);
+                if(selectedGroup != null) {
+                    listView.getItems().remove(selected);
+                    schedule.removeGroup(selectedGroup);
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Could not find group").show();
+                }
+            }
+        });
+        edit.setOnAction(e -> {
+
         });
     }
 

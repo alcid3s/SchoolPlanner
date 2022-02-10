@@ -45,7 +45,7 @@ public class ScheduleTab extends Tab {
             new EditTeachersPopup().show();
         });
         Button editGroups = getDefaultButton("Edit Groups", 50,100);
-        editTeachers.setOnAction(e -> {
+        editGroups.setOnAction(e -> {
             new EditGroupsPopup().show();
         });
 

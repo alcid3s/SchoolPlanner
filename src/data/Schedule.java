@@ -105,4 +105,8 @@ public class Schedule {
     public boolean removeTeacher(Teacher teacher) {
         return this.teacherList.remove(teacher);
     }
+
+    public void removeGroup(Group group) {
+        schedule.removeGroup(group);
+    }
 }
