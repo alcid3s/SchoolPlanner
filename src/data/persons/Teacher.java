@@ -1,8 +1,8 @@
 package data.persons;
 
-public class Teacher extends Person {
+public class Teacher extends Person{
 
-    public Teacher(String name) {
+    public Teacher(String name){
         super(name);
     }
 
