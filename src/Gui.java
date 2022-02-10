@@ -11,6 +11,4 @@ public class Gui extends Application {
     public static void main(String[] args) {
         launch(Gui.class);
     }
-
-
 }
