@@ -63,7 +63,6 @@ public class ScheduleTab extends Tab {
 
         java.awt.Font font = new Font("Verdana", 16, 20);
 
-
         //TODO: 10-02-2022 add list of teachers to the left side.
         graphics.draw(new Rectangle(0, 0, 100, 40));
         graphics.setFont(font);
@@ -86,7 +85,6 @@ public class ScheduleTab extends Tab {
             // time list
             graphics.drawString(temporaryTimeList[i], 130 + (i * 230), 30);
         }
-
     }
 
     /*
