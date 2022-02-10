@@ -1,4 +1,4 @@
-package data;
+package data.rooms;
 
 public abstract class Room{
 
