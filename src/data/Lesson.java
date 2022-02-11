@@ -72,11 +72,26 @@ public class Lesson{
 
     @Override
     public String toString(){
+        String startDate;
+        String endDate;
+
+        if(this.startDate.getMinute() < 10){
+            startDate = this.startDate.getHour() + ":0" + this.startDate.getMinute();
+        }else{
+            startDate = this.startDate.getHour() + ":" + this.startDate.getMinute();
+        }
+
+        if(this.endDate.getMinute() < 10){
+            endDate = this.endDate.getHour() + ":0" + this.endDate.getMinute();
+        }else{
+            endDate = this.endDate.getHour() + ":" + this.endDate.getMinute();
+        }
+
         return this.name + "\t\t" +
-                this.room + "\t\t" +
+                this.room.getName() + "\t\t" +
                 this.teacher + "\t\t" +
-                this.group + "\t\t" +
-                this.startDate.getHour() + ":" + this.startDate.getMinute() + "\t\t" +
-                this.endDate.getHour() + ":" + this.endDate.getMinute() + "\t\t";
+                this.group.getName() + "\t\t" +
+                startDate + "\t\t" +
+                endDate;
     }
 }

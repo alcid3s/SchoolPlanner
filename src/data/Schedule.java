@@ -17,7 +17,7 @@ public class Schedule {
         this.lessonList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
-        this.roomList = new ArrayList<>();
+        this.roomList = AllRooms.AllRooms();
     }
 
     /**
@@ -26,6 +26,7 @@ public class Schedule {
      */
     public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
+        System.out.println(lessonList);
     }
 
     /**
@@ -61,7 +62,7 @@ public class Schedule {
      */
     public Group getGroup(String name) {
         for(Group g : groupList) {
-            if(g.getName().equals(name))
+            if(g.getName().equals(name) || g.getSystemName().equals(name))
                 return g;
         }
         return null;
@@ -74,7 +75,7 @@ public class Schedule {
      */
     public Room getRoom(String name){
         for(Room room : this.roomList){
-            if(room.getName().equals(name)){
+            if(room.getName().equals(name) || room.getSystemName().equals(name)){
                 return room;
             }
         }
@@ -116,6 +117,10 @@ public class Schedule {
 
     public ArrayList<Teacher> getTeacherList() {
         return teacherList;
+    }
+
+    public ArrayList<Room> getRoomList(){
+        return this.roomList;
     }
 
     public void addTeacher(Teacher teacher) {
