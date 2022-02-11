@@ -9,4 +9,8 @@ public abstract class Room{
         this.name = name;
         this.capacity = capacity;
     }
+
+    public String getName(){
+        return this.name;
+    }
 }

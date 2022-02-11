@@ -7,6 +7,7 @@ import data.persons.Teacher;
 import data.rooms.Classroom;
 import data.rooms.Room;
 import gui.popups.EditGroupsPopup;
+import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
@@ -30,6 +31,7 @@ public class ScheduleTab extends Tab {
 
     public ScheduleTab() {
         super("Schedule");
+        setClosable(false);
 
 
         mainPane = new BorderPane();
@@ -53,12 +55,16 @@ public class ScheduleTab extends Tab {
         editTeachers.setOnMouseClicked(e -> {
             new EditTeachersPopup().show();
         });
-        Button editGroups = getDefaultButton("Edit Groups", 50, 100);
-        editTeachers.setOnAction(e -> {
+        Button editGroups = getDefaultButton("Edit Groups", 50,100);
+        editGroups.setOnAction(e -> {
             new EditGroupsPopup().show();
         });
+        Button editLessons = getDefaultButton("Edit Lessons", 50, 100);
+        editLessons.setOnAction(e -> {
+            new EditLessonsPopup().show();
+        });
 
-        HBox hBox = new HBox(editTeachers, editGroups);
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
