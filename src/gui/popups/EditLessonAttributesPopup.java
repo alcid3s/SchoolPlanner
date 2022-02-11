@@ -53,15 +53,15 @@ public class EditLessonAttributesPopup extends Stage{
                 lesson.setTeacher(Schedule.getInstance().getTeacher(teacherField.getText()));
             }if(!groupField.getText().isEmpty()) {
                 lesson.setGroup(Schedule.getInstance().getGroup(groupField.getText()));
-            }//            }if(!startHourField.getText().isEmpty()) {
-//                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + startHourField.getText() + ":" + lesson.getStartDate().getMinute() + ":00"));
-//            }if(!endHourField.getText().isEmpty()){
-//                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + endHourField.getText() + ":" + lesson.getEndDate().getMinute() + ":00"));
-//            }if(!startMinuteField.getText().isEmpty()){
-//                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + lesson.getStartDate().getHour() + ":" + startMinuteField.getText() + ":00"));
-//            }if(endMinuteField.getText().isEmpty()){
-//                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + lesson.getEndDate().getHour() + ":" + endMinuteField.getText() + ":00"));
-//            }
+            }if(!startHourField.getText().isEmpty()) {
+                lesson.setStartDate(startHourField.getText() + ":" + Util.getMinute(lesson.getStartDate()));
+            }if(!endHourField.getText().isEmpty()){
+                lesson.setEndDate(endHourField.getText() + ":" + Util.getMinute(lesson.getEndDate()));
+            }if(!startMinuteField.getText().isEmpty()){
+                lesson.setStartDate(Util.getHour(lesson.getStartDate() + ":" + startMinuteField.getText()));
+            }if(!endMinuteField.getText().isEmpty()){
+                lesson.setEndDate(Util.getHour(lesson.getEndDate()) + ":" + endMinuteField.getText());
+            }
             new EditLessonsPopup().show();
             close();
         });
