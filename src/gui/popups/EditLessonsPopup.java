@@ -21,11 +21,11 @@ public class EditLessonsPopup extends Stage{
         setTitle("Edit Lessons");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
-        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         ArrayList<Lesson> lessonList = schedule.getLessonList();
         for(Lesson lesson : lessonList){
-            listView.getItems().add(lesson.getName());
+            listView.getItems().add(lesson);
         }
         BorderPane pane = new BorderPane();
         pane.setTop(listView);
@@ -53,7 +53,8 @@ public class EditLessonsPopup extends Stage{
         Button editLesson = Util.getDefaultButton("Edit Lesson", 50, 150);
         editLesson.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0){
-                Lesson selectedLesson = (Lesson)listView.getItems().get(listView.getSelectionModel().getSelectedIndex());
+                int selected = listView.getSelectionModel().getSelectedIndex();
+                Lesson selectedLesson = (Lesson)listView.getItems().get(selected);
                 if(selectedLesson != null){
                     new EditLessonAttributesPopup(selectedLesson).show();
                     close();

@@ -10,12 +10,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
-public class GUI extends Application {
+public class GUI extends Application{
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Group group = new Group("23TIVT1B1", 12);
-        Room room = new Classroom("LA209", 12);
-
+    public void start(Stage primaryStage)throws Exception{
         Tab tab = new Tab();
         TabPane tabs = new TabPane(tab);
         tabs.getTabs().add(new ScheduleTab());

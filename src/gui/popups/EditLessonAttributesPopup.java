@@ -44,6 +44,7 @@ public class EditLessonAttributesPopup extends Stage{
 
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
+
             if(!nameField.getText().isEmpty()) {
                 lesson.setName(nameField.getText());
             }if(!roomField.getText().isEmpty()) {
@@ -52,15 +53,15 @@ public class EditLessonAttributesPopup extends Stage{
                 lesson.setTeacher(Schedule.getInstance().getTeacher(teacherField.getText()));
             }if(!groupField.getText().isEmpty()) {
                 lesson.setGroup(Schedule.getInstance().getGroup(groupField.getText()));
-            }if(!startHourField.getText().isEmpty()) {
-                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + startHourField.getText() + ":" + lesson.getStartDate().getMinute() + ":00"));
-            }if(!endHourField.getText().isEmpty()){
-                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + endHourField.getText() + ":" + lesson.getEndDate().getMinute() + ":00"));
-            }if(!startMinuteField.getText().isEmpty()){
-                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + lesson.getStartDate().getHour() + ":" + startMinuteField.getText() + ":00"));
-            }if(endMinuteField.getText().isEmpty()){
-                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + lesson.getEndDate().getHour() + ":" + endMinuteField.getText() + ":00"));
-            }
+            }//            }if(!startHourField.getText().isEmpty()) {
+//                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + startHourField.getText() + ":" + lesson.getStartDate().getMinute() + ":00"));
+//            }if(!endHourField.getText().isEmpty()){
+//                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + endHourField.getText() + ":" + lesson.getEndDate().getMinute() + ":00"));
+//            }if(!startMinuteField.getText().isEmpty()){
+//                lesson.setStartDate(LocalDateTime.parse(lesson.getStartDate().getYear() + "-" + lesson.getStartDate().getMonth() + "-" + lesson.getStartDate().getDayOfMonth() + "T" + lesson.getStartDate().getHour() + ":" + startMinuteField.getText() + ":00"));
+//            }if(endMinuteField.getText().isEmpty()){
+//                lesson.setEndDate(LocalDateTime.parse(lesson.getEndDate().getYear() + "-" + lesson.getEndDate().getMonth() + "-" + lesson.getEndDate().getDayOfMonth() + "T" + lesson.getEndDate().getHour() + ":" + endMinuteField.getText() + ":00"));
+//            }
             new EditLessonsPopup().show();
             close();
         });

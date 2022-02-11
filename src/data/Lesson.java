@@ -69,4 +69,14 @@ public class Lesson{
     public void setName(String name){
         this.name = name;
     }
+
+    @Override
+    public String toString(){
+        return this.name + "\t\t" +
+                this.room + "\t\t" +
+                this.teacher + "\t\t" +
+                this.group + "\t\t" +
+                this.startDate + "\t\t" +
+                this.endDate;
+    }
 }
