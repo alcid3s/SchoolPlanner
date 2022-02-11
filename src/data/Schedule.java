@@ -67,6 +67,11 @@ public class Schedule {
         return null;
     }
 
+    /**
+     * returns the room with specific name.
+     * @param name of the room
+     * @return the room with specific name or null if no room found
+     */
     public Room getRoom(String name){
         for(Room room : this.roomList){
             if(room.getName().equals(name)){

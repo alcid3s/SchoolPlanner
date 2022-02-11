@@ -1,8 +1,5 @@
 package gui;
 
-import data.Group;
-import data.rooms.Classroom;
-import data.rooms.Room;
 import gui.tabs.ScheduleTab;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,7 +9,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application{
     @Override
-    public void start(Stage primaryStage)throws Exception{
+    public void start(Stage primaryStage) {
         Tab tab = new Tab();
         TabPane tabs = new TabPane(tab);
         tabs.getTabs().add(new ScheduleTab());

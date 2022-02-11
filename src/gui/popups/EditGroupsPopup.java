@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 public class EditGroupsPopup extends Stage {
 
+    /**
+     * This is the main popup to edit groups, remove a group, create a new group or edit a group
+     */
     public EditGroupsPopup() {
         setTitle("Edit groups");
         Schedule schedule = Schedule.getInstance();
@@ -73,5 +76,6 @@ public class EditGroupsPopup extends Stage {
         Scene scene = new Scene(borderPane);
         setScene(scene);
     }
+
 
 }
