@@ -27,4 +27,17 @@ public class Group{
     public int getSize() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + size + ")";
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }
