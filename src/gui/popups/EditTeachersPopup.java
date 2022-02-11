@@ -18,6 +18,7 @@ public class EditTeachersPopup extends Stage {
 
 
     public EditTeachersPopup() {
+        setTitle("Edit Teachers");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

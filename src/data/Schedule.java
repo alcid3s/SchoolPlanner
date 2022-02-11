@@ -1,9 +1,12 @@
 package data;
 
 import data.persons.Teacher;
+import data.rooms.Canteen;
+import data.rooms.Classroom;
 import data.rooms.Room;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Schedule {
     private static Schedule schedule;
@@ -18,6 +21,10 @@ public class Schedule {
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = new ArrayList<>();
+
+        this.groupList.addAll(Arrays.asList(new Group("B1",5),new Group("B3",2),new Group("A2",10)));
+        this.teacherList.addAll(Arrays.asList(new Teacher("tommy"), new Teacher("idk"), new Teacher("Dummy")));
+        this.roomList.addAll(Arrays.asList(new Classroom("L1",5), new Classroom("L2", 15), new Canteen("Canteen", 20)));
     }
 
     /**
@@ -133,5 +140,9 @@ public class Schedule {
 
     public void removeGroup(Group group) {
         groupList.remove(group);
+    }
+
+    public ArrayList<Room> getRoomList() {
+        return roomList;
     }
 }

@@ -1,24 +1,32 @@
 package gui.popups;
 
+import data.Group;
 import data.Lesson;
 import data.Schedule;
+import data.persons.Teacher;
+import data.rooms.Classroom;
+import data.rooms.Room;
 import gui.Util;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 public class CreateLessonPopup extends Stage {
 
     public CreateLessonPopup(){
         //String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate
+        Schedule schedule = Schedule.getInstance();
         Label name = new Label("Name:");
         Label room = new Label("Room:");
         Label teacher = new Label("Teacher:");
@@ -27,42 +35,71 @@ public class CreateLessonPopup extends Stage {
         Label endTime = new Label("End Time:");
 
         TextField nameField = new TextField();
-        TextField roomField = new TextField();
-        TextField teacherField = new TextField();
-        TextField groupField = new TextField();
-        TextField startHourField = new TextField();
-        TextField startMinuteField = new TextField();
-        TextField endHourField = new TextField();
-        TextField endMinuteField = new TextField();
+        ComboBox<String> roomField = new ComboBox<>();
+        ArrayList<String> roomListView = new ArrayList<>();
+        for(Room r : schedule.getRoomList()) {
+            if(r instanceof Classroom) {
+                roomListView.add(r.toString());
+            }
+        }
+        roomField.setItems(FXCollections.observableArrayList(roomListView));
+        ComboBox<String> teacherField = new ComboBox<>();
+        ArrayList<String> teacherListView = new ArrayList<>();
+        for(Teacher t : schedule.getTeacherList()) {
+            teacherListView.add(t.toString());
+        }
+        teacherField.setItems(FXCollections.observableArrayList(teacherListView));
+        ComboBox<String> groupField = new ComboBox<>();
+        ArrayList<String> groupView = new ArrayList<>();
+        for(Group g : schedule.getGroupList()) {
+            groupView.add(g.toString());
+        }
+        groupField.setItems(FXCollections.observableArrayList(groupView));
+
+
+        TextField startTimeField = new TextField();
+        startTimeField.setText("yyyy-MM-dd HH:mm");
+        TextField endTimeField = new TextField();
+        endTimeField.setText("yyyy-MM-dd HH:mm");
 
         VBox box = new VBox();
         box.getChildren().add(new HBox(name, nameField));
         box.getChildren().add(new HBox(room, roomField));
         box.getChildren().add(new HBox(teacher, teacherField));
         box.getChildren().add(new HBox(group, groupField));
-        box.getChildren().add(new HBox(startTime, startHourField, new Label(":"), startMinuteField));
-        box.getChildren().add(new HBox(endTime, endHourField, new Label(":"), endMinuteField));
+        box.getChildren().add(new HBox(startTime, startTimeField));
+        box.getChildren().add(new HBox(endTime, endTimeField));
 
         Button create = Util.getDefaultButton("Create lesson", 50, 100);
         create.setOnAction(e -> {
-            if(nameField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in a name").show();
-            }else if(roomField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in a room").show();
-            }else if(teacherField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in a teacher").show();
-            }else if(groupField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in a group").show();
-            }else if(startHourField.getText().isEmpty() || startMinuteField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in a start time").show();
-            }else if(endHourField.getText().isEmpty() || endMinuteField.getText().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Fill in an end time").show();
-            }else{
-//                LocalDateTime start = LocalDateTime.parse(LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonth() + "-" + LocalDateTime.now().getDayOfMonth() + "T" + startHourField.getText() + ":" + startMinuteField.getText() + ":00");
-//                LocalDateTime end = LocalDateTime.parse(LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonth() + "-" + LocalDateTime.now().getDayOfMonth() + "T" + endHourField.getText() + ":" + endMinuteField.getText() + ":00");
-                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomField.getText()), Schedule.getInstance().getTeacher(teacherField.getText()), Schedule.getInstance().getGroup(groupField.getText()), startHourField.getText() + ":" + startMinuteField.getText(), endHourField.getText() + ":"  + endMinuteField.getText()));
-                new EditLessonsPopup().show();
-                close();
+            if(nameField.getText().length() > 0) {
+                Teacher selectedTeacher = getSelectedTeacher(teacherField);
+                Group selectedGroup = getSelectedGroup(groupField);
+                Room selectedRoom = getSelectedRoom(roomField);
+                if(selectedTeacher != null && selectedGroup != null && selectedRoom != null) {
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                        LocalDateTime selectedStartTime = LocalDateTime.parse(startTimeField.getText(), formatter); 
+                        LocalDateTime selectedEndTime = LocalDateTime.parse(endTimeField.getText(), formatter);
+                        if(selectedStartTime.isAfter(selectedEndTime)) {
+                            new Alert(Alert.AlertType.ERROR, "Start time is after end time.").show();
+                            return;
+                        }
+                        if(selectedGroup.getSize() > selectedRoom.getCapacity()) {
+                            new Alert(Alert.AlertType.ERROR, "Too large group for selected room").show();
+                            return;
+                        }
+                        schedule.addLesson(new Lesson(nameField.getText(), selectedRoom, selectedTeacher, selectedGroup, selectedStartTime, selectedEndTime));
+                        new EditLessonsPopup().show();
+                        close();
+                    } catch (DateTimeParseException ex) {
+                        new Alert(Alert.AlertType.ERROR, "Entered times are not valid.").show();
+                    }
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Could not create lesson, invalid values").show();
+                }
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Lesson name is too short.").show();
             }
         });
 
@@ -79,5 +116,30 @@ public class CreateLessonPopup extends Stage {
         Scene scene = new Scene(pane);
         setTitle("Create lesson");
         setScene(scene);
+    }
+
+    public Teacher getSelectedTeacher(ComboBox comboBox) {
+        String teacher = (String) comboBox.getItems().get(comboBox.getSelectionModel().getSelectedIndex());
+        if(teacher != null) {
+            return Schedule.getInstance().getTeacher(teacher);
+        }
+        return null;
+    }
+
+    public Group getSelectedGroup(ComboBox comboBox) {
+        String group = (String) comboBox.getItems().get(comboBox.getSelectionModel().getSelectedIndex());
+        if(group != null) {
+            return Schedule.getInstance().getGroup(group.split(" \\(")[0]);
+        }
+
+        return null;
+    }
+
+    public Room getSelectedRoom(ComboBox comboBox) {
+        String room = (String) comboBox.getItems().get(comboBox.getSelectionModel().getSelectedIndex());
+        if(room != null) {
+            return Schedule.getInstance().getRoom(room.split(" \\(")[0]);
+        }
+        return null;
     }
 }

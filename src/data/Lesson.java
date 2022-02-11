@@ -10,11 +10,11 @@ public class Lesson{
     private Room room;
     private Teacher teacher;
     private Group group;
-    private String startDate;
-    private String endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String name;
 
-    public Lesson(String name, Room room, Teacher teacher, Group group, String startDate, String endDate){
+    public Lesson(String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate){
         this.room = room;
         this.teacher = teacher;
         this.group = group;
@@ -46,19 +46,19 @@ public class Lesson{
         this.group = group;
     }
 
-    public String getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String time){
+    public void setStartDate(LocalDateTime time){
         this.startDate = time;
     }
 
-    public String getEndDate(){
+    public LocalDateTime getEndDate(){
         return endDate;
     }
 
-    public void setEndDate(String time){
+    public void setEndDate(LocalDateTime time){
         this.endDate = time;
     }
 

@@ -13,4 +13,13 @@ public abstract class Room{
     public String getName(){
         return this.name;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " (" + capacity + ")";
+    }
 }

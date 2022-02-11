@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 public class GUI extends Application{
     @Override
     public void start(Stage primaryStage) {
-        Tab tab = new Tab();
-        TabPane tabs = new TabPane(tab);
+        TabPane tabs = new TabPane();
         tabs.getTabs().add(new ScheduleTab());
         tabs.setPrefHeight(800);
         tabs.setPrefWidth(1000);
