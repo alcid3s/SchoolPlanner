@@ -127,6 +127,6 @@ public class Schedule {
     }
 
     public void removeGroup(Group group) {
-        schedule.removeGroup(group);
+        groupList.remove(group);
     }
 }
