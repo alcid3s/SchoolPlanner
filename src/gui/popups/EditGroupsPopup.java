@@ -32,8 +32,12 @@ public class EditGroupsPopup extends Stage {
         Button create = Util.getDefaultButton("Create group", 50, 100);
         Button remove = Util.getDefaultButton("Remove group", 50, 100);
         Button edit = Util.getDefaultButton("Edit group", 50, 100);
+        Button close = Util.getDefaultButton("Close",50,100);
+        close.setOnAction(e -> {
+            close();
+        });
 
-        borderPane.setBottom(new HBox(create, remove, edit));
+        borderPane.setBottom(new HBox(create, remove, edit, close));
         create.setOnAction(e -> {
             new CreateGroupPopup().show();
             close();
@@ -41,8 +45,9 @@ public class EditGroupsPopup extends Stage {
         remove.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                String teacherName = (String) listView.getItems().get(selected);
-                Group selectedGroup = schedule.getGroup(teacherName);
+                String groupName = (String) listView.getItems().get(selected);
+                groupName = groupName.split(" \\(")[0];
+                Group selectedGroup = schedule.getGroup(groupName);
                 if(selectedGroup != null) {
                     listView.getItems().remove(selected);
                     schedule.removeGroup(selectedGroup);
@@ -51,11 +56,22 @@ public class EditGroupsPopup extends Stage {
                 }
             }
         });
+        edit.setOnAction(e -> {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+                int selected = listView.getSelectionModel().getSelectedIndex();
+                String groupName = (String) listView.getItems().get(selected);
+                groupName = groupName.split(" \\(")[0];
+                Group selectedGroup = schedule.getGroup(groupName);
+                if(selectedGroup != null) {
+                    new EditGroupAttributesPopup(selectedGroup).show();
+                    close();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Could not find group").show();
+                }
+            }
+        });
         Scene scene = new Scene(borderPane);
         setScene(scene);
-        edit.setOnAction(e -> {
-
-        });
     }
 
 }
