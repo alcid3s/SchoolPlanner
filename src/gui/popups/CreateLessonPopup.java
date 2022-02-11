@@ -60,7 +60,7 @@ public class CreateLessonPopup extends Stage {
             }else{
 //                LocalDateTime start = LocalDateTime.parse(LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonth() + "-" + LocalDateTime.now().getDayOfMonth() + "T" + startHourField.getText() + ":" + startMinuteField.getText() + ":00");
 //                LocalDateTime end = LocalDateTime.parse(LocalDateTime.now().getYear() + "-" + LocalDateTime.now().getMonth() + "-" + LocalDateTime.now().getDayOfMonth() + "T" + endHourField.getText() + ":" + endMinuteField.getText() + ":00");
-                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomField.getText()), Schedule.getInstance().getTeacher(teacherField.getText()), Schedule.getInstance().getGroup(groupField.getText()), LocalDateTime.now(), LocalDateTime.now()));
+                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomField.getText()), Schedule.getInstance().getTeacher(teacherField.getText()), Schedule.getInstance().getGroup(groupField.getText()), startHourField.getText() + ":" + startMinuteField.getText(), endHourField.getText() + ":"  + endMinuteField.getText()));
                 new EditLessonsPopup().show();
                 close();
             }
