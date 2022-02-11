@@ -1,7 +1,9 @@
 package gui.popups;
 
+import data.Lesson;
 import data.Schedule;
 import data.persons.Teacher;
+import data.rooms.Canteen;
 import gui.Util;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
