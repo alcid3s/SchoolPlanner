@@ -82,7 +82,6 @@ public class Schedule {
         if(schedule == null) {
             schedule = new Schedule();
         }
-
         return schedule;
     }
 
