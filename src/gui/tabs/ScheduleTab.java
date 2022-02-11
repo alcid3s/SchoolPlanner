@@ -68,24 +68,46 @@ public class ScheduleTab extends Tab {
                 new Classroom("LA134", 10),
                 new Teacher("Pieter"),
                 new Group("B1", 6),
-                LocalDateTime.of(2022,  2, 14, 12, 0),
-                LocalDateTime.of(2022, 2, 14, 13, 15));
+                LocalDateTime.of(2022, 2, 14, 8, 0),
+                LocalDateTime.of(2022, 2, 14, 10, 8));
 
         DrawLesson(lesson, new FXGraphics2D(canvas.getGraphicsContext2D()));
     }
 
-    private void DrawLesson(Lesson lesson, FXGraphics2D graphics){
+    private void DrawLesson(Lesson lesson, FXGraphics2D graphics) {
+        final int startHour = lesson.getStartDate().getHour();
+        final int startMinute = lesson.getStartDate().getMinute();
+        final int endHour = lesson.getEndDate().getHour();
+        final int endMinute = lesson.getEndDate().getMinute();
 
         // Paramaters for the
-        int xStart = 100 + (((lesson.getStartDate().getHour() - 8) * this.size) * factor) + (lesson.getStartDate().getMinute() * (this.size / 3));
-        int yStart = 40;
-        int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
-        int yEnd = 200;
+        final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 3));
+        final int yStart = 40;
+        final int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
+        final int yEnd = 200;
 
         graphics.draw(new Rectangle(xStart, yStart, xEnd, yEnd));
 
 
-        graphics.drawString(lesson.getStartDate().getHour().slice);
+        //TODO: 11-02-2022 Create formula so the time is always in the middle
+        graphics.drawString(leadingZero(startHour) + ":" + leadingZero(startMinute) + " - "
+                + leadingZero(endHour) + ":" + leadingZero(endMinute), xStart + 50, yStart + 30);
+
+        //TODO: 11-02-2022 Create fornmula so group is always in the middle
+        graphics.drawString(lesson.getGroup().getName(), xStart + 100, yStart + 60);
+
+        //TODO: 11-02-2022 Create formula so room is always in the middle, also create a .getname function in Room.
+        graphics.drawString("LA134", xStart + 100, yStart + 90);
+
+        graphics.drawString(lesson.getTeacher().getName(), xStart + 100, yStart + 120);
+    }
+
+    private String leadingZero(int num) {
+        if (num < 10) {
+            return "0" + num;
+        } else {
+            return num + "";
+        }
     }
 
     /*
