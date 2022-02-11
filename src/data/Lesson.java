@@ -46,7 +46,7 @@ public class Lesson{
         this.group = group;
     }
 
-    public String getStartDate() {
+    public String getStartDate(){
         return startDate;
     }
 
