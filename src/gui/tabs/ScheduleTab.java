@@ -26,6 +26,7 @@ public class ScheduleTab extends Tab {
 
     public ScheduleTab() {
         super("Schedule");
+        setClosable(false);
 
         canvas = new Canvas();
         mainPane = new BorderPane();

@@ -3,6 +3,7 @@ package gui.popups;
 import data.Group;
 import data.Schedule;
 import gui.Util;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +17,7 @@ public class CreateGroupPopup extends Stage {
 
     public CreateGroupPopup() {
         setTitle("Create Group");
-        Label name = new Label(" Name: ");
+        Label name = new Label("Name: ");
         Label size = new Label("Group Size: ");
         TextField nameField = new TextField();
         TextField sizeField = new TextField();
@@ -48,5 +49,8 @@ public class CreateGroupPopup extends Stage {
             new EditGroupsPopup().show();
             close();
         });
+
+        Scene scene = new Scene(borderPane);
+        setScene(scene);
     }
 }
