@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 public class CreateGroupPopup extends Stage {
 
+    /**
+     * Popup for CreateGroup
+     */
     public CreateGroupPopup() {
         setTitle("Create Group");
         Label name = new Label("Name: ");

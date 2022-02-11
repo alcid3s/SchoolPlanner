@@ -12,7 +12,6 @@ public class Util {
         Button b = new Button(name);
         b.setPrefHeight(height);
         b.setPrefWidth(width);
-
         return b;
     }
 

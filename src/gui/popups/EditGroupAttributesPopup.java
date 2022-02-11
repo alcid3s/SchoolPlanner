@@ -13,10 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditGroupAttributesPopup extends Stage {
-    private Group group;
 
+    /**
+     * Popup to edit a groups, attributes
+     * @param group to be edited
+     */
     public EditGroupAttributesPopup(Group group) {
-        this.group = group;
         setTitle("Edit Group");
         Label name = new Label(" Name: ");
         Label size = new Label("Group Size: ");

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application{
     @Override
-    public void start(Stage primaryStage)throws Exception{
+    public void start(Stage primaryStage) {
         Tab tab = new Tab();
         TabPane tabs = new TabPane(tab);
         tabs.getTabs().add(new ScheduleTab());

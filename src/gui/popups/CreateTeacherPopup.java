@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 public class CreateTeacherPopup extends Stage {
 
+    /**
+     * Popup for create Teacher
+     */
     public CreateTeacherPopup() {
         Button create = Util.getDefaultButton("Create Teacher", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
