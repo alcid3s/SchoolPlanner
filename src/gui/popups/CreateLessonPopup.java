@@ -58,7 +58,7 @@ public class CreateLessonPopup extends Stage {
             }else if(endHourField.getText().isEmpty() || endMinuteField.getText().isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Fill in an end time").show();
             }else{
-                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomField.getText()), Schedule.getInstance().getTeacher(teacherField.getText()), Schedule.getInstance().getGroup(groupField.getText()), startHourField.getText() + ":" + startMinuteField.getText(), endHourField.getText() + ":"  + endMinuteField.getText()));
+                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomField.getText()), Schedule.getInstance().getTeacher(teacherField.getText()), Schedule.getInstance().getGroup(groupField.getText()), Util.makeTime(startHourField.getText(), startMinuteField.getText()), Util.makeTime(endHourField.getText(), endMinuteField.getText())));
                 new EditLessonsPopup().show();
                 close();
             }

@@ -45,22 +45,22 @@ public class EditLessonAttributesPopup extends Stage{
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
 
-            if(!nameField.getText().isEmpty()) {
+            if(!nameField.getText().isEmpty()){
                 lesson.setName(nameField.getText());
-            }if(!roomField.getText().isEmpty()) {
+            }if(!roomField.getText().isEmpty()){
                 lesson.setRoom(Schedule.getInstance().getRoom(roomField.getText()));
-            }if(!teacherField.getText().isEmpty()) {
+            }if(!teacherField.getText().isEmpty()){
                 lesson.setTeacher(Schedule.getInstance().getTeacher(teacherField.getText()));
-            }if(!groupField.getText().isEmpty()) {
+            }if(!groupField.getText().isEmpty()){
                 lesson.setGroup(Schedule.getInstance().getGroup(groupField.getText()));
-            }if(!startHourField.getText().isEmpty()) {
-                lesson.setStartDate(startHourField.getText() + ":" + Util.getMinute(lesson.getStartDate()));
+            }if(!startHourField.getText().isEmpty()){
+                lesson.setStartDate(Util.makeTime(startHourField.getText(), "" + lesson.getStartDate().getMinute()));
             }if(!endHourField.getText().isEmpty()){
-                lesson.setEndDate(endHourField.getText() + ":" + Util.getMinute(lesson.getEndDate()));
+                lesson.setEndDate(Util.makeTime(endHourField.getText(), "" + lesson.getEndDate().getMinute()));
             }if(!startMinuteField.getText().isEmpty()){
-                lesson.setStartDate(Util.getHour(lesson.getStartDate() + ":" + startMinuteField.getText()));
+                lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteField.getText()));
             }if(!endMinuteField.getText().isEmpty()){
-                lesson.setEndDate(Util.getHour(lesson.getEndDate()) + ":" + endMinuteField.getText());
+                lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteField.getText()));
             }
             new EditLessonsPopup().show();
             close();

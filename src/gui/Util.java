@@ -1,7 +1,8 @@
 package gui;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+
+import java.time.LocalDateTime;
 
 public class Util {
 
@@ -15,21 +16,7 @@ public class Util {
         return b;
     }
 
-    public static int getHour(String string){
-        try{
-            return Integer.parseInt(string.substring(0,2));
-        }catch(Exception e){
-            new Alert(Alert.AlertType.ERROR, "TIME INVALID");
-            return 0;
-        }
-    }
-
-    public static int getMinute(String minutes){
-        try{
-            return Integer.parseInt(minutes.substring(3,5));
-        }catch(Exception e){
-            new Alert(Alert.AlertType.ERROR, "TIME INVALID");
-            return 0;
-        }
+    public static LocalDateTime makeTime(String hours, String minutes){
+        return LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), Integer.parseInt(hours), Integer.parseInt(minutes));
     }
 }
