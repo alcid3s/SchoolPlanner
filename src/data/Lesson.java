@@ -91,7 +91,7 @@ public class Lesson{
                 this.room.getName() + "\t\t" +
                 this.teacher + "\t\t" +
                 this.group.getName() + "\t\t" +
-                startDate + "\t\t" +
+                startDate + "\t\t\t" +
                 endDate;
     }
 }

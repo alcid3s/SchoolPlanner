@@ -33,7 +33,6 @@ public class EditLessonsPopup extends Stage{
         Button createLesson = Util.getDefaultButton("Create new lesson", 50, 150);
         createLesson.setOnAction(e -> {
             new CreateLessonPopup().show();
-            close();
         });
 
         Button removeLesson = Util.getDefaultButton("Remove lesson", 50, 150);
@@ -57,7 +56,6 @@ public class EditLessonsPopup extends Stage{
                 Lesson selectedLesson = (Lesson)listView.getItems().get(selected);
                 if(selectedLesson != null){
                     new EditLessonAttributesPopup(selectedLesson).show();
-                    close();
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find this lesson").show();
                 }

@@ -2,7 +2,9 @@ package gui.popups;
 
 import data.Lesson;
 import data.Schedule;
+import data.rooms.Room;
 import gui.Util;
+import gui.Validation;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +16,8 @@ import javafx.stage.Stage;
 import java.time.LocalDateTime;
 
 public class EditLessonAttributesPopup extends Stage{
+
+    private boolean mayClose = true;
 
     public EditLessonAttributesPopup(Lesson lesson){
         TextField nameField = new TextField();
@@ -57,8 +61,14 @@ public class EditLessonAttributesPopup extends Stage{
             }if(!(endMinuteBox.getValue() == null)){
                 lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
             }
-            new EditLessonsPopup().show();
-            close();
+
+            if(this.mayClose){
+                new EditLessonsPopup().show();
+                close();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Fill in your changes");
+            }
+
         });
 
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);

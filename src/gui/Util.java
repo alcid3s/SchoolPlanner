@@ -25,7 +25,7 @@ public class Util {
 
     public static ObservableList<String> getHoursInList(){
         ArrayList<String> hourList = new ArrayList<>();
-        for(int i = 8; i < 18; i++) {
+        for(int i = 8; i < 19; i++) {
             hourList.add("" + i);
         }
         return FXCollections.observableList(hourList);

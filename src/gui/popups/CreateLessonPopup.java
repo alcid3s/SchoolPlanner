@@ -6,6 +6,7 @@ import data.Schedule;
 import data.persons.Teacher;
 import data.rooms.Room;
 import gui.Util;
+import gui.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -57,9 +58,14 @@ public class CreateLessonPopup extends Stage {
             }else if(endHourBox.getValue() == null || endMinuteBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in an end time").show();
             }else{
-                Schedule.getInstance().addLesson(new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomBox.getValue().toString()), Schedule.getInstance().getTeacher(teacherBox.getValue().toString()), Schedule.getInstance().getGroup(groupBox.getValue().toString()), Util.makeTime(startHourBox.getValue().toString(), startMinuteBox.getValue().toString()), Util.makeTime(endHourBox.getValue().toString(), endMinuteBox.getValue().toString())));
-                new EditLessonsPopup().show();
-                close();
+                Lesson lesson = new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomBox.getValue().toString()), Schedule.getInstance().getTeacher(teacherBox.getValue().toString()), Schedule.getInstance().getGroup(groupBox.getValue().toString()), Util.makeTime(startHourBox.getValue().toString(), startMinuteBox.getValue().toString()), Util.makeTime(endHourBox.getValue().toString(), endMinuteBox.getValue().toString()));
+                if(Validation.lessonIsValid(lesson)){
+                    Schedule.getInstance().addLesson(lesson);
+                    new EditLessonsPopup().show();
+                    close();
+                }else{
+                    new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
+                }
             }
         });
 
