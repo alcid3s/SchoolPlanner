@@ -25,11 +25,10 @@ public class Validation{
     }
 
     public static boolean sizeIsValid(int capacity, int size){
-        if(size > capacity){
-            message = "Room is too small for this group\n";
-        }else{
+        if(size <= capacity){
             return true;
         }
+        message = "Room is too small for this group\n";
         return false;
     }
 
