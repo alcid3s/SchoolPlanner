@@ -14,18 +14,18 @@ public class Validation{
     private static String message = "";
 
     public static boolean lessonIsValid(Lesson lesson){
-        if(sizeIsValid(lesson.getRoom().getCapacity(), lesson.getGroup().getSize())
+        if(sizeIsValid(lesson.getRoom(), lesson.getGroup())
                 && timeIsValid(lesson.getStartDate(), lesson.getEndDate())
                 && scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson.getTeacher(), lesson.getRoom(), lesson.getGroup())
                 && isClassRoom(lesson.getRoom())){
-            return returnTrue();
+            return true;
         }else{
             return false;
         }
     }
 
-    public static boolean sizeIsValid(int capacity, int size){
-        if(size <= capacity){
+    public static boolean sizeIsValid(Room room, Group group){
+        if(group.getSize() <= room.getCapacity()){
             return true;
         }
         message = "Room is too small for this group\n";
@@ -65,7 +65,10 @@ public class Validation{
             int endTimeNewLesson = (endTime.getHour()*100) + endTime.getMinute();
             int endTimeOldLesson = (lesson.getEndDate().getHour()*100) + lesson.getEndDate().getMinute();
 
-            if((startTimeNewLesson >= startTimeOldLesson && startTimeNewLesson <= endTimeOldLesson)||(endTimeNewLesson >= startTimeOldLesson && endTimeNewLesson <= endTimeOldLesson)){
+            if((startTimeNewLesson >= startTimeOldLesson && startTimeNewLesson <= endTimeOldLesson)
+                    ||(endTimeNewLesson >= startTimeOldLesson && endTimeNewLesson <= endTimeOldLesson)
+                    ||(startTimeNewLesson <= startTimeOldLesson && endTimeNewLesson >= endTimeOldLesson)
+                    ||(startTimeNewLesson >= startTimeOldLesson && endTimeNewLesson <= endTimeOldLesson)){
                 if(lesson.getTeacher().getName().equals(teacher.getName())){
                     message = "Teacher is not available";
                     return false;
@@ -81,12 +84,30 @@ public class Validation{
         return true;
     }
 
-    private static boolean returnTrue(){
-        message = "";
+    public static boolean scheduleIsAvailable(LocalDateTime startTime, LocalDateTime endTime, Object object, Object previousObject){
+        for(Lesson lesson : Schedule.getInstance().getLessonList()){
+            if((Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(startTime) <= Util.timeInInt(lesson.getEndDate()))
+                    ||(Util.timeInInt(endTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))
+                    ||(Util.timeInInt(startTime) <= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) >= Util.timeInInt(lesson.getEndDate()))
+                    ||(Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))){
+                if(lesson.getTeacher().getName().equals(object.toString()) && !lesson.getTeacher().getName().equals(previousObject.toString())){
+                    message = "Teacher is not available";
+                    return false;
+                }else if(lesson.getRoom().getSystemName().equals(object.toString()) && !lesson.getRoom().getSystemName().equals(previousObject.toString())){
+                    message = "Room is not available";
+                    return false;
+                }else if(lesson.getGroup().getSystemName().equals(object.toString()) && !lesson.getGroup().getSystemName().equals(previousObject.toString())){
+                    message = "Group is not available";
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
     public static String getMessage(){
-        return message;
+        String text = message;
+        message = "";
+        return text;
     }
 }

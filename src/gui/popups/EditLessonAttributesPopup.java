@@ -1,7 +1,10 @@
 package gui.popups;
 
+import data.Group;
 import data.Lesson;
 import data.Schedule;
+import data.persons.Person;
+import data.persons.Teacher;
 import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
@@ -13,11 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDateTime;
-
 public class EditLessonAttributesPopup extends Stage{
-
-    private boolean mayClose = true;
 
     public EditLessonAttributesPopup(Lesson lesson){
         TextField nameField = new TextField();
@@ -44,29 +43,62 @@ public class EditLessonAttributesPopup extends Stage{
 
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
-            if(!nameField.getText().isEmpty()){
+            boolean mayClose = true;
+
+            if(!(startHourBox.getValue() == null)){
+                if(Validation.timeIsValid(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()), lesson.getEndDate())){
+                    lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!(endHourBox.getValue() == null)){
+                if(Validation.timeIsValid(lesson.getStartDate(), Util.makeTime(endHourBox.getValue().toString(), ""+ lesson.getEndDate().getMinute()))){
+                    lesson.setEndDate(Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!(startMinuteBox.getValue() == null)){
+                if(Validation.timeIsValid(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()), lesson.getEndDate())){
+                    lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!(endMinuteBox.getValue() == null)){
+                if(Validation.timeIsValid(lesson.getStartDate(), Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()))){
+                    lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!nameField.getText().isEmpty()){
                 lesson.setName(nameField.getText());
             }if(!(roomBox.getValue() == null)){
-                lesson.setRoom(Schedule.getInstance().getRoom(roomBox.getValue().toString()));
+                Room room = Schedule.getInstance().getRoom(roomBox.getValue().toString());
+                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), room, lesson.getRoom()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup())){
+                    lesson.setRoom(room);
+                }else{
+                    mayClose = false;
+                }
             }if(!(teacherBox.getValue() == null)){
-                lesson.setTeacher(Schedule.getInstance().getTeacher(teacherBox.getValue().toString()));
+                Person teacher = Schedule.getInstance().getTeacher(teacherBox.getValue().toString());
+                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), teacher, lesson.getTeacher())){
+                    lesson.setTeacher(teacher);
+                }else{
+                    mayClose = false;
+                }
             }if(!(groupBox.getValue() == null)){
-                lesson.setGroup(Schedule.getInstance().getGroup(groupBox.getValue().toString()));
-            }if(!(startHourBox.getValue() == null)){
-                lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
-            }if(!(endHourBox.getValue() == null)){
-                lesson.setEndDate(Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute()));
-            }if(!(startMinuteBox.getValue() == null)){
-                lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()));
-            }if(!(endMinuteBox.getValue() == null)){
-                lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
+                Group group = Schedule.getInstance().getGroup(groupBox.getValue().toString());
+                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), group, lesson.getGroup()) && Validation.sizeIsValid(lesson.getRoom(), group)){
+                    lesson.setGroup(group);
+                }else{
+                    mayClose = false;
+                }
             }
 
-            if(this.mayClose){
+            if(mayClose){
                 new EditLessonsPopup().show();
                 close();
             }else{
-                new Alert(Alert.AlertType.ERROR, "Fill in your changes");
+                new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
             }
 
         });

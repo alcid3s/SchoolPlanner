@@ -42,4 +42,8 @@ public class Util {
         }
         return FXCollections.observableList(minuteList);
     }
+
+    public static int timeInInt(LocalDateTime time){
+        return (time.getHour()*100) + time.getMinute();
+    }
 }
