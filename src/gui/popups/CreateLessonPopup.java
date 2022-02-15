@@ -1,14 +1,10 @@
 package gui.popups;
 
-import data.Group;
 import data.Lesson;
 import data.Schedule;
-import data.persons.Teacher;
-import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;

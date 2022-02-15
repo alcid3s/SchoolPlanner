@@ -1,7 +1,6 @@
 package data;
 
 import data.rooms.*;
-
 import java.util.ArrayList;
 
 public class AllRooms {

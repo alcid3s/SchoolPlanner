@@ -2,7 +2,6 @@ package gui.popups;
 
 import data.Schedule;
 import data.persons.Person;
-import data.persons.Teacher;
 import gui.Util;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

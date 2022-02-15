@@ -1,9 +1,5 @@
 package gui;
 
-import data.Group;
-import data.rooms.Classroom;
-import data.rooms.Room;
-import data.Schedule;
 import gui.tabs.ScheduleTab;
 import javafx.application.Application;
 import javafx.scene.Scene;

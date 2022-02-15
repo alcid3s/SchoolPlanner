@@ -2,7 +2,6 @@ package data;
 
 import data.persons.Person;
 import data.persons.Student;
-
 import java.util.ArrayList;
 
 public class Group{

@@ -2,8 +2,6 @@ package data;
 
 import data.persons.Person;
 import data.rooms.Room;
-import data.persons.Teacher;
-
 import java.time.LocalDateTime;
 
 public class Lesson{

@@ -4,7 +4,6 @@ import data.Group;
 import data.Lesson;
 import data.Schedule;
 import data.persons.Person;
-import data.persons.Teacher;
 import data.rooms.Room;
 import gui.Util;
 import gui.Validation;

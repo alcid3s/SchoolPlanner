@@ -5,7 +5,6 @@ import data.Lesson;
 import data.Schedule;
 import data.persons.Teacher;
 import data.rooms.Classroom;
-import data.rooms.Room;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
