@@ -1,8 +1,10 @@
 package data;
 
+import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Schedule {
@@ -10,7 +12,7 @@ public class Schedule {
 
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
-    private ArrayList<Teacher> teacherList;
+    private ArrayList<Person> teacherList;
     private ArrayList<Room> roomList;
 
     public Schedule() {
@@ -18,6 +20,7 @@ public class Schedule {
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
+        setExample();
     }
 
     /**
@@ -87,8 +90,8 @@ public class Schedule {
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Teacher getTeacher(String name) {
-        for(Teacher t : teacherList) {
+    public Person getTeacher(String name) {
+        for(Person t : teacherList) {
             if(t.getName().equals(name))
                 return t;
         }
@@ -115,7 +118,7 @@ public class Schedule {
         return groupList;
     }
 
-    public ArrayList<Teacher> getTeacherList() {
+    public ArrayList<Person> getTeacherList() {
         return teacherList;
     }
 
@@ -123,11 +126,11 @@ public class Schedule {
         return this.roomList;
     }
 
-    public void addTeacher(Teacher teacher) {
+    public void addTeacher(Person teacher) {
         this.teacherList.add(teacher);
     }
 
-    public boolean removeTeacher(Teacher teacher) {
+    public boolean removeTeacher(Person teacher) {
         return this.teacherList.remove(teacher);
     }
 
@@ -137,5 +140,15 @@ public class Schedule {
 
     public void removeGroup(Group group) {
         groupList.remove(group);
+    }
+
+    private void setExample(){
+        groupList.add(new Group("Proftaak B", 30));
+        groupList.add(new Group("Proftaak A", 25));
+        teacherList.add(new Teacher("Pieter"));
+        teacherList.add(new Teacher("Edwin"));
+        teacherList.add(new Teacher("Etienne"));
+        lessonList.add(new Lesson("WK", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), LocalDateTime.now(), LocalDateTime.now()));
+        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), LocalDateTime.now(), LocalDateTime.now()));
     }
 }

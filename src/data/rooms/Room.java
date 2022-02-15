@@ -9,7 +9,7 @@ public abstract class Room{
     public Room(String name, int capacity){
         this.name = name;
         this.capacity = capacity;
-        this.systemName = this.name + " (" + this.capacity + ")";
+        this.systemName = name + " (" + capacity + ")";
     }
 
     public String getName(){
@@ -18,6 +18,10 @@ public abstract class Room{
 
     public String getSystemName(){
         return this.systemName;
+    }
+
+    public int getCapacity(){
+        return this.capacity;
     }
 
     @Override

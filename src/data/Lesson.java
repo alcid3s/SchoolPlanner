@@ -1,5 +1,6 @@
 package data;
 
+import data.persons.Person;
 import data.rooms.Room;
 import data.persons.Teacher;
 
@@ -8,13 +9,13 @@ import java.time.LocalDateTime;
 public class Lesson{
 
     private Room room;
-    private Teacher teacher;
+    private Person teacher;
     private Group group;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String name;
 
-    public Lesson(String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate){
+    public Lesson(String name, Room room, Person teacher, Group group, LocalDateTime startDate, LocalDateTime endDate){
         this.room = room;
         this.teacher = teacher;
         this.group = group;
@@ -31,10 +32,11 @@ public class Lesson{
         this.room = room;
     }
 
-    public Teacher getTeacher() {
+    public Person getTeacher() {
         return teacher;
     }
-    public void setTeacher(Teacher teacher){
+
+    public void setTeacher(Person teacher){
         this.teacher = teacher;
     }
 
@@ -87,11 +89,11 @@ public class Lesson{
             endDate = this.endDate.getHour() + ":" + this.endDate.getMinute();
         }
 
-        return this.name + "\t\t" +
-                this.room.getName() + "\t\t" +
-                this.teacher + "\t\t" +
-                this.group.getName() + "\t\t" +
-                startDate + "\t\t" +
+        return this.name + "\t\t\t" +
+                this.room.getName() + "\t\t\t" +
+                this.teacher + "\t\t\t" +
+                this.group.getName() + "\t\t\t" +
+                startDate + "\t\t\t" +
                 endDate;
     }
 }

@@ -1,6 +1,6 @@
 package gui.popups;
 
-import data.persons.Teacher;
+import data.persons.Person;
 import gui.Util;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,7 +18,7 @@ public class EditTeacherAttributesPopup extends Stage {
      * Popup to edit a teachers attributes.
      * @param teacher attributes to be edited
      */
-    public EditTeacherAttributesPopup(Teacher teacher) {
+    public EditTeacherAttributesPopup(Person teacher) {
         Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {

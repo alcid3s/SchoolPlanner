@@ -1,6 +1,7 @@
 package data;
 
 import data.persons.Person;
+import data.persons.Student;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,15 @@ public class Group{
         this.name = name;
         this.size = size;
         this.systemName = name + " (" + size + ")";
+
+        for(int i = 0; i < size; i++) {
+            this.students.add(new Student(Student.getRandomName()));
+        }
+    }
+
+    public void addNewStudent(){
+        this.size++;
+        this.students.add(new Student(Student.getRandomName()));
     }
 
     public ArrayList<Person> getStudents() {
