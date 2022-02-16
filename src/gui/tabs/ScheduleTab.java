@@ -6,7 +6,6 @@ import gui.Util;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
-import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -18,7 +17,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class ScheduleTab extends Tab{
-    private ObservableList list;
     private Schedule schedule;
     private BorderPane mainPane;
     private Canvas canvas;
@@ -37,7 +35,7 @@ public class ScheduleTab extends Tab{
 
         if (mainPane.getHeight() == 0 || mainPane.getWidth() == 0) {
             canvas.setWidth(1920);
-            canvas.setHeight(910);
+            canvas.setHeight(935);
         } else {
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
@@ -49,16 +47,18 @@ public class ScheduleTab extends Tab{
 
         refreshCanvas();
 
-        Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, 100);
+        int scale = 1920 / 4;
+
+        Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
 
-        Button editGroups = Util.getDefaultButton("Edit Groups", 50,100);
+        Button editGroups = Util.getDefaultButton("Edit Groups", 50,scale);
         editGroups.setOnAction(e -> new EditGroupsPopup().show());
 
-        Button editLessons = Util.getDefaultButton("Edit Lessons", 50, 100);
+        Button editLessons = Util.getDefaultButton("Edit Lessons", 50, scale);
         editLessons.setOnAction(e -> new EditLessonsPopup(this).show());
 
-        Button refresh = Util.getDefaultButton("Refresh", 50, 100);
+        Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
 
         HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh);

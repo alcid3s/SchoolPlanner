@@ -13,8 +13,8 @@ public class GUI extends Application{
         Tab tab = new Tab();
         TabPane tabs = new TabPane(tab);
         tabs.getTabs().add(new ScheduleTab());
-        tabs.setPrefHeight(800);
-        tabs.setPrefWidth(1000);
+        tabs.setPrefHeight(1017);
+        tabs.setPrefWidth(1920);
         tabs.autosize();
 
         Scene scene = new Scene(tabs);

@@ -45,6 +45,7 @@ public class EditLessonsPopup extends Stage{
                 if(selectedLesson != null){
                     listView.getItems().remove(selected);
                     schedule.removeLesson(selectedLesson);
+                    tab.refreshCanvas();
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find this lesson").show();
                 }
@@ -67,7 +68,6 @@ public class EditLessonsPopup extends Stage{
 
         Button close = Util.getDefaultButton("Close", 50, 150);
         close.setOnAction(e -> {
-
             close();
         });
 

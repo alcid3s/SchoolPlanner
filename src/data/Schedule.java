@@ -29,7 +29,6 @@ public class Schedule {
      */
     public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
-        System.out.println(lessonList);
     }
 
     /**
