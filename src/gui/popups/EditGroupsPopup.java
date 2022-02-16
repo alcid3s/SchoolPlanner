@@ -35,15 +35,15 @@ public class EditGroupsPopup extends Stage {
         Button remove = Util.getDefaultButton("Remove group", 50, 100);
         Button edit = Util.getDefaultButton("Edit group", 50, 100);
         Button close = Util.getDefaultButton("Close",50,100);
-        close.setOnAction(e -> {
-            close();
-        });
+
+        close.setOnAction(e -> close());
 
         borderPane.setBottom(new HBox(create, remove, edit, close));
         create.setOnAction(e -> {
             new CreateGroupPopup().show();
             close();
         });
+
         remove.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
@@ -58,6 +58,7 @@ public class EditGroupsPopup extends Stage {
                 }
             }
         });
+
         edit.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();

@@ -1,10 +1,8 @@
 package gui.tabs;
 
-import data.Group;
 import data.Lesson;
 import data.Schedule;
-import data.persons.Teacher;
-import data.rooms.Classroom;
+import gui.Util;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
@@ -17,9 +15,9 @@ import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
-import java.time.LocalDateTime;
+import java.awt.geom.AffineTransform;
 
-public class ScheduleTab extends Tab {
+public class ScheduleTab extends Tab{
     private ObservableList list;
     private Schedule schedule;
     private BorderPane mainPane;
@@ -47,37 +45,34 @@ public class ScheduleTab extends Tab {
 
         mainPane.setTop(canvas);
 
-        DrawFrame(new FXGraphics2D(canvas.getGraphicsContext2D()));
-
         this.schedule = Schedule.getInstance();
-        Button editTeachers = getDefaultButton("Edit Teachers", 50, 100);
-        editTeachers.setOnMouseClicked(e -> {
-            new EditTeachersPopup().show();
-        });
-        Button editGroups = getDefaultButton("Edit Groups", 50,100);
-        editGroups.setOnAction(e -> {
-            new EditGroupsPopup().show();
-        });
-        Button editLessons = getDefaultButton("Edit Lessons", 50, 100);
-        editLessons.setOnAction(e -> {
-            new EditLessonsPopup().show();
-        });
 
+        refreshCanvas();
 
-        HBox hBox = new HBox(editTeachers, editGroups, editLessons);
+        Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, 100);
+        editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
+
+        Button editGroups = Util.getDefaultButton("Edit Groups", 50,100);
+        editGroups.setOnAction(e -> new EditGroupsPopup().show());
+
+        Button editLessons = Util.getDefaultButton("Edit Lessons", 50, 100);
+        editLessons.setOnAction(e -> new EditLessonsPopup(this).show());
+
+        Button refresh = Util.getDefaultButton("Refresh", 50, 100);
+        refresh.setOnAction(e -> refreshCanvas());
+
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
 
         // Testing purposes
-        Lesson lesson = new Lesson("IPJ",
-                new Classroom("LA134", 10),
-                new Teacher("Pieter"),
-                new Group("B1", 6),
-                LocalDateTime.of(2022, 2, 14, 8, 0),
-                LocalDateTime.of(2022, 2, 14, 10, 8));
-
-        DrawLesson(lesson, new FXGraphics2D(canvas.getGraphicsContext2D()));
+//        Lesson lesson = new Lesson("IPJ",
+//                new Classroom("LA134", 10),
+//                new Teacher("Pieter"),
+//                new Group("B1", 6),
+//                LocalDateTime.of(2022, 2, 14, 8, 0),
+//                LocalDateTime.of(2022, 2, 14, 10, 8));
     }
 
     private void DrawLesson(Lesson lesson, FXGraphics2D graphics) {
@@ -90,7 +85,7 @@ public class ScheduleTab extends Tab {
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 3));
         final int yStart = 40;
         final int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
-        final int yEnd = 200;
+        final int yEnd = 180;
 
         graphics.draw(new Rectangle(xStart, yStart, xEnd, yEnd));
 
@@ -99,13 +94,15 @@ public class ScheduleTab extends Tab {
         graphics.drawString(leadingZero(startHour) + ":" + leadingZero(startMinute) + " - "
                 + leadingZero(endHour) + ":" + leadingZero(endMinute), xStart + 50, yStart + 30);
 
+        graphics.drawString(lesson.getName(), xStart + 100, yStart + 60);
+
         //TODO: 11-02-2022 Create fornmula so group is always in the middle
-        graphics.drawString(lesson.getGroup().getName(), xStart + 100, yStart + 60);
+        graphics.drawString(lesson.getGroup().getName(), xStart + 100, yStart + 90);
 
         //TODO: 11-02-2022 Create formula so room is always in the middle, also create a .getname function in Room.
-        graphics.drawString("LA134", xStart + 100, yStart + 90);
+        graphics.drawString(lesson.getRoom().getName(), xStart + 100, yStart + 120);
 
-        graphics.drawString(lesson.getTeacher().getName(), xStart + 100, yStart + 120);
+        graphics.drawString(lesson.getTeacher().getName(), xStart + 100, yStart + 150);
     }
 
     private String leadingZero(int num) {
@@ -120,6 +117,7 @@ public class ScheduleTab extends Tab {
     Draws rectangles for time indication.
      */
     private void DrawFrame(FXGraphics2D graphics) {
+
         String[] temporaryTeacherList = {"Johan", "Etienne", "Maurice", "Joli", "Bart", "Jan", "Jessica"};
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
@@ -147,14 +145,15 @@ public class ScheduleTab extends Tab {
         }
     }
 
-    /*
-    Creates default button with a name, height and width.
-     */
-    public Button getDefaultButton(String name, int height, int width) {
-        Button b = new Button(name);
-        b.setPrefHeight(height);
-        b.setPrefWidth(width);
+    public void refreshCanvas(){
+        FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
+        graphics.setTransform(new AffineTransform());
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+        DrawFrame(graphics);
 
-        return b;
+        for(Lesson lesson : schedule.getLessonList()){
+            DrawLesson(lesson, graphics);
+        }
     }
 }

@@ -7,6 +7,7 @@ import data.persons.Person;
 import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
+import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,7 +18,7 @@ import javafx.stage.Stage;
 
 public class EditLessonAttributesPopup extends Stage{
 
-    public EditLessonAttributesPopup(Lesson lesson){
+    public EditLessonAttributesPopup(Lesson lesson, ScheduleTab tab){
         TextField nameField = new TextField();
         ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
         ComboBox teacherBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getTeacherList()));
@@ -44,27 +45,27 @@ public class EditLessonAttributesPopup extends Stage{
         save.setOnAction(e -> {
             boolean mayClose = true;
 
-            if(!(startHourBox.getValue() == null)){
-                if(Validation.timeIsValid(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()), lesson.getEndDate())){
-                    lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
-                }else{
-                    mayClose = false;
-                }
-            }if(!(endHourBox.getValue() == null)){
+            if(!(endHourBox.getValue() == null)){
                 if(Validation.timeIsValid(lesson.getStartDate(), Util.makeTime(endHourBox.getValue().toString(), ""+ lesson.getEndDate().getMinute()))){
                     lesson.setEndDate(Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute()));
-                }else{
-                    mayClose = false;
-                }
-            }if(!(startMinuteBox.getValue() == null)){
-                if(Validation.timeIsValid(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()), lesson.getEndDate())){
-                    lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()));
                 }else{
                     mayClose = false;
                 }
             }if(!(endMinuteBox.getValue() == null)){
                 if(Validation.timeIsValid(lesson.getStartDate(), Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()))){
                     lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!(startHourBox.getValue() == null)){
+                if(Validation.timeIsValid(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()), lesson.getEndDate())){
+                    lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
+                }else{
+                    mayClose = false;
+                }
+            }if(!(startMinuteBox.getValue() == null)){
+                if(Validation.timeIsValid(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()), lesson.getEndDate())){
+                    lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()));
                 }else{
                     mayClose = false;
                 }
@@ -94,7 +95,8 @@ public class EditLessonAttributesPopup extends Stage{
             }
 
             if(mayClose){
-                new EditLessonsPopup().show();
+                tab.refreshCanvas();
+                new EditLessonsPopup(tab).show();
                 close();
             }else{
                 new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
@@ -104,7 +106,7 @@ public class EditLessonAttributesPopup extends Stage{
 
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {
-            new EditLessonsPopup().show();
+            new EditLessonsPopup(tab).show();
             close();
         });
 

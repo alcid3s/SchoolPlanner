@@ -3,6 +3,7 @@ package gui.popups;
 import data.Lesson;
 import data.Schedule;
 import gui.Util;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class EditLessonsPopup extends Stage{
 
-    public EditLessonsPopup(){
+    public EditLessonsPopup(ScheduleTab tab){
         setTitle("Edit Lessons");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
@@ -32,7 +33,7 @@ public class EditLessonsPopup extends Stage{
 
         Button createLesson = Util.getDefaultButton("Create new lesson", 50, 150);
         createLesson.setOnAction(e -> {
-            new CreateLessonPopup().show();
+            new CreateLessonPopup(tab).show();
             close();
         });
 
@@ -56,7 +57,7 @@ public class EditLessonsPopup extends Stage{
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Lesson selectedLesson = (Lesson)listView.getItems().get(selected);
                 if(selectedLesson != null){
-                    new EditLessonAttributesPopup(selectedLesson).show();
+                    new EditLessonAttributesPopup(selectedLesson, tab).show();
                     close();
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find this lesson").show();
@@ -66,6 +67,7 @@ public class EditLessonsPopup extends Stage{
 
         Button close = Util.getDefaultButton("Close", 50, 150);
         close.setOnAction(e -> {
+
             close();
         });
 

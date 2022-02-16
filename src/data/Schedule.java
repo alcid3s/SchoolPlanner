@@ -3,8 +3,8 @@ package data;
 import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
+import gui.Util;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Schedule {
@@ -148,7 +148,7 @@ public class Schedule {
         teacherList.add(new Teacher("Pieter"));
         teacherList.add(new Teacher("Edwin"));
         teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WK", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), LocalDateTime.now(), LocalDateTime.now()));
-        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), LocalDateTime.now(), LocalDateTime.now()));
+        lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("10", "00")));
+        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("11", "00")));
     }
 }
