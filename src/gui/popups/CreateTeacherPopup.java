@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,18 +20,20 @@ public class CreateTeacherPopup extends Stage {
      * Popup for create Teacher
      */
     public CreateTeacherPopup() {
-        Button create = Util.getDefaultButton("Create Teacher", 50, 100);
+        Button create = Util.getDefaultButton("Create Teacher", 50, 134);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
+
         cancel.setOnAction(e -> {
             new EditTeachersPopup().show();
             close();
         });
-        Label name = new Label("Name:");
+
+        Label name = new Label("Name: ");
         TextField nameField = new TextField();
 
-        VBox vbox = new VBox();
-        vbox.getChildren().add(new HBox(name,nameField));
-
+        GridPane gridPane = new GridPane();
+        gridPane.add(name, 0,0);
+        gridPane.add(nameField,1,0);
 
         create.setOnAction(e -> {
             if(nameField.getText().length() < 3) {
@@ -47,7 +50,7 @@ public class CreateTeacherPopup extends Stage {
         });
 
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(vbox);
+        borderPane.setTop(gridPane);
         borderPane.setBottom(new HBox(create,cancel));
 
         Scene scene = new Scene(borderPane);
