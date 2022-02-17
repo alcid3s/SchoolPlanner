@@ -21,12 +21,9 @@ public class EditLessonsPopup extends Stage{
         setTitle("Edit Lessons");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        ArrayList<Lesson> lessonList = schedule.getLessonList();
-        for(Lesson lesson : lessonList){
-            listView.getItems().add(lesson);
-        }
+        listView.getItems().addAll(schedule.getLessonList());
         BorderPane pane = new BorderPane();
         pane.setTop(listView);
 

@@ -22,21 +22,30 @@ public class EditLessonAttributesPopup extends Stage{
 
     public EditLessonAttributesPopup(Lesson lesson, ScheduleTab tab){
         TextField nameField = new TextField();
+        nameField.setText(lesson.getName());
         ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
+        roomBox.getSelectionModel().select(lesson.getRoom());
         ComboBox teacherBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getTeacherList()));
+        teacherBox.getSelectionModel().select(lesson.getTeacher());
         ComboBox groupBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getGroupList()));
+        groupBox.getSelectionModel().select(lesson.getGroup());
         ComboBox startHourBox = new ComboBox(Util.getHoursInList());
         ComboBox startMinuteBox = new ComboBox(Util.getMinutesInList());
         ComboBox endHourBox = new ComboBox(Util.getHoursInList());
         ComboBox endMinuteBox = new ComboBox(Util.getMinutesInList());
-
-        roomBox.setPrefWidth(220);
-        teacherBox.setPrefWidth(220);
-
         startHourBox.setEditable(true);
         startMinuteBox.setEditable(true);
         endHourBox.setEditable(true);
         endMinuteBox.setEditable(true);
+
+        endMinuteBox.getSelectionModel().select(getTimeInString(lesson.getEndDate().getMinute()));
+        endHourBox.getSelectionModel().select(lesson.getEndDate().getHour());
+        startMinuteBox.getSelectionModel().select(getTimeInString(lesson.getStartDate().getMinute()));
+        startHourBox.getSelectionModel().select(lesson.getStartDate().getHour());
+        roomBox.setPrefWidth(220);
+        teacherBox.setPrefWidth(220);
+        groupBox.setPrefWidth(220);
+
 
         GridPane gridpane = new GridPane();
         gridpane.add(new Label("Name: "), 0, 0);
@@ -45,12 +54,14 @@ public class EditLessonAttributesPopup extends Stage{
         gridpane.add(roomBox, 1, 1);
         gridpane.add(new Label("Teacher: "), 0, 2);
         gridpane.add(teacherBox, 1, 2);
-        gridpane.add(new Label("Start Time: "), 0, 3);
-        gridpane.add(startHourBox, 1, 3);
-        gridpane.add(startMinuteBox, 2, 3);
-        gridpane.add(new Label("End Time: "), 0, 4);
-        gridpane.add(endHourBox, 1, 4);
-        gridpane.add(endMinuteBox, 2, 4);
+        gridpane.add(new Label("Group: "), 0, 3);
+        gridpane.add(groupBox, 1, 3);
+        gridpane.add(new Label("Start Time: "), 0, 4);
+        gridpane.add(startHourBox, 1, 4);
+        gridpane.add(startMinuteBox, 2, 4);
+        gridpane.add(new Label("End Time: "), 0, 5);
+        gridpane.add(endHourBox, 1, 5);
+        gridpane.add(endMinuteBox, 2, 5);
 
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
@@ -139,5 +150,13 @@ public class EditLessonAttributesPopup extends Stage{
         Scene scene = new Scene(pane);
         setTitle("Edit Attributes");
         setScene(scene);
+    }
+
+
+    private String getTimeInString(int value) {
+        if(value < 10) {
+            return "0" + value;
+        }
+        return "" + value;
     }
 }

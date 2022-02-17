@@ -12,7 +12,7 @@ public class Schedule{
 
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
-    private ArrayList<Person> teacherList;
+    private ArrayList<Teacher> teacherList;
     private ArrayList<Room> roomList;
 
     public Schedule(){
@@ -108,8 +108,8 @@ public class Schedule{
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Person getTeacher(String name){
-        for(Person t : teacherList){
+    public Teacher getTeacher(String name){
+        for(Teacher t : teacherList){
             if(t.getName().equals(name))
                 return t;
         }
@@ -124,7 +124,7 @@ public class Schedule{
         return groupList;
     }
 
-    public ArrayList<Person> getTeacherList(){
+    public ArrayList<Teacher> getTeacherList(){
         return teacherList;
     }
 
@@ -132,7 +132,7 @@ public class Schedule{
         return this.roomList;
     }
 
-    public void addTeacher(Person teacher){
+    public void addTeacher(Teacher teacher){
         this.teacherList.add(teacher);
     }
 

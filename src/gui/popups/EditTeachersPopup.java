@@ -2,6 +2,7 @@ package gui.popups;
 
 import data.Schedule;
 import data.persons.Person;
+import data.persons.Teacher;
 import gui.Util;
 import gui.Validation;
 import javafx.scene.Scene;
@@ -59,7 +60,7 @@ public class EditTeachersPopup extends Stage{
             if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 String teacherName = (String) listView.getItems().get(selected);
-                Person selectedTeacher = schedule.getTeacher(teacherName);
+                Teacher selectedTeacher = schedule.getTeacher(teacherName);
                 if(selectedTeacher != null){
                     new EditTeacherAttributesPopup(selectedTeacher).show();
                     close();

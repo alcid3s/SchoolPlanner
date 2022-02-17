@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,14 +23,20 @@ public class EditGroupAttributesPopup extends Stage{
     public EditGroupAttributesPopup(Group group){
         setTitle("Edit Group");
         Label name = new Label(" Name: ");
+        name.setText(group.getName());
         Label size = new Label("Group Size: ");
+        size.setText(group.getSize() + "");
         TextField nameField = new TextField();
         TextField sizeField = new TextField();
 
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(new VBox(name, size), new VBox(nameField, sizeField));
+        GridPane gridPane = new GridPane();
+        gridPane.add(name, 0, 0);
+        gridPane.add(size, 0, 1);
+        gridPane.add(nameField, 1, 0);
+        gridPane.add(sizeField, 1, 1);
+
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(hBox);
+        borderPane.setTop(gridPane);
 
         Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
