@@ -1,5 +1,6 @@
 package gui.tabs;
 
+import data.Group;
 import data.Lesson;
 import data.Schedule;
 import gui.Util;
@@ -15,6 +16,8 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleTab extends Tab{
     private Schedule schedule;
@@ -66,26 +69,32 @@ public class ScheduleTab extends Tab{
         mainPane.setBottom(hBox);
         setContent(mainPane);
 
-        // Testing purposes
-//        Lesson lesson = new Lesson("IPJ",
-//                new Classroom("LA134", 10),
-//                new Teacher("Pieter"),
-//                new Group("B1", 6),
-//                LocalDateTime.of(2022, 2, 14, 8, 0),
-//                LocalDateTime.of(2022, 2, 14, 10, 8));
     }
 
     private void DrawLesson(Lesson lesson, FXGraphics2D graphics) {
+        List<Group> groups = Schedule.getInstance().getGroupList();
+
+        int groupLocation = 0;
+        for (int i = 0; i < groups.size(); i++) {
+            if(groups.get(i).getName().equals(lesson.getGroup().getName())){
+                groupLocation = i;
+                i = groups.size();
+            }
+        }
+
         final int startHour = lesson.getStartDate().getHour();
         final int startMinute = lesson.getStartDate().getMinute();
         final int endHour = lesson.getEndDate().getHour();
         final int endMinute = lesson.getEndDate().getMinute();
 
-        // Paramaters for the
+        final int height = 148;
+        // Paramaters for the class block.
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
-        final int yStart = 40;
+        final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
         final int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
-        final int yEnd = 180;
+        final int yEnd = (yStart + height) / ((groupLocation + 1) );
+
+        System.out.println("yStart: " + yStart + " yEnd: " + yEnd);
 
         graphics.draw(new Rectangle(xStart, yStart, xEnd, yEnd));
 
@@ -106,28 +115,25 @@ public class ScheduleTab extends Tab{
     }
 
     private String leadingZero(int num) {
-        if (num < 10) {
-            return "0" + num;
-        } else {
-            return num + "";
-        }
+        return num < 10 ? "0" + num : num + "";
     }
 
     /*
     Draws rectangles for time indication.
      */
     private void DrawFrame(FXGraphics2D graphics) {
-
-        String[] temporaryTeacherList = {"Johan", "Etienne", "Maurice", "Joli", "Bart", "Jan", "Jessica"};
+        List<String> array = new ArrayList<>();
+        for (Group group : Schedule.getInstance().getGroupList()) {
+            array.add(group.getName());
+        }
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
         java.awt.Font font = new Font("Verdana", 16, 20);
 
-
         graphics.draw(new Rectangle(0, 0, 100, 40));
         graphics.setFont(font);
 
-        graphics.drawString("Teachers", 0, 30);
+        graphics.drawString("Groups", 0, 30);
 
         for (int i = 0; i < 8; i++) {
 
@@ -135,9 +141,11 @@ public class ScheduleTab extends Tab{
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
             graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
 
+            System.out.println(i * (this.size - 20) * this.factor);
+
             // teacher list
-            if (i != 0) {
-                graphics.drawString(temporaryTeacherList[i - 1], 0, i * 170);
+            if (i != 0 && i <= array.size()) {
+                graphics.drawString(array.get(i - 1), 0, i * 170);
             }
 
             // time list
