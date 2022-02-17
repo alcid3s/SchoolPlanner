@@ -82,7 +82,7 @@ public class ScheduleTab extends Tab{
         final int endMinute = lesson.getEndDate().getMinute();
 
         // Paramaters for the
-        final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 3));
+        final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
         final int yStart = 40;
         final int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
         final int yEnd = 180;
