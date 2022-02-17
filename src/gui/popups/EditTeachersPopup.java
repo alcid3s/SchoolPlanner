@@ -3,6 +3,7 @@ package gui.popups;
 import data.Schedule;
 import data.persons.Person;
 import gui.Util;
+import gui.Validation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -41,9 +42,13 @@ public class EditTeachersPopup extends Stage {
                 String teacherName = (String) listView.getItems().get(selected);
                 Person selectedTeacher = schedule.getTeacher(teacherName);
                 if(selectedTeacher != null) {
-                    listView.getItems().remove(selected);
-                    schedule.removeTeacher(selectedTeacher);
-                } else {
+                    if(Validation.teacherIsFree(selectedTeacher)){
+                        listView.getItems().remove(selected);
+                        schedule.removeTeacher(selectedTeacher);
+                    }else{
+                        new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
+                    }
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find teacher").show();
                 }
             }

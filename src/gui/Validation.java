@@ -32,6 +32,26 @@ public class Validation{
         return false;
     }
 
+    public static boolean teacherIsFree(Person teacher){
+        for(Lesson lesson : Schedule.getInstance().getLessonList()){
+            if(lesson.getTeacher().getName().equals(teacher.getName())){
+                message = "Teacher is bound to a lesson";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean groupIsFee(Group group){
+        for(Lesson lesson : Schedule.getInstance().getLessonList()){
+            if(lesson.getGroup().getName().equals(group.getName())){
+                message = "Group is bound to a lesson";
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean timeIsValid(LocalDateTime startTime, LocalDateTime endTime){
         int startMinute = startTime.getMinute();
         int startHour = startTime.getHour();

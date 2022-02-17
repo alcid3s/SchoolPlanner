@@ -3,6 +3,7 @@ package gui.popups;
 import data.Group;
 import data.Schedule;
 import gui.Util;
+import gui.Validation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,9 +26,9 @@ public class EditGroupsPopup extends Stage {
         ListView listView = new ListView();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        ArrayList<String> groupsShow = new ArrayList<>();
-        schedule.getGroupList().forEach(g -> groupsShow.add(g.toString()));
-        listView.getItems().addAll(groupsShow);
+        for(Group group : schedule.getGroupList()){
+            listView.getItems().add(group);
+        }
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(listView);
 
@@ -51,9 +52,13 @@ public class EditGroupsPopup extends Stage {
                 groupName = groupName.split(" \\(")[0];
                 Group selectedGroup = schedule.getGroup(groupName);
                 if(selectedGroup != null) {
-                    listView.getItems().remove(selected);
-                    schedule.removeGroup(selectedGroup);
-                } else {
+                    if(Validation.groupIsFee(selectedGroup)){
+                        listView.getItems().remove(selected);
+                        schedule.removeGroup(selectedGroup);
+                    }else{
+                        new Alert(Alert.AlertType.ERROR, Validation.getMessage());
+                    }
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find group").show();
                 }
             }
