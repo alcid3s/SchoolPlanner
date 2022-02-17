@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,18 +31,27 @@ public class EditLessonAttributesPopup extends Stage{
         ComboBox endHourBox = new ComboBox(Util.getHoursInList());
         ComboBox endMinuteBox = new ComboBox(Util.getMinutesInList());
 
+        roomBox.setPrefWidth(220);
+        teacherBox.setPrefWidth(220);
+
         startHourBox.setEditable(true);
         startMinuteBox.setEditable(true);
         endHourBox.setEditable(true);
         endMinuteBox.setEditable(true);
 
-        VBox box = new VBox();
-        box.getChildren().add(new HBox(new Label("Name:"), nameField));
-        box.getChildren().add(new HBox(new Label("Room:"), roomBox));
-        box.getChildren().add(new HBox(new Label("Teacher:"), teacherBox));
-        box.getChildren().add(new HBox(new Label("Group:"), groupBox));
-        box.getChildren().add(new HBox(new Label("Start Time:"), startHourBox,new Label(":"), startMinuteBox));
-        box.getChildren().add(new HBox(new Label("End Time:"), endHourBox, new Label(":"), endMinuteBox));
+        GridPane gridpane = new GridPane();
+        gridpane.add(new Label("Name: "), 0, 0);
+        gridpane.add(nameField, 1, 0);
+        gridpane.add(new Label("Room: "), 0, 1);
+        gridpane.add(roomBox, 1, 1);
+        gridpane.add(new Label("Teacher: "), 0, 2);
+        gridpane.add(teacherBox, 1, 2);
+        gridpane.add(new Label("Start Time: "), 0, 3);
+        gridpane.add(startHourBox, 1, 3);
+        gridpane.add(startMinuteBox, 2, 3);
+        gridpane.add(new Label("End Time: "), 0, 4);
+        gridpane.add(endHourBox, 1, 4);
+        gridpane.add(endMinuteBox, 2, 4);
 
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
@@ -117,7 +127,7 @@ public class EditLessonAttributesPopup extends Stage{
         });
 
         BorderPane pane = new BorderPane();
-        pane.setTop(box);
+        pane.setTop(gridpane);
         pane.setBottom(new HBox(save,cancel));
 
         Scene scene = new Scene(pane);

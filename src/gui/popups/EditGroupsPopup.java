@@ -48,15 +48,13 @@ public class EditGroupsPopup extends Stage {
         remove.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                String groupName = (String) listView.getItems().get(selected);
-                groupName = groupName.split(" \\(")[0];
-                Group selectedGroup = schedule.getGroup(groupName);
+                Group selectedGroup = (Group) listView.getItems().get(selected);
                 if(selectedGroup != null) {
                     if(Validation.groupIsFee(selectedGroup)){
                         listView.getItems().remove(selected);
                         schedule.removeGroup(selectedGroup);
                     }else{
-                        new Alert(Alert.AlertType.ERROR, Validation.getMessage());
+                        new Alert(Alert.AlertType.ERROR, "Could not delete group because it is in use. (" + selectedGroup.toString() + ")").show();
                     }
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find group").show();
@@ -67,14 +65,12 @@ public class EditGroupsPopup extends Stage {
         edit.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                String groupName = (String) listView.getItems().get(selected);
-                groupName = groupName.split(" \\(")[0];
-                Group selectedGroup = schedule.getGroup(groupName);
+                Group selectedGroup = (Group) listView.getItems().get(selected);
                 if(selectedGroup != null) {
                     new EditGroupAttributesPopup(selectedGroup).show();
                     close();
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Could not find group").show();
+                    new Alert(Alert.AlertType.ERROR, "Could not find group.").show();
                 }
             }
         });
