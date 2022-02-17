@@ -32,6 +32,18 @@ public class Validation{
         return false;
     }
 
+    public static boolean sizeIsValid(Group group, int newSize){
+        for(Lesson lesson : Schedule.getInstance().getLessonList()){
+            if(lesson.getGroup() == group){
+                if(newSize > lesson.getRoom().getCapacity()){
+                    message = "Room is too small for this group";
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public static boolean teacherIsFree(Person teacher){
         for(Lesson lesson : Schedule.getInstance().getLessonList()){
             if(lesson.getTeacher().getName().equals(teacher.getName())){
