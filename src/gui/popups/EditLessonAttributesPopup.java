@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 
 public class EditLessonAttributesPopup extends Stage{
 
-    public EditLessonAttributesPopup(Lesson lesson, ScheduleTab tab){
+    public EditLessonAttributesPopup(Lesson lesson){
         TextField nameField = new TextField();
         nameField.setText(lesson.getName());
         ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
@@ -128,8 +128,8 @@ public class EditLessonAttributesPopup extends Stage{
             }
 
             if(mayClose){
-                tab.refreshCanvas();
-                new EditLessonsPopup(tab).show();
+                ScheduleTab.refreshCanvas();
+                new EditLessonsPopup().show();
                 close();
             }else{
                 new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
@@ -139,7 +139,7 @@ public class EditLessonAttributesPopup extends Stage{
 
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {
-            new EditLessonsPopup(tab).show();
+            new EditLessonsPopup().show();
             close();
         });
 

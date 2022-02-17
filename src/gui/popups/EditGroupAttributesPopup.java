@@ -2,6 +2,7 @@ package gui.popups;
 
 import data.Group;
 import gui.Util;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditGroupAttributesPopup extends Stage{
@@ -45,11 +45,13 @@ public class EditGroupAttributesPopup extends Stage{
             new EditGroupsPopup().show();
             close();
         });
+
         edit.setOnAction(e -> {
             if(nameField.getText().length() > 0){
                 try {
                     group.setName(nameField.getText());
                     group.setSize(Integer.parseInt(sizeField.getText()));
+                    ScheduleTab.refreshCanvas();
                     new EditGroupsPopup().show();
                     close();
                 } catch(NumberFormatException ex) {

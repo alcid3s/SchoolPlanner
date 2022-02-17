@@ -13,11 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class EditLessonsPopup extends Stage{
 
-    public EditLessonsPopup(ScheduleTab tab){
+    public EditLessonsPopup(){
         setTitle("Edit Lessons");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
@@ -29,7 +27,7 @@ public class EditLessonsPopup extends Stage{
 
         Button createLesson = Util.getDefaultButton("Create new lesson", 50, 150);
         createLesson.setOnAction(e -> {
-            new CreateLessonPopup(tab).show();
+            new CreateLessonPopup().show();
             close();
         });
 
@@ -41,7 +39,7 @@ public class EditLessonsPopup extends Stage{
                 if(selectedLesson != null){
                     listView.getItems().remove(selected);
                     schedule.removeLesson(selectedLesson);
-                    tab.refreshCanvas();
+                    ScheduleTab.refreshCanvas();
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find this lesson").show();
                 }
@@ -54,7 +52,7 @@ public class EditLessonsPopup extends Stage{
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Lesson selectedLesson = (Lesson) listView.getItems().get(selected);
                 if(selectedLesson != null){
-                    new EditLessonAttributesPopup(selectedLesson, tab).show();
+                    new EditLessonAttributesPopup(selectedLesson).show();
                     close();
                 }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find this lesson").show();

@@ -25,11 +25,13 @@ public class ScheduleTab extends Tab{
     private Schedule schedule;
     private BorderPane mainPane;
     private Canvas canvas;
+    private static ScheduleTab tab;
 
     public ScheduleTab(){
         super("Schedule");
         setClosable(false);
 
+        tab = this;
 
         mainPane = new BorderPane();
         canvas = new Canvas();
@@ -57,7 +59,7 @@ public class ScheduleTab extends Tab{
         editGroups.setOnAction(e -> new EditGroupsPopup().show());
 
         Button editLessons = Util.getDefaultButton("Edit Lessons", 50, scale);
-        editLessons.setOnAction(e -> new EditLessonsPopup(this).show());
+        editLessons.setOnAction(e -> new EditLessonsPopup().show());
 
         Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
@@ -143,15 +145,19 @@ public class ScheduleTab extends Tab{
         }
     }
 
-    public void refreshCanvas() {
-        FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
+    private Canvas getCanvas(){
+        return canvas;
+    }
+
+    public static void refreshCanvas() {
+        FXGraphics2D graphics = new FXGraphics2D(tab.getCanvas().getGraphicsContext2D());
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
-        DrawFrame(graphics);
+        graphics.clearRect(0, 0, (int)tab.getCanvas().getWidth(), (int)tab.getCanvas().getHeight());
+        tab.DrawFrame(graphics);
 
-        for (Lesson lesson : schedule.getLessonList()) {
-            DrawLesson(lesson, graphics);
+        for (Lesson lesson : tab.schedule.getLessonList()) {
+            tab.DrawLesson(lesson, graphics);
         }
     }
 }

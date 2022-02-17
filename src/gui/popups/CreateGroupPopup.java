@@ -3,6 +3,7 @@ package gui.popups;
 import data.Group;
 import data.Schedule;
 import gui.Util;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
