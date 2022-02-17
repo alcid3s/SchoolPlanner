@@ -13,14 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
-public class EditGroupsPopup extends Stage {
+public class EditGroupsPopup extends Stage{
 
     /**
      * This is the main popup to edit groups, remove a group, create a new group or edit a group
      */
-    public EditGroupsPopup() {
+    public EditGroupsPopup(){
         setTitle("Edit groups");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
@@ -35,7 +33,7 @@ public class EditGroupsPopup extends Stage {
         Button create = Util.getDefaultButton("Create group", 50, 100);
         Button remove = Util.getDefaultButton("Remove group", 50, 100);
         Button edit = Util.getDefaultButton("Edit group", 50, 100);
-        Button close = Util.getDefaultButton("Close",50,100);
+        Button close = Util.getDefaultButton("Close", 50, 100);
 
         close.setOnAction(e -> close());
 
@@ -46,10 +44,10 @@ public class EditGroupsPopup extends Stage {
         });
 
         remove.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Group selectedGroup = (Group) listView.getItems().get(selected);
-                if(selectedGroup != null) {
+                if(selectedGroup != null){
                     if(Validation.groupIsFee(selectedGroup)){
                         listView.getItems().remove(selected);
                         schedule.removeGroup(selectedGroup);
@@ -63,13 +61,13 @@ public class EditGroupsPopup extends Stage {
         });
 
         edit.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Group selectedGroup = (Group) listView.getItems().get(selected);
-                if(selectedGroup != null) {
+                if(selectedGroup != null){
                     new EditGroupAttributesPopup(selectedGroup).show();
                     close();
-                } else {
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find group.").show();
                 }
             }

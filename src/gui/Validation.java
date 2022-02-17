@@ -4,8 +4,8 @@ import data.Group;
 import data.Lesson;
 import data.Schedule;
 import data.persons.Person;
-import data.rooms.Room;
 import data.rooms.Classroom;
+import data.rooms.Room;
 
 import java.time.LocalDateTime;
 
@@ -58,7 +58,7 @@ public class Validation{
         int endMinute = endTime.getMinute();
         int endHour = endTime.getHour();
 
-        if((startHour*100) + startMinute >= (endHour*100) + endMinute){
+        if((startHour * 100) + startMinute >= (endHour * 100) + endMinute){
             message = "Start time should be before end time";
         }else if(startHour == 8 && startMinute < 45){
             message = "First class starts at 8:45";
@@ -136,9 +136,9 @@ public class Validation{
 
     private static boolean timeChecker(Lesson lesson, LocalDateTime startTime, LocalDateTime endTime){
         if((Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(startTime) <= Util.timeInInt(lesson.getEndDate()))
-                ||(Util.timeInInt(endTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))
-                ||(Util.timeInInt(startTime) <= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) >= Util.timeInInt(lesson.getEndDate()))
-                ||(Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))){
+                || (Util.timeInInt(endTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))
+                || (Util.timeInInt(startTime) <= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) >= Util.timeInInt(lesson.getEndDate()))
+                || (Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))){
             return true;
         }
         return false;

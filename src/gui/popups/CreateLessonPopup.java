@@ -11,11 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-public class CreateLessonPopup extends Stage {
+public class CreateLessonPopup extends Stage{
 
     public CreateLessonPopup(ScheduleTab tab){
         //String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate

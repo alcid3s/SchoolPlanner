@@ -3,15 +3,16 @@ package gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Util {
+public class Util{
 
     /*
     Creates default button with a name, height and width.
      */
-    public static Button getDefaultButton(String name, int height, int width) {
+    public static Button getDefaultButton(String name, int height, int width){
         Button b = new Button(name);
         b.setPrefHeight(height);
         b.setPrefWidth(width);
@@ -24,7 +25,7 @@ public class Util {
 
     public static ObservableList<String> getHoursInList(){
         ArrayList<String> hourList = new ArrayList<>();
-        for(int i = 8; i < 19; i++) {
+        for(int i = 8; i < 19; i++){
             hourList.add("" + i);
         }
         return FXCollections.observableList(hourList);
@@ -32,7 +33,7 @@ public class Util {
 
     public static ObservableList<String> getMinutesInList(){
         ArrayList<String> minuteList = new ArrayList<>();
-        for(int i = 0; i < 60; i += 5) {
+        for(int i = 0; i < 60; i += 5){
             if(i < 10){
                 minuteList.add("0" + i);
             }else{
@@ -43,6 +44,6 @@ public class Util {
     }
 
     public static int timeInInt(LocalDateTime time){
-        return (time.getHour()*100) + time.getMinute();
+        return (time.getHour() * 100) + time.getMinute();
     }
 }
