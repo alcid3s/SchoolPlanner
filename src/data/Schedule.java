@@ -147,7 +147,7 @@ public class Schedule {
         teacherList.add(new Teacher("Pieter"));
         teacherList.add(new Teacher("Edwin"));
         teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("10", "00")));
-        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("11", "00")));
+        lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
+        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
     }
 }

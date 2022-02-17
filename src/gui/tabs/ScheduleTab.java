@@ -19,7 +19,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleTab extends Tab{
+public class ScheduleTab extends Tab {
     private Schedule schedule;
     private BorderPane mainPane;
     private Canvas canvas;
@@ -33,7 +33,6 @@ public class ScheduleTab extends Tab{
 
 
         mainPane = new BorderPane();
-        System.out.println(mainPane.getWidth() + " and " + this.mainPane.getHeight());
         canvas = new Canvas();
 
         if (mainPane.getHeight() == 0 || mainPane.getWidth() == 0) {
@@ -55,7 +54,7 @@ public class ScheduleTab extends Tab{
         Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
 
-        Button editGroups = Util.getDefaultButton("Edit Groups", 50,scale);
+        Button editGroups = Util.getDefaultButton("Edit Groups", 50, scale);
         editGroups.setOnAction(e -> new EditGroupsPopup().show());
 
         Button editLessons = Util.getDefaultButton("Edit Lessons", 50, scale);
@@ -76,7 +75,7 @@ public class ScheduleTab extends Tab{
 
         int groupLocation = 0;
         for (int i = 0; i < groups.size(); i++) {
-            if(groups.get(i).getName().equals(lesson.getGroup().getName())){
+            if (groups.get(i).getName().equals(lesson.getGroup().getName())) {
                 groupLocation = i;
                 i = groups.size();
             }
@@ -91,27 +90,20 @@ public class ScheduleTab extends Tab{
         // Paramaters for the class block.
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
         final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
-        final int xEnd = 100 + (((lesson.getEndDate().getHour() - 8) * this.size) * factor) + (lesson.getEndDate().getMinute() * (this.size / 28)) - xStart;
-        final int yEnd = (yStart + height) / ((groupLocation + 1) );
+        final int xWidth = 100 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
+        final int yWidth = (yStart + height) / ((groupLocation + 1));
 
-        System.out.println("yStart: " + yStart + " yEnd: " + yEnd);
+        Rectangle rectangle = new Rectangle(xStart, yStart, xWidth, yWidth);
+        graphics.draw(rectangle);
 
-        graphics.draw(new Rectangle(xStart, yStart, xEnd, yEnd));
+        int textLocation = (rectangle.width / 2) + xStart - (xStart / 8);
 
-
-        //TODO: 11-02-2022 Create formula so the time is always in the middle
         graphics.drawString(leadingZero(startHour) + ":" + leadingZero(startMinute) + " - "
-                + leadingZero(endHour) + ":" + leadingZero(endMinute), xStart + 50, yStart + 30);
-
-        graphics.drawString(lesson.getName(), xStart + 100, yStart + 60);
-
-        //TODO: 11-02-2022 Create fornmula so group is always in the middle
-        graphics.drawString(lesson.getGroup().getName(), xStart + 100, yStart + 90);
-
-        //TODO: 11-02-2022 Create formula so room is always in the middle, also create a .getname function in Room.
-        graphics.drawString(lesson.getRoom().getName(), xStart + 100, yStart + 120);
-
-        graphics.drawString(lesson.getTeacher().getName(), xStart + 100, yStart + 150);
+                + leadingZero(endHour) + ":" + leadingZero(endMinute), textLocation, yStart + 30);
+        graphics.drawString(lesson.getName(), textLocation, yStart + 60);
+        graphics.drawString(lesson.getGroup().getName(), textLocation, yStart + 90);
+        graphics.drawString(lesson.getRoom().getName(), textLocation, yStart + 120);
+        graphics.drawString(lesson.getTeacher().getName(), textLocation, yStart + 150);
     }
 
     private String leadingZero(int num) {
@@ -126,6 +118,7 @@ public class ScheduleTab extends Tab{
         for (Group group : Schedule.getInstance().getGroupList()) {
             array.add(group.getName());
         }
+
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
         java.awt.Font font = new Font("Verdana", 16, 20);
@@ -141,8 +134,6 @@ public class ScheduleTab extends Tab{
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
             graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
 
-            System.out.println(i * (this.size - 20) * this.factor);
-
             // teacher list
             if (i != 0 && i <= array.size()) {
                 graphics.drawString(array.get(i - 1), 0, i * 170);
@@ -153,14 +144,14 @@ public class ScheduleTab extends Tab{
         }
     }
 
-    public void refreshCanvas(){
+    public void refreshCanvas() {
         FXGraphics2D graphics = new FXGraphics2D(canvas.getGraphicsContext2D());
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+        graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
         DrawFrame(graphics);
 
-        for(Lesson lesson : schedule.getLessonList()){
+        for (Lesson lesson : schedule.getLessonList()) {
             DrawLesson(lesson, graphics);
         }
     }
