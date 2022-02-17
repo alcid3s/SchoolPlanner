@@ -20,8 +20,8 @@ public class EasterEggPopup extends Stage{
         MediaPlayer player = new MediaPlayer(media);
         player.setAutoPlay(true);
         MediaView view = new MediaView(player);
-        int xScale = (int)(1920 / 1.5);
-        int yScale = (int)(1080 / 1.5);
+        int xScale = (int) (1920 / 1.5);
+        int yScale = (int) (1080 / 1.5);
         view.setFitWidth(xScale);
         view.setFitHeight(yScale);
         Group root = new Group();

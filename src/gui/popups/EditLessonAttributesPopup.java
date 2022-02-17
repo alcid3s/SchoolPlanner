@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
@@ -64,44 +63,51 @@ public class EditLessonAttributesPopup extends Stage{
                 }else{
                     mayClose = false;
                 }
-            }if(!(startHourBox.getValue() == null)){
+            }
+            if(!(startHourBox.getValue() == null)){
                 LocalDateTime time = Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute());
                 if(Validation.timeIsValid(time, lesson.getEndDate()) && Validation.scheduleIsAvailable(time, lesson.getEndDate(), lesson)){
                     lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
                 }else{
                     mayClose = false;
                 }
-            }if(!(endMinuteBox.getValue() == null)){
+            }
+            if(!(endMinuteBox.getValue() == null)){
                 LocalDateTime time = Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString());
                 if(Validation.timeIsValid(lesson.getStartDate(), time) && Validation.scheduleIsAvailable(lesson.getStartDate(), time, lesson)){
                     lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
                 }else{
                     mayClose = false;
                 }
-            }if(!(endHourBox.getValue() == null)){
-                LocalDateTime time = Util.makeTime(endHourBox.getValue().toString(), ""+ lesson.getEndDate().getMinute());
+            }
+            if(!(endHourBox.getValue() == null)){
+                LocalDateTime time = Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute());
                 if(Validation.timeIsValid(lesson.getStartDate(), time) && Validation.scheduleIsAvailable(lesson.getStartDate(), time, lesson)){
                     lesson.setEndDate(Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute()));
                 }else{
                     mayClose = false;
                 }
-            }if(!nameField.getText().isEmpty()){
+            }
+            if(!nameField.getText().isEmpty()){
                 lesson.setName(nameField.getText());
-            }if(!(roomBox.getValue() == null)){
+            }
+            if(!(roomBox.getValue() == null)){
                 Room room = Schedule.getInstance().getRoom(roomBox.getValue().toString());
                 if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), room, lesson.getRoom()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup())){
                     lesson.setRoom(room);
                 }else{
                     mayClose = false;
                 }
-            }if(!(teacherBox.getValue() == null)){
+            }
+            if(!(teacherBox.getValue() == null)){
                 Person teacher = Schedule.getInstance().getTeacher(teacherBox.getValue().toString());
                 if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), teacher, lesson.getTeacher())){
                     lesson.setTeacher(teacher);
                 }else{
                     mayClose = false;
                 }
-            }if(!(groupBox.getValue() == null)){
+            }
+            if(!(groupBox.getValue() == null)){
                 Group group = Schedule.getInstance().getGroup(groupBox.getValue().toString());
                 if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), group, lesson.getGroup()) && Validation.sizeIsValid(lesson.getRoom(), group)){
                     lesson.setGroup(group);
@@ -128,7 +134,7 @@ public class EditLessonAttributesPopup extends Stage{
 
         BorderPane pane = new BorderPane();
         pane.setTop(gridpane);
-        pane.setBottom(new HBox(save,cancel));
+        pane.setBottom(new HBox(save, cancel));
 
         Scene scene = new Scene(pane);
         setTitle("Edit Attributes");

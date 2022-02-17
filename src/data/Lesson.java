@@ -2,6 +2,7 @@ package data;
 
 import data.persons.Person;
 import data.rooms.Room;
+
 import java.time.LocalDateTime;
 
 public class Lesson{
@@ -22,7 +23,7 @@ public class Lesson{
         this.name = name;
     }
 
-    public Room getRoom() {
+    public Room getRoom(){
         return room;
     }
 
@@ -30,7 +31,7 @@ public class Lesson{
         this.room = room;
     }
 
-    public Person getTeacher() {
+    public Person getTeacher(){
         return teacher;
     }
 
@@ -38,7 +39,7 @@ public class Lesson{
         this.teacher = teacher;
     }
 
-    public Group getGroup() {
+    public Group getGroup(){
         return group;
     }
 
@@ -62,7 +63,7 @@ public class Lesson{
         this.endDate = time;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 

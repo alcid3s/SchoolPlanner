@@ -15,10 +15,10 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class EditTeachersPopup extends Stage {
+public class EditTeachersPopup extends Stage{
 
 
-    public EditTeachersPopup() {
+    public EditTeachersPopup(){
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -29,19 +29,19 @@ public class EditTeachersPopup extends Stage {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(listView);
 
-        Button createTeacher = Util.getDefaultButton("Create new teacher", 50,150);
+        Button createTeacher = Util.getDefaultButton("Create new teacher", 50, 150);
         createTeacher.setOnAction(e -> {
             new CreateTeacherPopup().show();
             close();
         });
 
-        Button removeTeacher = Util.getDefaultButton("Remove teacher", 50,150);
+        Button removeTeacher = Util.getDefaultButton("Remove teacher", 50, 150);
         removeTeacher.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 String teacherName = (String) listView.getItems().get(selected);
                 Person selectedTeacher = schedule.getTeacher(teacherName);
-                if(selectedTeacher != null) {
+                if(selectedTeacher != null){
                     if(Validation.teacherIsFree(selectedTeacher)){
                         listView.getItems().remove(selected);
                         schedule.removeTeacher(selectedTeacher);
@@ -54,23 +54,23 @@ public class EditTeachersPopup extends Stage {
             }
         });
 
-        Button editTeacher = Util.getDefaultButton("Edit teacher", 50,150);
+        Button editTeacher = Util.getDefaultButton("Edit teacher", 50, 150);
         editTeacher.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 String teacherName = (String) listView.getItems().get(selected);
                 Person selectedTeacher = schedule.getTeacher(teacherName);
                 if(selectedTeacher != null){
                     new EditTeacherAttributesPopup(selectedTeacher).show();
                     close();
-                } else {
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find teacher").show();
                 }
             }
         });
 
-        Button close = Util.getDefaultButton("Close", 50,100);
-        HBox hBox = new HBox(createTeacher, removeTeacher, editTeacher,close);
+        Button close = Util.getDefaultButton("Close", 50, 100);
+        HBox hBox = new HBox(createTeacher, removeTeacher, editTeacher, close);
         close.setOnAction(e -> {
             close();
         });
