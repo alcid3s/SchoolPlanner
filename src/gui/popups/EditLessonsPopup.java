@@ -7,12 +7,11 @@ import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
-import javafx.scene.control.ListView;
 
 import java.util.ArrayList;
 
@@ -22,12 +21,9 @@ public class EditLessonsPopup extends Stage{
         setTitle("Edit Lessons");
         Schedule schedule = Schedule.getInstance();
         ListView listView = new ListView();
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        ArrayList<Lesson> lessonList = schedule.getLessonList();
-        for(Lesson lesson : lessonList){
-            listView.getItems().add(lesson);
-        }
+        listView.getItems().addAll(schedule.getLessonList());
         BorderPane pane = new BorderPane();
         pane.setTop(listView);
 
@@ -41,7 +37,7 @@ public class EditLessonsPopup extends Stage{
         removeLesson.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                Lesson selectedLesson = (Lesson)listView.getItems().get(selected);
+                Lesson selectedLesson = (Lesson) listView.getItems().get(selected);
                 if(selectedLesson != null){
                     listView.getItems().remove(selected);
                     schedule.removeLesson(selectedLesson);
@@ -56,7 +52,7 @@ public class EditLessonsPopup extends Stage{
         editLesson.setOnAction(e -> {
             if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                Lesson selectedLesson = (Lesson)listView.getItems().get(selected);
+                Lesson selectedLesson = (Lesson) listView.getItems().get(selected);
                 if(selectedLesson != null){
                     new EditLessonAttributesPopup(selectedLesson, tab).show();
                     close();

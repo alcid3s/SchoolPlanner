@@ -1,9 +1,10 @@
 package data;
 
 import data.rooms.*;
+
 import java.util.ArrayList;
 
-public class AllRooms {
+public class AllRooms{
 
     public static ArrayList<Room> AllRooms(){
         ArrayList<Room> allRooms = new ArrayList<Room>();

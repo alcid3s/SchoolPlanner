@@ -1,6 +1,7 @@
 package gui.popups;
 
 import data.persons.Person;
+import data.persons.Teacher;
 import gui.Util;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -10,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditTeacherAttributesPopup extends Stage{
@@ -20,7 +20,7 @@ public class EditTeacherAttributesPopup extends Stage{
      *
      * @param teacher attributes to be edited
      */
-    public EditTeacherAttributesPopup(Person teacher){
+    public EditTeacherAttributesPopup(Teacher teacher){
         Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {
@@ -28,6 +28,7 @@ public class EditTeacherAttributesPopup extends Stage{
             close();
         });
         Label name = new Label("Name: ");
+        name.setText(teacher.getName());
         TextField nameField = new TextField();
 
         GridPane gridPane = new GridPane();

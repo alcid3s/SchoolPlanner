@@ -2,6 +2,7 @@ package data;
 
 import data.persons.Person;
 import data.persons.Student;
+
 import java.util.ArrayList;
 
 public class Group{
@@ -17,7 +18,7 @@ public class Group{
         this.size = size;
         this.systemName = name + " (" + size + ")";
 
-        for(int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i++){
             this.students.add(new Student(Student.getRandomName()));
         }
     }
@@ -27,32 +28,32 @@ public class Group{
         this.students.add(new Student(Student.getRandomName()));
     }
 
-    public ArrayList<Person> getStudents() {
+    public ArrayList<Person> getStudents(){
         return students;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public String getSystemName(){
         return this.systemName;
     }
 
-    public int getSize() {
+    public int getSize(){
         return size;
     }
 
-    @Override
-    public String toString() {
-        return name + " (" + size + ")";
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSize(int size) {
+    public void setSize(int size){
         this.size = size;
+    }
+
+    @Override
+    public String toString(){
+        return name + " (" + size + ")";
     }
 }

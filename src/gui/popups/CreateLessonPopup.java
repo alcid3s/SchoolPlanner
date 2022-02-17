@@ -11,13 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 public class CreateLessonPopup extends Stage {
 
-    public CreateLessonPopup(ScheduleTab tab){
+    public CreateLessonPopup(ScheduleTab tab) {
         //String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate
         TextField nameField = new TextField();
         ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
@@ -30,6 +29,7 @@ public class CreateLessonPopup extends Stage {
 
         roomBox.setPrefWidth(220);
         teacherBox.setPrefWidth(220);
+        groupBox.setPrefWidth(220);
 
         startHourBox.setEditable(true);
         startMinuteBox.setEditable(true);
@@ -43,35 +43,37 @@ public class CreateLessonPopup extends Stage {
         gridpane.add(roomBox, 1, 1);
         gridpane.add(new Label("Teacher: "), 0, 2);
         gridpane.add(teacherBox, 1, 2);
-        gridpane.add(new Label("Start Time: "), 0, 3);
-        gridpane.add(startHourBox, 1, 3);
-        gridpane.add(startMinuteBox, 2, 3);
-        gridpane.add(new Label("End Time: "), 0, 4);
-        gridpane.add(endHourBox, 1, 4);
-        gridpane.add(endMinuteBox, 2, 4);
+        gridpane.add(new Label("Group: "), 0, 3);
+        gridpane.add(groupBox, 1, 3);
+        gridpane.add(new Label("Start Time: "), 0, 4);
+        gridpane.add(startHourBox, 1, 4);
+        gridpane.add(startMinuteBox, 2, 4);
+        gridpane.add(new Label("End Time: "), 0, 5);
+        gridpane.add(endHourBox, 1, 5);
+        gridpane.add(endMinuteBox, 2, 5);
 
         Button create = Util.getDefaultButton("Create lesson", 50, 140);
         create.setOnAction(e -> {
-            if(nameField.getText().isEmpty()){
+            if (nameField.getText().isEmpty()) {
                 new Alert(Alert.AlertType.ERROR, "Fill in a name").show();
-            }else if(roomBox.getValue() == null){
+            } else if (roomBox.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "Fill in a room").show();
-            }else if(teacherBox.getValue() == null){
+            } else if (teacherBox.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "Fill in a teacher").show();
-            }else if(groupBox.getValue() == null){
+            } else if (groupBox.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "Fill in a group").show();
-            }else if(startHourBox.getValue() == null || startMinuteBox.getValue() == null){
+            } else if (startHourBox.getValue() == null || startMinuteBox.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "Fill in a start time").show();
-            }else if(endHourBox.getValue() == null || endMinuteBox.getValue() == null){
+            } else if (endHourBox.getValue() == null || endMinuteBox.getValue() == null) {
                 new Alert(Alert.AlertType.ERROR, "Fill in an end time").show();
-            }else{
+            } else {
                 Lesson lesson = new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomBox.getValue().toString()), Schedule.getInstance().getTeacher(teacherBox.getValue().toString()), Schedule.getInstance().getGroup(groupBox.getValue().toString()), Util.makeTime(startHourBox.getValue().toString(), startMinuteBox.getValue().toString()), Util.makeTime(endHourBox.getValue().toString(), endMinuteBox.getValue().toString()));
-                if(Validation.lessonIsValid(lesson)){
+                if (Validation.lessonIsValid(lesson)) {
                     Schedule.getInstance().addLesson(lesson);
                     tab.refreshCanvas();
                     new EditLessonsPopup(tab).show();
                     close();
-                }else{
+                } else {
                     new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                 }
             }

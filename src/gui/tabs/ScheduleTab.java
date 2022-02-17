@@ -19,15 +19,14 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleTab extends Tab {
+public class ScheduleTab extends Tab{
+    private final int size = 114;
+    private final int factor = 2;
     private Schedule schedule;
     private BorderPane mainPane;
     private Canvas canvas;
 
-    private final int size = 114;
-    private final int factor = 2;
-
-    public ScheduleTab() {
+    public ScheduleTab(){
         super("Schedule");
         setClosable(false);
 
@@ -35,10 +34,10 @@ public class ScheduleTab extends Tab {
         mainPane = new BorderPane();
         canvas = new Canvas();
 
-        if (mainPane.getHeight() == 0 || mainPane.getWidth() == 0) {
+        if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
             canvas.setWidth(1920);
             canvas.setHeight(935);
-        } else {
+        }else{
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
         }
@@ -70,7 +69,7 @@ public class ScheduleTab extends Tab {
 
     }
 
-    private void DrawLesson(Lesson lesson, FXGraphics2D graphics) {
+    private void DrawLesson(Lesson lesson, FXGraphics2D graphics){
         List<Group> groups = Schedule.getInstance().getGroupList();
 
         int groupLocation = 0;
@@ -106,16 +105,16 @@ public class ScheduleTab extends Tab {
         graphics.drawString(lesson.getTeacher().getName(), textLocation, yStart + 150);
     }
 
-    private String leadingZero(int num) {
+    private String leadingZero(int num){
         return num < 10 ? "0" + num : num + "";
     }
 
     /*
     Draws rectangles for time indication.
      */
-    private void DrawFrame(FXGraphics2D graphics) {
+    private void DrawFrame(FXGraphics2D graphics){
         List<String> array = new ArrayList<>();
-        for (Group group : Schedule.getInstance().getGroupList()) {
+        for(Group group : Schedule.getInstance().getGroupList()){
             array.add(group.getName());
         }
 
@@ -128,14 +127,14 @@ public class ScheduleTab extends Tab {
 
         graphics.drawString("Groups", 0, 30);
 
-        for (int i = 0; i < 8; i++) {
+        for(int i = 0; i < 8; i++){
 
             // horizontal and vertical rectangles
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
             graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
 
             // teacher list
-            if (i != 0 && i <= array.size()) {
+            if(i != 0 && i <= array.size()){
                 graphics.drawString(array.get(i - 1), 0, i * 170);
             }
 
