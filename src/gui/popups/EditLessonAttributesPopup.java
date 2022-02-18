@@ -84,6 +84,7 @@ public class EditLessonAttributesPopup extends Stage{
             }
             if(!(endHourBox.getValue() == null)){
                 endTime = Util.makeTime(endHourBox.getValue().toString(), "" + endTime.getMinute());
+                editTime = true;
             }
 
             if(Validation.timeIsValid(startTime, endTime) && Validation.scheduleIsAvailable(startTime, endTime, lesson) && editTime){
