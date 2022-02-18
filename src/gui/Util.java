@@ -25,7 +25,7 @@ public class Util{
 
     public static ObservableList<String> getHoursInList(){
         ArrayList<String> hourList = new ArrayList<>();
-        for(int i = 8; i < 19; i++){
+        for(int i = 8; i < 17; i++){
             hourList.add("" + i);
         }
         return FXCollections.observableList(hourList);
@@ -45,5 +45,12 @@ public class Util{
 
     public static int timeInInt(LocalDateTime time){
         return (time.getHour() * 100) + time.getMinute();
+    }
+
+    public static String timeInString(int time){
+        if(time < 10) {
+            return "0" + time;
+        }
+        return "" + time;
     }
 }

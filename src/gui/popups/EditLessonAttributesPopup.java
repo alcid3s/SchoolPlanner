@@ -38,10 +38,10 @@ public class EditLessonAttributesPopup extends Stage{
         endHourBox.setEditable(true);
         endMinuteBox.setEditable(true);
 
-        endMinuteBox.getSelectionModel().select(getTimeInString(lesson.getEndDate().getMinute()));
-        endHourBox.getSelectionModel().select(lesson.getEndDate().getHour());
-        startMinuteBox.getSelectionModel().select(getTimeInString(lesson.getStartDate().getMinute()));
-        startHourBox.getSelectionModel().select(lesson.getStartDate().getHour());
+        endMinuteBox.getSelectionModel().select(Util.timeInString(lesson.getEndDate().getMinute()));
+        endHourBox.getSelectionModel().select(Util.timeInString(lesson.getEndDate().getHour()));
+        startMinuteBox.getSelectionModel().select(Util.timeInString(lesson.getStartDate().getMinute()));
+        startHourBox.getSelectionModel().select(Util.timeInString(lesson.getStartDate().getHour()));
         roomBox.setPrefWidth(220);
         teacherBox.setPrefWidth(220);
         groupBox.setPrefWidth(220);
@@ -150,13 +150,5 @@ public class EditLessonAttributesPopup extends Stage{
         Scene scene = new Scene(pane);
         setTitle("Edit Attributes");
         setScene(scene);
-    }
-
-
-    private String getTimeInString(int value) {
-        if(value < 10) {
-            return "0" + value;
-        }
-        return "" + value;
     }
 }

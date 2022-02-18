@@ -74,9 +74,9 @@ public class Validation{
             message = "Start time should be before end time";
         }else if(startHour == 8 && startMinute < 45){
             message = "First class starts at 8:45";
-        }else if(endHour == 18 && endMinute > 0){
-            message = "Last class ends at 18:00";
-        }else if(endHour > 18 || startHour < 8){
+        }else if(endHour == 16 && endMinute > 0){
+            message = "Last class ends at 16:00";
+        }else if(endHour > 16 || startHour < 8){
             message = "Lesson out of bounds";
         }else{
             return true;
