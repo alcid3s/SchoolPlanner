@@ -65,40 +65,34 @@ public class EditLessonAttributesPopup extends Stage{
 
         Button save = Util.getDefaultButton("Save changes", 50, 100);
         save.setOnAction(e -> {
+            boolean editTime = false;
             boolean mayClose = true;
+            LocalDateTime startTime = lesson.getStartDate();
+            LocalDateTime endTime = lesson.getEndDate();
 
             if(!(startMinuteBox.getValue() == null)){
-                LocalDateTime time = Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString());
-                if(Validation.timeIsValid(time, lesson.getEndDate()) && Validation.scheduleIsAvailable(time, lesson.getEndDate(), lesson)){
-                    lesson.setStartDate(Util.makeTime("" + lesson.getStartDate().getHour(), startMinuteBox.getValue().toString()));
-                }else{
-                    mayClose = false;
-                }
+                startTime = Util.makeTime("" + startTime.getHour(), startMinuteBox.getValue().toString());
+                editTime = true;
             }
             if(!(startHourBox.getValue() == null)){
-                LocalDateTime time = Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute());
-                if(Validation.timeIsValid(time, lesson.getEndDate()) && Validation.scheduleIsAvailable(time, lesson.getEndDate(), lesson)){
-                    lesson.setStartDate(Util.makeTime(startHourBox.getValue().toString(), "" + lesson.getStartDate().getMinute()));
-                }else{
-                    mayClose = false;
-                }
+                startTime = Util.makeTime(startHourBox.getValue().toString(), "" + startTime.getMinute());
+                editTime = true;
             }
             if(!(endMinuteBox.getValue() == null)){
-                LocalDateTime time = Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString());
-                if(Validation.timeIsValid(lesson.getStartDate(), time) && Validation.scheduleIsAvailable(lesson.getStartDate(), time, lesson)){
-                    lesson.setEndDate(Util.makeTime("" + lesson.getEndDate().getHour(), endMinuteBox.getValue().toString()));
-                }else{
-                    mayClose = false;
-                }
+                endTime = Util.makeTime("" + endTime.getHour(), endMinuteBox.getValue().toString());
+                editTime = true;
             }
             if(!(endHourBox.getValue() == null)){
-                LocalDateTime time = Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute());
-                if(Validation.timeIsValid(lesson.getStartDate(), time) && Validation.scheduleIsAvailable(lesson.getStartDate(), time, lesson)){
-                    lesson.setEndDate(Util.makeTime(endHourBox.getValue().toString(), "" + lesson.getEndDate().getMinute()));
-                }else{
-                    mayClose = false;
-                }
+                endTime = Util.makeTime(endHourBox.getValue().toString(), "" + endTime.getMinute());
             }
+
+            if(Validation.timeIsValid(startTime, endTime) && Validation.scheduleIsAvailable(startTime, endTime, lesson) && editTime){
+                lesson.setStartDate(startTime);
+                lesson.setEndDate(endTime);
+            }else{
+                mayClose = false;
+            }
+
             if(!nameField.getText().isEmpty()){
                 lesson.setName(nameField.getText());
             }
