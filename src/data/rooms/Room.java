@@ -1,6 +1,6 @@
 package data.rooms;
 
-public abstract class Room{
+public abstract class Room implements Comparable{
 
     private String name;
     private int capacity;
@@ -27,5 +27,10 @@ public abstract class Room{
     @Override
     public String toString(){
         return this.name + " (" + this.capacity + ")";
+    }
+
+    @Override
+    public int compareTo(Object o){
+        return this.toString().compareTo(o.toString());
     }
 }

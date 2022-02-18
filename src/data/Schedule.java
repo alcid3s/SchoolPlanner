@@ -6,6 +6,7 @@ import data.rooms.Room;
 import gui.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Schedule{
     private static Schedule schedule;
@@ -20,7 +21,9 @@ public class Schedule{
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
+
         setExample();
+        sort();
     }
 
     /**
@@ -43,6 +46,7 @@ public class Schedule{
      */
     public void addLesson(Lesson lesson){
         lessonList.add(lesson);
+        sort();
     }
 
     /**
@@ -52,10 +56,12 @@ public class Schedule{
      */
     public void addGroup(Group group){
         this.groupList.add(group);
+        sort();
     }
 
     public void addRoom(Room room){
         this.roomList.add(room);
+        sort();
     }
 
     /**
@@ -134,6 +140,7 @@ public class Schedule{
 
     public void addTeacher(Teacher teacher){
         this.teacherList.add(teacher);
+        sort();
     }
 
     public boolean removeTeacher(Person teacher){
@@ -146,6 +153,13 @@ public class Schedule{
 
     public void removeGroup(Group group){
         groupList.remove(group);
+    }
+
+    public void sort(){
+        Collections.sort(this.lessonList);
+        Collections.sort(this.roomList);
+        Collections.sort(this.groupList);
+        Collections.sort(this.teacherList);
     }
 
     private void setExample(){

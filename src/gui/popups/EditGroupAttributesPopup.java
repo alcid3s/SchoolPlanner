@@ -1,7 +1,11 @@
 package gui.popups;
 
 import data.Group;
+import data.rooms.Classroom;
+import data.rooms.Room;
 import gui.Util;
+import gui.Validation;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditGroupAttributesPopup extends Stage{
@@ -45,18 +48,30 @@ public class EditGroupAttributesPopup extends Stage{
             new EditGroupsPopup().show();
             close();
         });
+
         edit.setOnAction(e -> {
-            if(nameField.getText().length() > 0){
-                try {
+            boolean mayClose = true;
+            try{
+                if(!nameField.getText().isEmpty()){
                     group.setName(nameField.getText());
-                    group.setSize(Integer.parseInt(sizeField.getText()));
+
+                }if(!sizeField.getText().isEmpty()){
+                    int newSize = Integer.parseInt(sizeField.getText());
+                    if(Validation.sizeIsValid(group,newSize)){
+                        group.setSize(newSize);
+                    }else{
+                        mayClose = false;
+                        new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
+                    }
+                }
+
+                if(mayClose){
+                    ScheduleTab.refreshCanvas();
                     new EditGroupsPopup().show();
                     close();
-                } catch(NumberFormatException ex) {
-                    new Alert(Alert.AlertType.ERROR, "Enter a valid number.");
                 }
-            }else{
-                new Alert(Alert.AlertType.ERROR, "Name is too short.");
+            } catch(NumberFormatException ex) {
+                new Alert(Alert.AlertType.ERROR, "Enter a valid number.").show();
             }
         });
 

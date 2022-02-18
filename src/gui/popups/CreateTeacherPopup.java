@@ -39,7 +39,7 @@ public class CreateTeacherPopup extends Stage{
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
             }else{
                 Schedule.getInstance().addTeacher(new Teacher(nameField.getText()));
-                if(nameField.getText().equals("Rick")){
+                if(nameField.getText().equalsIgnoreCase("Rick")){
                     new EasterEggPopup("src/gui/popups/song.mp4").show();
                 }else{
                     new EditTeachersPopup().show();

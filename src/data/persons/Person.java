@@ -1,6 +1,8 @@
 package data.persons;
 
-public abstract class Person{
+import data.Schedule;
+
+public abstract class Person implements Comparable{
     private String name;
 
     public Person(String name){
@@ -13,10 +15,16 @@ public abstract class Person{
 
     public void setName(String name){
         this.name = name;
+        Schedule.getInstance().sort();
     }
 
     @Override
     public String toString(){
         return this.name;
+    }
+
+    @Override
+    public int compareTo(Object o){
+        return this.toString().compareTo(o.toString());
     }
 }

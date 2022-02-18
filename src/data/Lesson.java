@@ -5,7 +5,7 @@ import data.rooms.Room;
 
 import java.time.LocalDateTime;
 
-public class Lesson{
+public class Lesson implements Comparable{
 
     private Room room;
     private Person teacher;
@@ -69,6 +69,7 @@ public class Lesson{
 
     public void setName(String name){
         this.name = name;
+        Schedule.getInstance().sort();
     }
 
     @Override
@@ -94,5 +95,10 @@ public class Lesson{
                 this.group.getName() + "\t\t\t" +
                 startDate + "\t\t\t" +
                 endDate;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.toString().compareTo(o.toString());
     }
 }

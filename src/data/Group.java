@@ -5,7 +5,7 @@ import data.persons.Student;
 
 import java.util.ArrayList;
 
-public class Group{
+public class Group implements Comparable{
 
     private ArrayList<Person> students;
     private String name;
@@ -38,6 +38,8 @@ public class Group{
 
     public void setName(String name){
         this.name = name;
+        this.systemName = name + " (" + size + ")";
+        Schedule.getInstance().sort();
     }
 
     public String getSystemName(){
@@ -55,5 +57,10 @@ public class Group{
     @Override
     public String toString(){
         return name + " (" + size + ")";
+    }
+
+    @Override
+    public int compareTo(Object o){
+        return this.toString().compareTo(o.toString());
     }
 }

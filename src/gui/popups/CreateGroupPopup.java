@@ -3,6 +3,7 @@ package gui.popups;
 import data.Group;
 import data.Schedule;
 import gui.Util;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,6 +43,7 @@ public class CreateGroupPopup extends Stage{
                 try {
                     int intSize = Integer.parseInt(sizeField.getText());
                     Schedule.getInstance().addGroup(new Group(nameField.getText(), intSize));
+                    ScheduleTab.refreshCanvas();
                     new EditGroupsPopup().show();
                     close();
                 } catch(NumberFormatException ex) {
