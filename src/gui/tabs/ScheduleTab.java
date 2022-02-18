@@ -78,7 +78,7 @@ public class ScheduleTab extends Tab{
         for (int i = 0; i < groups.size(); i++) {
             if (groups.get(i).getName().equals(lesson.getGroup().getName())) {
                 groupLocation = i;
-                i = groups.size();
+                break;
             }
         }
 
