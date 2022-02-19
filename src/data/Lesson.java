@@ -23,6 +23,16 @@ public class Lesson implements Comparable{
         this.name = name;
     }
 
+    public Lesson(String jsonData) {
+        String[] values = jsonData.split(";");
+        this.name = values[0];
+        this.room = Schedule.getInstance().getRoom(values[1]);
+        this.teacher = Schedule.getInstance().getTeacher(values[2]);
+        this.group = Schedule.getInstance().getGroup(values[3]);
+        this.startDate = LocalDateTime.parse(values[4]);
+        this.endDate = LocalDateTime.parse(values[5]);
+    }
+
     public Room getRoom(){
         return room;
     }
@@ -100,5 +110,9 @@ public class Lesson implements Comparable{
     @Override
     public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());
+    }
+
+    public String getJsonString() {
+        return name + ";" + room.getName() + ";" + teacher.getName() + ";" + group.getName() + ";" + startDate.toString() + ";" + endDate.toString();
     }
 }

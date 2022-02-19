@@ -10,7 +10,7 @@ public class GUI extends Application{
     @Override
     public void start(Stage primaryStage){
         TabPane tabs = new TabPane();
-        tabs.getTabs().add(new ScheduleTab());
+        tabs.getTabs().add(new ScheduleTab(primaryStage));
         tabs.setPrefHeight(1017);
         tabs.setPrefWidth(1920);
         tabs.autosize();

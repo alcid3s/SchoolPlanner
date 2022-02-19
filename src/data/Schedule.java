@@ -4,9 +4,13 @@ import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
 import gui.Util;
+import gui.tabs.ScheduleTab;
 
+import javax.json.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 public class Schedule{
     private static Schedule schedule;
@@ -22,7 +26,7 @@ public class Schedule{
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
 
-        setExample();
+        //setExample();
         sort();
     }
 
@@ -170,5 +174,83 @@ public class Schedule{
         teacherList.add(new Teacher("Etienne"));
         lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
         lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
+    }
+
+    public boolean save(File file) {
+        Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
+        if(!optionalExtension.isPresent())
+            return false;
+        switch (optionalExtension.get().toLowerCase()) {
+            case "json":
+                try {
+                    if(file.exists())
+                        file.delete();
+                    file.createNewFile();
+                    JsonArrayBuilder teacherList = Json.createArrayBuilder();
+                    JsonArrayBuilder groupList = Json.createArrayBuilder();
+                    JsonArrayBuilder lessonList = Json.createArrayBuilder();
+                    this.teacherList.forEach(e -> teacherList.add(e.getJsonString()));
+                    this.groupList.forEach(e -> groupList.add(e.getJsonString()));
+                    this.lessonList.forEach(e -> lessonList.add(e.getJsonString()));
+
+
+                    JsonObject jsonObject = Json.createObjectBuilder()
+                            .add("teachers", teacherList)
+                            .add("groups", groupList)
+                            .add("lessons", lessonList)
+                            .build();
+                    StringWriter stringWriter = new StringWriter();
+
+                    FileWriter fileWriter = new FileWriter(file);
+                    JsonWriter jsonWriter = Json.createWriter(fileWriter);
+                    jsonWriter.writeObject(jsonObject);
+                    jsonWriter.close();
+                    load(file);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            case "rooster":
+                break;
+        }
+        return false;
+    }
+
+    public boolean load(File file) {
+        System.out.println("load");
+        Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
+        if(!optionalExtension.isPresent())
+            return false;
+        switch (optionalExtension.get().toLowerCase()) {
+            case "json":
+                try {
+                    InputStream input = new FileInputStream(file);
+                    JsonReader jsonReader = Json.createReader(input);
+                    JsonObject jsonObject = jsonReader.readObject();
+                    System.out.println(jsonObject);
+                    jsonObject.getJsonArray("teachers").forEach(teacher -> {
+                        addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
+                    });
+                    jsonObject.getJsonArray("groups").forEach(group -> {
+                        addGroup(new Group(group.toString().replaceAll("\"", "")));
+                    });
+                    jsonObject.getJsonArray("lessons").forEach(lesson -> {
+                        addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
+                    });
+                    ScheduleTab.refreshCanvas();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+        }
+
+        return false;
+    }
+
+    public Optional<String> getExtensionByStringHandling(String filename) {
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 }

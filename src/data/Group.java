@@ -23,6 +23,17 @@ public class Group implements Comparable{
         }
     }
 
+    public Group(String jsonData) {
+        this.students = new ArrayList<>();
+        String[] values = jsonData.split(";");
+        this.name = values[0];
+        this.size = Integer.parseInt(values[1]);
+        this.systemName = name + " (" + size + ")";
+        for(int i = 0; i < size; i++){
+            this.students.add(new Student(Student.getRandomName()));
+        }
+    }
+
     public void addNewStudent(){
         this.size++;
         this.students.add(new Student(Student.getRandomName()));
@@ -62,5 +73,9 @@ public class Group implements Comparable{
     @Override
     public int compareTo(Object o){
         return this.toString().compareTo(o.toString());
+    }
+
+    public String getJsonString() {
+        return name + ";" + size;
     }
 }

@@ -8,14 +8,18 @@ import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class ScheduleTab extends Tab{
     private Canvas canvas;
     private static ScheduleTab tab;
 
-    public ScheduleTab(){
+    public ScheduleTab(Stage stage){
         super("Schedule");
         setClosable(false);
 
@@ -50,7 +54,7 @@ public class ScheduleTab extends Tab{
 
         refreshCanvas();
 
-        int scale = 1920 / 4;
+        int scale = 1920 / 6;
 
         Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
@@ -64,7 +68,35 @@ public class ScheduleTab extends Tab{
         Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
 
-        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh);
+        Button save = Util.getDefaultButton("Save Rooster", 50,scale);
+        save.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Location to save");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            File saveLocation = fileChooser.showSaveDialog(stage);
+            if(saveLocation != null) {
+                System.out.println(saveLocation.getAbsolutePath());
+                Schedule.getInstance().save(saveLocation);
+            }
+            else
+                new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
+        });
+
+        Button load = Util.getDefaultButton("Load Rooster", 50, scale);
+        load.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select File to load");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            File loadLocation = fileChooser.showOpenDialog(stage);
+            if(loadLocation != null) {
+                System.out.println(loadLocation.getAbsolutePath());
+                Schedule.getInstance().load(loadLocation);
+            }
+            else
+                new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
+        });
+
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh,save,load);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);

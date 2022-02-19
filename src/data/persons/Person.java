@@ -2,7 +2,7 @@ package data.persons;
 
 import data.Schedule;
 
-public abstract class Person implements Comparable{
+public abstract class Person implements Comparable {
     private String name;
 
     public Person(String name){
@@ -26,5 +26,9 @@ public abstract class Person implements Comparable{
     @Override
     public int compareTo(Object o){
         return this.toString().compareTo(o.toString());
+    }
+
+    public String getJsonString() {
+        return name;
     }
 }
