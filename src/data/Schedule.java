@@ -205,7 +205,6 @@ public class Schedule{
                     JsonWriter jsonWriter = Json.createWriter(fileWriter);
                     jsonWriter.writeObject(jsonObject);
                     jsonWriter.close();
-                    load(file);
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();
