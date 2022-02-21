@@ -54,7 +54,7 @@ public class ScheduleTab extends Tab{
 
         refreshCanvas();
 
-        int scale = 1920 / 6;
+        int scale = (int) canvas.getWidth() / 6;
 
         Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());

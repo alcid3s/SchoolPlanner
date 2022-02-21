@@ -29,8 +29,8 @@ public class EditTeacherAttributesPopup extends Stage{
             close();
         });
         Label name = new Label("Name: ");
-        name.setText(teacher.getName());
         TextField nameField = new TextField();
+        nameField.setText(teacher.getName());
 
         GridPane gridPane = new GridPane();
         gridPane.add(name, 0, 0);

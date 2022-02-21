@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
 public class GUI extends Application{
     @Override
     public void start(Stage primaryStage){
@@ -14,7 +16,6 @@ public class GUI extends Application{
         tabs.setPrefHeight(1017);
         tabs.setPrefWidth(1920);
         tabs.autosize();
-
         Scene scene = new Scene(tabs);
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);

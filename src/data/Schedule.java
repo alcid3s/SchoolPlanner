@@ -7,10 +7,9 @@ import gui.Util;
 import gui.tabs.ScheduleTab;
 
 import javax.json.*;
+import javax.json.stream.JsonGenerator;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 public class Schedule{
     private static Schedule schedule;
@@ -25,6 +24,8 @@ public class Schedule{
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
+
+        setExample();
 
         //setExample();
         sort();
@@ -193,16 +194,16 @@ public class Schedule{
                     this.groupList.forEach(e -> groupList.add(e.getJsonString()));
                     this.lessonList.forEach(e -> lessonList.add(e.getJsonString()));
 
-
+                    Map<String, Object> properties = new HashMap<>(1);
+                    properties.put(JsonGenerator.PRETTY_PRINTING, true);
+                    JsonWriterFactory jf = Json.createWriterFactory(properties);
                     JsonObject jsonObject = Json.createObjectBuilder()
                             .add("teachers", teacherList)
                             .add("groups", groupList)
                             .add("lessons", lessonList)
                             .build();
-                    StringWriter stringWriter = new StringWriter();
-
                     FileWriter fileWriter = new FileWriter(file);
-                    JsonWriter jsonWriter = Json.createWriter(fileWriter);
+                    JsonWriter jsonWriter = jf.createWriter(fileWriter);
                     jsonWriter.writeObject(jsonObject);
                     jsonWriter.close();
                     return true;

@@ -26,11 +26,11 @@ public class EditGroupAttributesPopup extends Stage{
     public EditGroupAttributesPopup(Group group){
         setTitle("Edit Group");
         Label name = new Label(" Name: ");
-        name.setText(group.getName());
         Label size = new Label("Group Size: ");
-        size.setText(group.getSize() + "");
         TextField nameField = new TextField();
         TextField sizeField = new TextField();
+        sizeField.setText(group.getSize() + "");
+        nameField.setText(group.getName());
 
         GridPane gridPane = new GridPane();
         gridPane.add(name, 0, 0);
