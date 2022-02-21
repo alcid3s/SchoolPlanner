@@ -120,9 +120,9 @@ public class ScheduleTab extends Tab{
 
         final int height = 148;
         // Parameters for the class block.
-        final int xStart = 150 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
+        final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
         final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
-        final int xWidth = 150 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
+        final int xWidth = 100 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
         final int yWidth = (yStart + height) / ((groupLocation + 1));
 
         Rectangle rectangle = new Rectangle(xStart, yStart, xWidth, yWidth);
@@ -162,8 +162,8 @@ public class ScheduleTab extends Tab{
         for(int i = 0; i < temporaryTimeList.length; i++ ){
 
             // horizontal and vertical rectangles
-            graphics.draw(new Rectangle((i * this.size * this.factor) + 150, 0, this.size * this.factor, 40));
-            graphics.draw(new Rectangle(0, 40, 150, i * (this.size - 20) * this.factor));
+            graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
+            graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
 
             // teacher list
             if(i != 0 && i <= array.size()){

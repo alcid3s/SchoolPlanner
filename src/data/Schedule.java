@@ -212,6 +212,7 @@ public class Schedule{
                     return false;
                 }
             case "rooster":
+                //TODO
                 break;
         }
         return false;
@@ -243,6 +244,10 @@ public class Schedule{
                     e.printStackTrace();
                     return false;
                 }
+            case "rooster":
+                //TODO
+                break;
+
         }
 
         return false;
