@@ -12,15 +12,22 @@ public class Util{
     /*
     Creates default button with a name, height and width.
      */
-    public static Button getDefaultButton(String name, int height, int width){
+    public static Button getDefaultButton(String name, int height, int width) {
         Button b = new Button(name);
-        b.setPrefHeight(height);
-        b.setPrefWidth(width);
+        b.setPrefSize(width,height);
         return b;
     }
 
     public static LocalDateTime makeTime(String hours, String minutes){
-        return LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), Integer.parseInt(hours), Integer.parseInt(minutes));
+        int hoursInt = 0;
+        int minutesInt = 0;
+        try {
+            hoursInt = Integer.parseInt(hours);
+            minutesInt = Integer.parseInt(minutes);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(), LocalDateTime.now().getDayOfMonth(), hoursInt, minutesInt);
     }
 
     public static ObservableList<String> getHoursInList(){

@@ -34,7 +34,6 @@ public class ScheduleTab extends Tab{
     public ScheduleTab(Stage stage){
         super("Schedule");
         setClosable(false);
-
         tab = this;
 
         mainPane = new BorderPane();
@@ -103,7 +102,7 @@ public class ScheduleTab extends Tab{
 
     }
 
-    private void DrawLesson(Lesson lesson, FXGraphics2D graphics){
+    private void drawLesson(Lesson lesson, FXGraphics2D graphics) {
         List<Group> groups = Schedule.getInstance().getGroupList();
 
         int groupLocation = 0;
@@ -120,7 +119,7 @@ public class ScheduleTab extends Tab{
         final int endMinute = lesson.getEndDate().getMinute();
 
         final int height = 148;
-        // Paramaters for the class block.
+        // Parameters for the class block.
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
         final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
         final int xWidth = 100 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
@@ -131,8 +130,7 @@ public class ScheduleTab extends Tab{
 
         int textLocation = (rectangle.width / 2) + xStart - (xStart / 8);
 
-        graphics.drawString(leadingZero(startHour) + ":" + leadingZero(startMinute) + " - "
-                + leadingZero(endHour) + ":" + leadingZero(endMinute), textLocation, yStart + 30);
+        graphics.drawString(leadingZero(startHour) + ":" + leadingZero(startMinute) + " - " + leadingZero(endHour) + ":" + leadingZero(endMinute), textLocation, yStart + 30);
         graphics.drawString(lesson.getName(), textLocation, yStart + 60);
         graphics.drawString(lesson.getGroup().getName(), textLocation, yStart + 90);
         graphics.drawString(lesson.getRoom().getName(), textLocation, yStart + 120);
@@ -146,7 +144,7 @@ public class ScheduleTab extends Tab{
     /*
     Draws rectangles for time indication.
      */
-    private void DrawFrame(FXGraphics2D graphics){
+    private void drawFrame(FXGraphics2D graphics){
         List<String> array = new ArrayList<>();
         for(Group group : Schedule.getInstance().getGroupList()){
             array.add(group.getName());
@@ -161,7 +159,7 @@ public class ScheduleTab extends Tab{
 
         graphics.drawString("Groups", 0, 30);
 
-        for(int i = 0; i < 8; i++){
+        for(int i = 0; i < temporaryTimeList.length; i++ ){
 
             // horizontal and vertical rectangles
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
@@ -186,10 +184,10 @@ public class ScheduleTab extends Tab{
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int)tab.getCanvas().getWidth(), (int)tab.getCanvas().getHeight());
-        tab.DrawFrame(graphics);
+        tab.drawFrame(graphics);
 
         for (Lesson lesson : tab.schedule.getLessonList()) {
-            tab.DrawLesson(lesson, graphics);
+            tab.drawLesson(lesson, graphics);
         }
     }
 }
