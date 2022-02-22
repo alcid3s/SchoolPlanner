@@ -2,7 +2,9 @@ package data.persons;
 
 import data.Schedule;
 
-public abstract class Person implements Comparable {
+import java.io.Serializable;
+
+public abstract class Person implements Comparable, Serializable {
     private String name;
 
     public Person(String name){

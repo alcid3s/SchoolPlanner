@@ -4,11 +4,13 @@ import data.Group;
 import data.Lesson;
 import data.Schedule;
 import data.persons.Person;
+import data.rooms.Classroom;
 import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -17,13 +19,19 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class EditLessonAttributesPopup extends Stage{
 
     public EditLessonAttributesPopup(Lesson lesson){
         TextField nameField = new TextField();
         nameField.setText(lesson.getName());
-        ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
+        ArrayList<Room> roomList = new ArrayList<>();
+        for (Room r : Schedule.getInstance().getRoomList()) {
+            if(r instanceof Classroom)
+                roomList.add(r);
+        }
+        ComboBox roomBox = new ComboBox(FXCollections.observableArrayList(roomList));
         roomBox.getSelectionModel().select(lesson.getRoom());
         ComboBox teacherBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getTeacherList()));
         teacherBox.getSelectionModel().select(lesson.getTeacher());

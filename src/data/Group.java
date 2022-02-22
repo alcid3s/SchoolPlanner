@@ -3,9 +3,10 @@ package data;
 import data.persons.Person;
 import data.persons.Student;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group implements Comparable{
+public class Group implements Comparable, Serializable {
 
     private ArrayList<Person> students;
     private String name;

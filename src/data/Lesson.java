@@ -3,9 +3,10 @@ package data;
 import data.persons.Person;
 import data.rooms.Room;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Lesson implements Comparable{
+public class Lesson implements Comparable, Serializable {
 
     private Room room;
     private Person teacher;

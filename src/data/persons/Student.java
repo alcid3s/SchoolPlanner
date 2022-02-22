@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Student extends Person{
+public class Student extends Person {
 
     public Student(String name){
         super(name);

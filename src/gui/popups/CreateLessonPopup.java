@@ -2,10 +2,13 @@ package gui.popups;
 
 import data.Lesson;
 import data.Schedule;
+import data.rooms.Classroom;
+import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -13,13 +16,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CreateLessonPopup extends Stage {
 
     public CreateLessonPopup() {
         //String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate
         TextField nameField = new TextField();
-        ComboBox roomBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getRoomList()));
+        ArrayList<Room> roomList = new ArrayList<>();
+        for (Room r : Schedule.getInstance().getRoomList()) {
+            if(r instanceof Classroom)
+                roomList.add(r);
+        }
+        ComboBox roomBox = new ComboBox(FXCollections.observableArrayList(roomList));
         ComboBox teacherBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getTeacherList()));
         ComboBox groupBox = new ComboBox(FXCollections.observableList(Schedule.getInstance().getGroupList()));
         ComboBox startHourBox = new ComboBox(Util.getHoursInList());

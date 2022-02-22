@@ -11,7 +11,7 @@ import javax.json.stream.JsonGenerator;
 import java.io.*;
 import java.util.*;
 
-public class Schedule{
+public class Schedule implements Serializable{
     private static Schedule schedule;
 
     private ArrayList<Lesson> lessonList;
@@ -24,10 +24,7 @@ public class Schedule{
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
-
         setExample();
-
-        //setExample();
         sort();
     }
 
@@ -212,8 +209,20 @@ public class Schedule{
                     return false;
                 }
             case "rooster":
-                //TODO
-                break;
+                try {
+                    if(file.exists())
+                        file.delete();
+                    file.createNewFile();
+
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(this);
+                    objectOutputStream.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
         }
         return false;
     }
@@ -245,7 +254,19 @@ public class Schedule{
                     return false;
                 }
             case "rooster":
-                //TODO
+                try {
+                    FileInputStream f = new FileInputStream(file);
+                    ObjectInputStream s = new ObjectInputStream(f);
+                    Schedule newSchedule = (Schedule) s.readObject();
+                    this.schedule.setLessonList(newSchedule.getLessonList());
+                    this.schedule.setTeacherList(newSchedule.getTeacherList());
+                    this.schedule.setGroupList(newSchedule.getGroupList());
+                    ScheduleTab.refreshCanvas();
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
 
         }
@@ -257,5 +278,26 @@ public class Schedule{
         return Optional.ofNullable(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
+    @Override
+    public String toString() {
+        return lessonList.toString() + "\n" + teacherList.toString() + " \n" + groupList.toString() + "\n" + roomList.toString();
+    }
+
+    public void setLessonList(ArrayList<Lesson> lessonList) {
+        this.lessonList = lessonList;
+    }
+
+    public void setGroupList(ArrayList<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    public void setTeacherList(ArrayList<Teacher> teacherList) {
+        this.teacherList = teacherList;
+    }
+
+    public void setRoomList(ArrayList<Room> roomList) {
+        this.roomList = roomList;
     }
 }

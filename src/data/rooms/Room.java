@@ -1,6 +1,8 @@
 package data.rooms;
 
-public abstract class Room implements Comparable{
+import java.io.Serializable;
+
+public abstract class Room implements Comparable, Serializable {
 
     private String name;
     private int capacity;

@@ -27,7 +27,6 @@ public class ScheduleTab extends Tab{
     private static ScheduleTab tab;
     private final int size = 114;
     private final int factor = 2;
-    private Schedule schedule;
     private BorderPane mainPane;
     private Canvas canvas;
 
@@ -49,7 +48,6 @@ public class ScheduleTab extends Tab{
 
         mainPane.setTop(canvas);
 
-        this.schedule = Schedule.getInstance();
 
         refreshCanvas();
 
@@ -186,7 +184,8 @@ public class ScheduleTab extends Tab{
         graphics.clearRect(0, 0, (int)tab.getCanvas().getWidth(), (int)tab.getCanvas().getHeight());
         tab.drawFrame(graphics);
 
-        for (Lesson lesson : tab.schedule.getLessonList()) {
+        for (Lesson lesson : Schedule.getInstance().getLessonList()) {
+            System.out.println(lesson.toString());
             tab.drawLesson(lesson, graphics);
         }
     }
