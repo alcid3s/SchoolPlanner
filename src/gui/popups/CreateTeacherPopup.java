@@ -3,6 +3,7 @@ package gui.popups;
 import data.Schedule;
 import data.persons.Teacher;
 import gui.Util;
+import gui.Validation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,7 +38,7 @@ public class CreateTeacherPopup extends Stage{
         create.setOnAction(e -> {
             if(nameField.getText().length() < 3){
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
-            }else{
+            }else if(Validation.nameIsValid(nameField.getText())){
                 Schedule.getInstance().addTeacher(new Teacher(nameField.getText()));
                 if(nameField.getText().equalsIgnoreCase("Rick")){
                     new EasterEggPopup("src/gui/popups/song.mp4").show();
@@ -45,6 +46,8 @@ public class CreateTeacherPopup extends Stage{
                     new EditTeachersPopup().show();
                 }
                 close();
+            }else{
+                new Alert(Alert.AlertType.ERROR, "Name is not valid").show();
             }
         });
 
