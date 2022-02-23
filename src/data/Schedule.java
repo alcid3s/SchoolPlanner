@@ -24,7 +24,7 @@ public class Schedule implements Serializable{
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = AllRooms.AllRooms();
-        setExample();
+        //setExample();
         sort();
     }
 
@@ -253,6 +253,7 @@ public class Schedule implements Serializable{
                     e.printStackTrace();
                     return false;
                 }
+                break;
             case "rooster":
                 try {
                     FileInputStream f = new FileInputStream(file);
