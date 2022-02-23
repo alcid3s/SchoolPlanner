@@ -238,7 +238,7 @@ public class Schedule implements Serializable{
                     InputStream input = new FileInputStream(file);
                     JsonReader jsonReader = Json.createReader(input);
                     JsonObject jsonObject = jsonReader.readObject();
-                    System.out.println(jsonObject);
+                    clearAllLists();
                     jsonObject.getJsonArray("teachers").forEach(teacher -> {
                         addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
                     });
@@ -300,5 +300,11 @@ public class Schedule implements Serializable{
 
     public void setRoomList(ArrayList<Room> roomList) {
         this.roomList = roomList;
+    }
+
+    private void clearAllLists(){
+        this.lessonList.clear();
+        this.groupList.clear();
+        this.teacherList.clear();
     }
 }
