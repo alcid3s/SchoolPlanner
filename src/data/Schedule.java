@@ -248,11 +248,11 @@ public class Schedule implements Serializable{
                         addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
                     });
                     ScheduleTab.refreshCanvas();
+                    return true;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     return false;
                 }
-                break;
             case "rooster":
                 try {
                     FileInputStream f = new FileInputStream(file);
@@ -262,15 +262,12 @@ public class Schedule implements Serializable{
                     this.schedule.setTeacherList(newSchedule.getTeacherList());
                     this.schedule.setGroupList(newSchedule.getGroupList());
                     ScheduleTab.refreshCanvas();
-
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return false;
                 }
-                break;
-
         }
-
         return false;
     }
 

@@ -72,7 +72,11 @@ public class ScheduleTab extends Tab{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
             if(saveLocation != null) {
-                Schedule.getInstance().save(saveLocation);
+                if(Schedule.getInstance().save(saveLocation)) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "File Saved.").show();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Could not save file.").show();
+                }
             }
             else
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
@@ -85,7 +89,11 @@ public class ScheduleTab extends Tab{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File loadLocation = fileChooser.showOpenDialog(stage);
             if(loadLocation != null) {
-                Schedule.getInstance().load(loadLocation);
+                if(Schedule.getInstance().load(loadLocation)) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "File Loaded.").show();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Could not load file.").show();
+                }
             }
             else
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
