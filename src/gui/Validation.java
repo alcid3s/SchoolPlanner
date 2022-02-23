@@ -44,6 +44,15 @@ public class Validation{
         return true;
     }
 
+    public static boolean nameIsValid(String name){
+        try {
+            int i = Integer.parseInt(name);
+            return false;
+        }catch (Exception e){
+            return true;
+        }
+    }
+
     public static boolean teacherIsFree(Person teacher){
         for(Lesson lesson : Schedule.getInstance().getLessonList()){
             if(lesson.getTeacher().getName().equals(teacher.getName())){
