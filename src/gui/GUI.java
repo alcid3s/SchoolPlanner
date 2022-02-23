@@ -2,6 +2,7 @@ package gui;
 
 import gui.tabs.ScheduleTab;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
@@ -21,5 +22,9 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+        });
     }
 }
