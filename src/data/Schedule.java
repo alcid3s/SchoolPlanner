@@ -228,7 +228,6 @@ public class Schedule implements Serializable{
     }
 
     public boolean load(File file) {
-        System.out.println("load");
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
         if(!optionalExtension.isPresent())
             return false;

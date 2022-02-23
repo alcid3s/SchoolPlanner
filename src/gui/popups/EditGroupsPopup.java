@@ -52,6 +52,7 @@ public class EditGroupsPopup extends Stage{
                     if(Validation.groupIsFee(selectedGroup)){
                         listView.getItems().remove(selected);
                         schedule.removeGroup(selectedGroup);
+                        ScheduleTab.refreshCanvas();
                     }else{
                         new Alert(Alert.AlertType.ERROR, "Could not delete group because it is in use. (" + selectedGroup.toString() + ")").show();
                     }

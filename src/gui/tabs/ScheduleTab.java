@@ -72,7 +72,6 @@ public class ScheduleTab extends Tab{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
             if(saveLocation != null) {
-                System.out.println(saveLocation.getAbsolutePath());
                 Schedule.getInstance().save(saveLocation);
             }
             else
@@ -86,7 +85,6 @@ public class ScheduleTab extends Tab{
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File loadLocation = fileChooser.showOpenDialog(stage);
             if(loadLocation != null) {
-                System.out.println(loadLocation.getAbsolutePath());
                 Schedule.getInstance().load(loadLocation);
             }
             else
@@ -185,7 +183,6 @@ public class ScheduleTab extends Tab{
         tab.drawFrame(graphics);
 
         for (Lesson lesson : Schedule.getInstance().getLessonList()) {
-            System.out.println(lesson.toString());
             tab.drawLesson(lesson, graphics);
         }
     }
