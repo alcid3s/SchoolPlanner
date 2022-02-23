@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class GUI extends Application{
+public class GUI extends Application {
     @Override
     public void start(Stage primaryStage){
         TabPane tabs = new TabPane();

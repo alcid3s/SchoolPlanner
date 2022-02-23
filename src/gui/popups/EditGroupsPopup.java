@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class EditGroupsPopup extends Stage{
+public class EditGroupsPopup extends Stage {
 
     /**
      * This is the main popup to edit groups, remove a group, create a new group or edit a group
