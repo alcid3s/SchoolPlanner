@@ -1,5 +1,6 @@
 package gui;
 
+import data.tilted.TiledMap;
 import gui.tabs.ScheduleTab;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -7,9 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 public class GUI extends Application {
+
+    public static void main(String[] args) {
+        TiledMap tiltedMap = new TiledMap("School_Map.json");
+    }
+
+
     @Override
     public void start(Stage primaryStage){
         TabPane tabs = new TabPane();
