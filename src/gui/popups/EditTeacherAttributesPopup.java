@@ -3,6 +3,7 @@ package gui.popups;
 import data.persons.Person;
 import data.persons.Teacher;
 import gui.Util;
+import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -39,11 +40,13 @@ public class EditTeacherAttributesPopup extends Stage{
         edit.setOnAction(e -> {
             if(nameField.getText().length() < 3){
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
-            }else{
+            }else if(Validation.teacherIsUnique(nameField.getText())){
                 teacher.setName(nameField.getText());
                 ScheduleTab.refreshCanvas();
                 new EditTeachersPopup().show();
                 close();
+            }else{
+                new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
             }
         });
 
