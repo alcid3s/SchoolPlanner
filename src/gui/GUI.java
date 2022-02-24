@@ -2,6 +2,7 @@ package gui;
 
 import data.tilted.TiledMap;
 import gui.tabs.ScheduleTab;
+import gui.tabs.SimulationTab;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 
     public static void main(String[] args) {
-        TiledMap tiltedMap = new TiledMap("School_Map.json");
+       launch(GUI.class);
     }
 
 
@@ -19,6 +20,7 @@ public class GUI extends Application {
     public void start(Stage primaryStage){
         TabPane tabs = new TabPane();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
+        tabs.getTabs().add(new SimulationTab());
         tabs.setPrefHeight(1017);
         tabs.setPrefWidth(1920);
         tabs.autosize();
