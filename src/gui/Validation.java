@@ -44,9 +44,38 @@ public class Validation{
         return true;
     }
 
+    public static boolean numberIsPositive(int number){
+        if(number > 0){
+            return true;
+        }
+        message = "Size must be higher than 0";
+        return false;
+    }
+
+    public static boolean groupIsUnique(String groupName){
+        for(Group group : Schedule.getInstance().getGroupList()){
+            if(group.getName().equals(groupName)){
+                message = "There already is a group with this name";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean teacherIsUnique(String teacherName){
+        for(Person teacher : Schedule.getInstance().getTeacherList()){
+            if(teacher.getName().equals(teacherName)){
+                message = "There already is a teacher with this name";
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean nameIsValid(String name){
         try {
             int i = Integer.parseInt(name);
+            message = "This name contains numbers";
             return false;
         }catch (Exception e){
             return true;

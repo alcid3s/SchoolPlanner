@@ -3,6 +3,7 @@ package gui.popups;
 import data.Group;
 import data.Schedule;
 import gui.Util;
+import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -42,15 +43,20 @@ public class CreateGroupPopup extends Stage{
             if(nameField.getText().length() > 0){
                 try {
                     int intSize = Integer.parseInt(sizeField.getText());
-                    Schedule.getInstance().addGroup(new Group(nameField.getText(), intSize));
-                    ScheduleTab.refreshCanvas();
-                    new EditGroupsPopup().show();
-                    close();
+                    Group group = new Group(nameField.getText(), intSize);
+                    if(Validation.groupIsUnique(group.getName()) && Validation.numberIsPositive(intSize)){
+                        Schedule.getInstance().addGroup(group);
+                        ScheduleTab.refreshCanvas();
+                        new EditGroupsPopup().show();
+                        close();
+                    }else{
+                        new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
+                    }
                 } catch(NumberFormatException ex) {
-                    new Alert(Alert.AlertType.ERROR, "Could not convert integer.");
+                    new Alert(Alert.AlertType.ERROR, "Could not convert integer.").show();
                 }
             }else{
-                new Alert(Alert.AlertType.ERROR, "Name is too short.");
+                new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
             }
         });
 

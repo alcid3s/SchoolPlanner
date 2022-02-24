@@ -53,11 +53,15 @@ public class EditGroupAttributesPopup extends Stage{
             boolean mayClose = true;
             try{
                 if(!nameField.getText().isEmpty()){
-                    group.setName(nameField.getText());
-
+                    if(Validation.groupIsUnique(nameField.getText())){
+                        group.setName(nameField.getText());
+                    }else{
+                        mayClose = false;
+                        new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
+                    }
                 }if(!sizeField.getText().isEmpty()){
                     int newSize = Integer.parseInt(sizeField.getText());
-                    if(Validation.sizeIsValid(group,newSize)){
+                    if(Validation.sizeIsValid(group,newSize) && Validation.numberIsPositive(newSize)){
                         group.setSize(newSize);
                     }else{
                         mayClose = false;
