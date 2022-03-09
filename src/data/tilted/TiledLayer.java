@@ -25,7 +25,7 @@ public class TiledLayer {
             this.offsetX = 0;
             this.offsetY = 0;
         }
-        values = new int[height][width];
+        values = new int[width][height];
     }
 
     public boolean addValue(int data, int width, int height) {

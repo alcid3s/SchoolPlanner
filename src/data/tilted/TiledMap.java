@@ -18,15 +18,18 @@ public class TiledMap {
         layers = new ArrayList<>();
         this.tileWidth = object.getInt("tilewidth");
         object.getJsonArray("layers").forEach(layer -> {
-            TiledLayer tiltedLayer = new TiledLayer(layer.asJsonObject());
+            if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
 
-            JsonArray layerData = layer.asJsonObject().getJsonArray("data");
-            for (int i = 0 ; i < layerData.size(); i++) {
-                int data = layerData.getInt(i);
-                tiltedLayer.addValue(data, i/tiltedLayer.getHeight(), (i% tiltedLayer.getHeight()));
+                TiledLayer tiledLayer = new TiledLayer(layer.asJsonObject());
+
+                JsonArray layerData = layer.asJsonObject().getJsonArray("data");
+                for (int i = 0; i < layerData.size(); i++) {
+                    int data = layerData.getInt(i);
+                    tiledLayer.addValue(data, i / tiledLayer.getHeight(), (i % tiledLayer.getHeight()));
+                }
+                layers.add(tiledLayer);
+                System.out.println(tiledLayer);
             }
-            layers.add(tiltedLayer);
-            System.out.println(tiltedLayer);
         });
 
         System.out.println("Loading tileSets");
