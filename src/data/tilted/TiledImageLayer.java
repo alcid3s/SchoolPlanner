@@ -8,14 +8,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TiledLayer {
+public class TiledImageLayer {
     private int width;
     private int height;
     private int offsetX;
     private int offsetY;
     private int[][] values;
 
-    public TiledLayer(JsonObject layerObject) {
+    public TiledImageLayer(JsonObject layerObject) {
         this.height = layerObject.getInt("height");
         this.width = layerObject.getInt("width");
         if(layerObject.containsKey("offsetx")) {

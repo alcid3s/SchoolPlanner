@@ -9,25 +9,26 @@ import javax.json.JsonReader;
 import java.util.ArrayList;
 
 public class TiledMap {
-    private ArrayList<TiledLayer> layers;
+    private ArrayList<TiledImageLayer> imageLayers;
+    private ArrayList<TiledImageLayer> objectLayers;
     private int tileWidth;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
         JsonObject object = jsonReader.readObject();
-        layers = new ArrayList<>();
+        imageLayers = new ArrayList<>();
         this.tileWidth = object.getInt("tilewidth");
         object.getJsonArray("layers").forEach(layer -> {
             if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
 
-                TiledLayer tiledLayer = new TiledLayer(layer.asJsonObject());
+                TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
 
                 JsonArray layerData = layer.asJsonObject().getJsonArray("data");
                 for (int i = 0; i < layerData.size(); i++) {
                     int data = layerData.getInt(i);
                     tiledLayer.addValue(data, i / tiledLayer.getHeight(), (i % tiledLayer.getHeight()));
                 }
-                layers.add(tiledLayer);
+                imageLayers.add(tiledLayer);
                 System.out.println(tiledLayer);
             }
         });
@@ -41,7 +42,7 @@ public class TiledMap {
     }
 
     public void draw(FXGraphics2D graphics) {
-        for(TiledLayer layer : layers) {
+        for(TiledImageLayer layer : imageLayers) {
             layer.draw(graphics);
         }
     }
