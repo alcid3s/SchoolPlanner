@@ -1,5 +1,7 @@
 package gui.tabs;
 
+import data.Schedule;
+import data.tilted.TiledImageLayer;
 import data.tilted.TiledMap;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
@@ -7,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.geom.AffineTransform;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class SimulationTab extends Tab {
     private BorderPane mainPane;
@@ -31,13 +35,17 @@ public class SimulationTab extends Tab {
         mainPane.setTop(canvas);
         setContent(mainPane);
         draw( new FXGraphics2D(canvas.getGraphicsContext2D()));
+
     }
 
+
     public void draw(FXGraphics2D graphics) {
-        AffineTransform transform = new AffineTransform();
+        AffineTransform transform = graphics.getTransform();
+        graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
         transform.scale(0.5,0.5);
         graphics.setTransform(transform);
         map.draw(graphics);
+
     }
 
 }

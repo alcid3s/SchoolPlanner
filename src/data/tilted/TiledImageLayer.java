@@ -14,10 +14,12 @@ public class TiledImageLayer {
     private int offsetX;
     private int offsetY;
     private int[][] values;
+    private String name;
 
     public TiledImageLayer(JsonObject layerObject) {
         this.height = layerObject.getInt("height");
         this.width = layerObject.getInt("width");
+        this.name = layerObject.getString("name");
         if(layerObject.containsKey("offsetx")) {
             this.offsetX = layerObject.getInt("offsetx");
             this.offsetY = layerObject.getInt("offsety");
@@ -25,11 +27,16 @@ public class TiledImageLayer {
             this.offsetX = 0;
             this.offsetY = 0;
         }
+        System.out.println("Created layer:");
+        System.out.println("Name: " + this.name);
+        System.out.println("Width: " + width + " Height: " + height);
+        System.out.println("OffsetX: " + offsetX + " OffsetY: " + offsetY);
+
         values = new int[width][height];
     }
 
     public boolean addValue(int data, int width, int height) {
-        if(values.length > height && values[height].length > width) {
+        if(values.length > width && values[width].length > height) {
             values[width][height] = data;
             return true;
         }
@@ -57,8 +64,11 @@ public class TiledImageLayer {
             for (int j = 0; j < values[i].length; j++) {
                 int data = values[i][j];
                 BufferedImage image = TiledSetManager.getInstance().getImageFromID(data);
-                AffineTransform transformImage = (AffineTransform) graphics.getTransform().clone();
-                transformImage.translate(j * 32 + offsetX, i * 32 + offsetY);
+                AffineTransform transformImage = graphics.getTransform();
+                System.out.println("---");
+                System.out.println("Translate: " + transformImage.getTranslateX() + " , " + transformImage.getTranslateY());
+                transformImage.translate(i * 32 + offsetX, j * 32 + offsetY);
+                System.out.println("Translate: " + transformImage.getTranslateX() + " , " + transformImage.getTranslateY());
                 graphics.drawImage(image,transformImage, null);
             }
         }
@@ -82,5 +92,9 @@ public class TiledImageLayer {
 
     public int[][] getValues() {
         return values;
+    }
+
+    public String getName() {
+        return name;
     }
 }
