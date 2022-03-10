@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class TiledSetManager {
     private static TiledSetManager tiledSetManager;
-    private ArrayList<TiledImageSet> images = new ArrayList<>();
+    private ArrayList<TiledImageSet> images;
 
     public TiledSetManager() {
-
+        images = new ArrayList<>();
     }
 
     public static TiledSetManager getInstance() {
