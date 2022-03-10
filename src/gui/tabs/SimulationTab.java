@@ -1,21 +1,22 @@
 package gui.tabs;
 
+import data.Group;
 import data.Schedule;
-import data.tilted.TiledImageLayer;
 import data.tilted.TiledMap;
-import javafx.scene.canvas.Canvas;
+import data.tilted.pathfinding.SpawnGroup;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.geom.AffineTransform;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.List;
 
 public class SimulationTab extends Tab {
     private BorderPane mainPane;
-    private Canvas canvas;
+    private ResizableCanvas canvas;
     private TiledMap map;
+    private AffineTransform tx;
 
     public SimulationTab() {
         super("Simulation");
@@ -23,7 +24,7 @@ public class SimulationTab extends Tab {
         setClosable(false);
 
         mainPane = new BorderPane();
-        canvas = new Canvas();
+        canvas = new ResizableCanvas();
 
         if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
             canvas.setWidth(1920);
@@ -36,16 +37,17 @@ public class SimulationTab extends Tab {
         setContent(mainPane);
         draw( new FXGraphics2D(canvas.getGraphicsContext2D()));
 
-    }
 
+        List<Group> groups = Schedule.getInstance().getGroupList();
+        SpawnGroup spawnGroup = new SpawnGroup(this.canvas, this.tx);
+
+    }
 
     public void draw(FXGraphics2D graphics) {
-        AffineTransform transform = graphics.getTransform();
+        this.tx = graphics.getTransform();
         graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
-        transform.scale(0.5,0.5);
-        graphics.setTransform(transform);
+        this.tx.scale(0.5,0.5);
+        graphics.setTransform(this.tx);
         map.draw(graphics);
-
     }
-
 }
