@@ -6,18 +6,18 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TiledMap {
     private ArrayList<TiledImageLayer> imageLayers;
     private ArrayList<TiledImageLayer> objectLayers;
-    private int tileWidth;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
         JsonObject object = jsonReader.readObject();
         imageLayers = new ArrayList<>();
-        this.tileWidth = object.getInt("tilewidth");
         object.getJsonArray("layers").forEach(layer -> {
             if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
 
@@ -26,7 +26,7 @@ public class TiledMap {
                 JsonArray layerData = layer.asJsonObject().getJsonArray("data");
                 for (int i = 0; i < layerData.size(); i++) {
                     int data = layerData.getInt(i);
-                    tiledLayer.addValue(data, i / tiledLayer.getHeight(), (i % tiledLayer.getHeight()));
+                    tiledLayer.addValue(data, i % tiledLayer.getWidth(), (i / tiledLayer.getWidth()));
                 }
                 imageLayers.add(tiledLayer);
                 System.out.println(tiledLayer);
@@ -45,5 +45,14 @@ public class TiledMap {
         for(TiledImageLayer layer : imageLayers) {
             layer.draw(graphics);
         }
+    }
+
+    public Optional<TiledImageLayer> getLayer(String value) {
+        for (TiledImageLayer imageLayer : imageLayers) {
+            if (imageLayer.getName().equalsIgnoreCase(value)) {
+                return Optional.of(imageLayer);
+            }
+        }
+        return Optional.empty();
     }
 }
