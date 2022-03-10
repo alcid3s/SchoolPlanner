@@ -41,12 +41,14 @@ public class SimulationTab extends Tab implements Resizable{
 
     @Override
     public void draw(FXGraphics2D g2d){
+        canvas.setHeight(1080);
+        canvas.setWidth(1920);
         g2d.setTransform(new AffineTransform());
-        g2d.setColor(Color.white);
-        g2d.clearRect(0,0, 1920, 1080);
-
+        g2d.setBackground(Color.BLACK);
+        g2d.setClip(null);
+        g2d.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
+        g2d.setTransform(camera.getTransform((int)this.canvas.getWidth(), (int)this.canvas.getHeight()));
         AffineTransform originalTransform = g2d.getTransform();
-
         g2d.setTransform(camera.getTransform((int)canvas.getWidth(), (int)canvas.getHeight()));
         g2d.scale(1,-1);
 
