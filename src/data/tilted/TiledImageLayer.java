@@ -27,10 +27,6 @@ public class TiledImageLayer {
             this.offsetX = 0;
             this.offsetY = 0;
         }
-        System.out.println("Created layer:");
-        System.out.println("Name: " + this.name);
-        System.out.println("Width: " + width + " Height: " + height);
-        System.out.println("OffsetX: " + offsetX + " OffsetY: " + offsetY);
 
         values = new int[width][height];
     }
@@ -65,10 +61,7 @@ public class TiledImageLayer {
                 int data = values[i][j];
                 BufferedImage image = TiledSetManager.getInstance().getImageFromID(data);
                 AffineTransform transformImage = graphics.getTransform();
-                System.out.println("---");
-                System.out.println("Translate: " + transformImage.getTranslateX() + " , " + transformImage.getTranslateY());
                 transformImage.translate(i * 32 + offsetX, j * 32 + offsetY);
-                System.out.println("Translate: " + transformImage.getTranslateX() + " , " + transformImage.getTranslateY());
                 graphics.drawImage(image,transformImage, null);
             }
         }

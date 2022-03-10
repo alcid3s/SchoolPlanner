@@ -29,8 +29,6 @@ public class TiledImageSet {
         imageName = tiledSet.getString("image");
         name = tiledSet.getString("name");
         tiles = new HashMap<>();
-
-        System.out.println(imageName);
         final BufferedImage image;
         try {
             image = ImageIO.read(getClass().getClassLoader().getResource(imageName));

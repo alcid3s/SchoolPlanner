@@ -16,6 +16,7 @@ public class SimulationTab extends Tab {
     private BorderPane mainPane;
     private Canvas canvas;
     private TiledMap map;
+    private FXGraphics2D graphics2D;
 
     public SimulationTab() {
         super("Simulation");
@@ -34,7 +35,8 @@ public class SimulationTab extends Tab {
         }
         mainPane.setTop(canvas);
         setContent(mainPane);
-        draw( new FXGraphics2D(canvas.getGraphicsContext2D()));
+        graphics2D = new FXGraphics2D(canvas.getGraphicsContext2D());
+        draw(graphics2D);
 
     }
 
