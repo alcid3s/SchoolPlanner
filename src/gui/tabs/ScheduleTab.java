@@ -103,7 +103,6 @@ public class ScheduleTab extends Tab{
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
-
     }
 
     private void drawLesson(Lesson lesson, FXGraphics2D graphics) {
