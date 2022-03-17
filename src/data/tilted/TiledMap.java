@@ -12,24 +12,31 @@ import java.util.Optional;
 
 public class TiledMap {
     private ArrayList<TiledImageLayer> imageLayers;
-    private ArrayList<TiledImageLayer> objectLayers;
+    private ArrayList<TiledObjectLayer> objectLayers;
+    private TiledImageLayer collisionLayer;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
         JsonObject object = jsonReader.readObject();
         imageLayers = new ArrayList<>();
+        objectLayers = new ArrayList<>();
         object.getJsonArray("layers").forEach(layer -> {
             if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
+                if(layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
+                    collisionLayer = new TiledImageLayer(layer.asJsonObject());
+                } else {
+                    TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
 
-                TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
-
-                JsonArray layerData = layer.asJsonObject().getJsonArray("data");
-                for (int i = 0; i < layerData.size(); i++) {
-                    int data = layerData.getInt(i);
-                    tiledLayer.addValue(data, i % tiledLayer.getWidth(), (i / tiledLayer.getWidth()));
+                    JsonArray layerData = layer.asJsonObject().getJsonArray("data");
+                    for (int i = 0; i < layerData.size(); i++) {
+                        int data = layerData.getInt(i);
+                        tiledLayer.addValue(data, i % tiledLayer.getWidth(), (i / tiledLayer.getWidth()));
+                    }
+                    imageLayers.add(tiledLayer);
+                    System.out.println(tiledLayer);
                 }
-                imageLayers.add(tiledLayer);
-                System.out.println(tiledLayer);
+            } else {
+                    objectLayers.add(new TiledObjectLayer(layer.asJsonObject()));
             }
         });
 
