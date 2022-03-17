@@ -10,7 +10,7 @@ public class Teacher extends Person {
 
     @Override
     public void draw(FXGraphics2D graphics) {
-
+        graphics.drawImage(getImage()[1], graphics.getTransform(), null);
     }
 
     @Override

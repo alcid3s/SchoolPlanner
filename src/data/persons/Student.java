@@ -1,19 +1,25 @@
 package data.persons;
 import org.jfree.fx.FXGraphics2D;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Student extends Person {
+    private Point2D position;
     public Student(String name){
         super(name);
+        position = new Point2D.Double(1000, -1175);
     }
 
     @Override
     public void draw(FXGraphics2D graphics) {
         if(getImage() != null){
-            graphics.drawImage(getImage()[0], graphics.getTransform(), null);
+            AffineTransform tx = new AffineTransform();
+            tx.translate(graphics.getTransform().getTranslateX() + position.getX(), graphics.getTransform().getTranslateY() + position.getY());
+            graphics.drawImage(getImage()[0], tx, null);
         }
     }
 

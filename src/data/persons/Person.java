@@ -4,7 +4,6 @@ import data.Schedule;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
@@ -41,7 +40,6 @@ public abstract class Person implements Comparable, Serializable {
     }
 
     public abstract void draw(FXGraphics2D graphics);
-
     public abstract void update();
 
     @Override
