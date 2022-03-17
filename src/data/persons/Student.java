@@ -1,13 +1,27 @@
 package data.persons;
+import org.jfree.fx.FXGraphics2D;
 
 import java.io.File;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Student extends Person {
-
     public Student(String name){
         super(name);
+    }
+
+    @Override
+    public void draw(FXGraphics2D graphics) {
+        if(getImage() != null){
+            graphics.drawImage(getImage()[0], graphics.getTransform(), null);
+        }
+    }
+
+
+
+    @Override
+    public void update() {
+
     }
 
     public static String getRandomName(){

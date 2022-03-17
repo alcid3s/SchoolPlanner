@@ -2,6 +2,7 @@ package gui.tabs;
 
 import data.Group;
 import data.Schedule;
+import data.persons.Person;
 import data.tilted.TiledMap;
 import data.tilted.pathfinding.SpawnGroup;
 import javafx.scene.control.Tab;
@@ -34,7 +35,9 @@ public class SimulationTab extends Tab implements Resizable{
         this.camera = new Camera(canvas, this, g);
 
         this.groupList = Schedule.getInstance().getGroupList();
-        this.group = new SpawnGroup(g);
+//        this.group = new SpawnGroup(g);
+
+
 
         if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
             canvas.setWidth(1920);
@@ -46,6 +49,10 @@ public class SimulationTab extends Tab implements Resizable{
         mainPane.setTop(canvas);
         setContent(mainPane);
         draw(g);
+    }
+
+    public void update(){
+
     }
 
     @Override
@@ -61,11 +68,18 @@ public class SimulationTab extends Tab implements Resizable{
         g2d.setTransform(camera.getTransform((int)canvas.getWidth(), (int)canvas.getHeight()));
         g2d.scale(1,-1);
 
-        if(!this.groupList.isEmpty()) {
-            for (Group group : this.groupList) {
-                this.group.spawnGroup(group);
+        for (Group group : groupList) {
+            for (Person student: group.getStudents()) {
+                student.update();
+                student.draw(g2d);
             }
         }
+
+//        if(!this.groupList.isEmpty()) {
+//            for (Group group : this.groupList) {
+//                this.group.spawnGroup(group);
+//            }
+//        }
 
         
         
