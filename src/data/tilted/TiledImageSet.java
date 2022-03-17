@@ -19,6 +19,7 @@ public class TiledImageSet {
     private HashMap<Integer, BufferedImage> tiles;
 
     public TiledImageSet(JsonObject tiledSet) {
+        System.out.println(tiledSet.getString("name"));
         columns = tiledSet.getInt("columns");
         tileWidth = tiledSet.getInt("tilewidth");
         tileHeight = tiledSet.getInt("tileheight");
@@ -29,6 +30,7 @@ public class TiledImageSet {
         imageName = tiledSet.getString("image");
         name = tiledSet.getString("name");
         tiles = new HashMap<>();
+        System.out.println("Trying to find file with name " + imageName);
         final BufferedImage image;
         try {
             image = ImageIO.read(getClass().getClassLoader().getResource(imageName));
