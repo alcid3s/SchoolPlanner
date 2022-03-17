@@ -13,6 +13,7 @@ import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 public class SimulationTab extends Tab implements Resizable{
@@ -64,9 +65,13 @@ public class SimulationTab extends Tab implements Resizable{
         g2d.setClip(null);
         g2d.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
         g2d.setTransform(camera.getTransform((int)this.canvas.getWidth(), (int)this.canvas.getHeight()));
+        g2d.scale(1, -1);
         this.tx = g2d.getTransform();
-        g2d.setTransform(camera.getTransform((int)canvas.getWidth(), (int)canvas.getHeight()));
-        g2d.scale(1,-1);
+        map.draw(g2d);
+
+        g2d.setColor(Color.white);
+        g2d.draw(new Line2D.Double(0,100,0,-100));
+        g2d.draw(new Line2D.Double(100, 0, -100, 0));
 
         for (Group group : groupList) {
             for (Person student: group.getStudents()) {
@@ -93,7 +98,6 @@ public class SimulationTab extends Tab implements Resizable{
 //            g2d.setColor(Color.blue);
 //            DebugDraw.draw(g2d, world, 100);
 //        }
-        g2d.setTransform(this.tx);
-        map.draw(g2d);
+        //g2d.setTransform(this.tx);
     }
 }

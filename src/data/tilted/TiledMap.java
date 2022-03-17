@@ -6,7 +6,9 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -49,6 +51,7 @@ public class TiledMap {
     }
 
     public void draw(FXGraphics2D graphics) {
+
         for(TiledImageLayer layer : imageLayers) {
             layer.draw(graphics);
         }
