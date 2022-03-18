@@ -17,13 +17,17 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.List;
 
-public class SimulationTab extends Tab implements Resizable{
+public class SimulationTab extends Tab implements Resizable {
     private BorderPane mainPane;
     private ResizableCanvas canvas;
     private TiledMap map;
     private Camera camera;
     private List<Group> groupList;
-    private int timer = 500;
+    private double timer = 0.5;
+
+    private long lastFPSCheck = 0;
+    private int currentFPS = 0;
+    private int totalFrames = 0;
 
 
 
@@ -63,27 +67,38 @@ public class SimulationTab extends Tab implements Resizable{
     }
 
     private void update(double deltaTime) {
-        groupList.forEach(group -> {
-            group.getStudents().forEach(student -> {
-                if(!student.isSpawned()) {
-                    timer-= deltaTime;
-                    if(timer <= 0) {
+        if(timer > -0.1) {
+            timer -= deltaTime;
+        }
+        for (Group group : groupList) {
+            for (Person student : group.getStudents()) {
+                if (!student.isSpawned()) {
+                    if (timer <= 0) {
                         student.spawn(map.getStudentSpawn());
-                        timer = 500;
+                        timer = 0.5;
                     }
                 } else {
                     student.update(deltaTime);
                 }
-            });
-        });
+            }
+        }
     }
 
     @Override
-    public void draw(FXGraphics2D g2d){
+    public void draw(FXGraphics2D g2d) {
+        //FPS COUNTER
+        totalFrames++;
+        if(System.nanoTime() > lastFPSCheck + 1000000000) {
+            lastFPSCheck = System.nanoTime();
+            currentFPS = totalFrames;
+            totalFrames = 0;
+        }
+
         g2d.setTransform(new AffineTransform());
         g2d.setBackground(Color.BLACK);
         g2d.setClip(null);
         g2d.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
+
         g2d.setTransform(camera.getTransform((int)this.canvas.getWidth(), (int)this.canvas.getHeight()));
         map.draw(g2d);
         g2d.setColor(Color.white);
@@ -95,6 +110,12 @@ public class SimulationTab extends Tab implements Resizable{
                 student.draw(g2d);
             }
         }
+
+        //DRAW FPS COUNTER
+        g2d.setTransform(new AffineTransform());
+        g2d.setColor(Color.GREEN);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 25));
+        g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
 
 //        if(!this.groupList.isEmpty()) {
 //            for (Group group : this.groupList) {

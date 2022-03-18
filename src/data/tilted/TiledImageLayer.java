@@ -68,6 +68,9 @@ public class TiledImageLayer {
         for(int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
                 int data = values[i][j];
+                if(data == 0) {
+                    continue;
+                }
                 BufferedImage image = TiledSetManager.getInstance().getImageFromID(data);
                 AffineTransform transformImage = graphics.getTransform();
                 transformImage.translate(i * 32 + offsetX, j * 32 + offsetY);

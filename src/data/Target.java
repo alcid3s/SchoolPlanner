@@ -90,11 +90,12 @@ public class Target {
                     image = images.get(value);
                 } else {
                     image = textToImage(value + "", new JLabel("").getFont(), 12);
+                    images.put(value, image);
                 }
                 //graphics.drawString(value + "", j * 32 + 16, i * 32 + 16);
 
                 AffineTransform transformImage = graphics.getTransform();
-                transformImage.translate(j * 32 + 16, i * 32 + 16);
+                transformImage.translate(j * 32 + 8, i * 32 + 8);
                 graphics.drawImage(image,transformImage, null);
 
             }

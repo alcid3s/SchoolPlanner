@@ -15,6 +15,7 @@ public class Student extends Person {
 
     public Student(String name) {
         super(name, getImages());
+
     }
 
     private static BufferedImage[] getImages() {
@@ -63,7 +64,7 @@ public class Student extends Person {
 
             return name;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return "";
         }
     }

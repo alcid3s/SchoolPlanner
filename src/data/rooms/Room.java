@@ -11,9 +11,10 @@ public abstract class Room implements Comparable, Serializable {
     private Target target;
 
 
-    public Room(String name, int capacity){
+    public Room(String name, int capacity, Target target){
         this.name = name;
         this.capacity = capacity;
+        this.target = target;
     }
 
     public String getName(){

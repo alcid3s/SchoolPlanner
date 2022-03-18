@@ -14,9 +14,9 @@ public class TiledMap {
     private ArrayList<TiledImageLayer> imageLayers;
     private ArrayList<TiledObjectLayer> objectLayers;
     private TiledImageLayer collisionLayer;
+    private TiledObjectLayer roomLayer;
     private Point2D studentSpawn;
     private Point2D teacherSpawn;
-    private Target t;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
@@ -36,9 +36,7 @@ public class TiledMap {
             } else {
                 TiledObjectLayer objectLayer = new TiledObjectLayer(layer.asJsonObject());
                 if(objectLayer.getName().equalsIgnoreCase("Rooms")) {
-                    objectLayer.getObjects().forEach(tiledObject -> {
-                        Schedule.getInstance().addRoom(createNewRoom(tiledObject));
-                    });
+                    roomLayer = objectLayer;
                 } else {
                     objectLayers.add(new TiledObjectLayer(layer.asJsonObject()));
                 }
@@ -49,32 +47,35 @@ public class TiledMap {
         object.getJsonArray("tilesets").forEach(tileSet -> {
             TiledSetManager.getInstance().addTiledImageSet(new TiledImageSet(tileSet.asJsonObject()));
         });
-        initSpawns();
 
-        t = new Target(getStudentSpawn(), collisionLayer);
+        roomLayer.getObjects().forEach(tiledObject -> {
+            Schedule.getInstance().addRoom(createNewRoom(tiledObject));
+        });
+        initSpawns();
 
     }
 
     private Room createNewRoom(TiledObject objectLayer) {
         String name = objectLayer.getName();
         int size = 0;
+        Target t = new Target(getCenterLocation(Optional.of(objectLayer)), collisionLayer);
         for(JsonValue ob : objectLayer.getJsonObject().getJsonArray("properties")) {
             if(ob.asJsonObject().getString("name").equalsIgnoreCase("size"))
                 size = ob.asJsonObject().getInt("value");
         }
         if(name.toLowerCase().contains("la") || name.toLowerCase().contains("zaal")) {
-            return new Classroom(name, size);
+            return new Classroom(name, size, t);
         }
         if(name.toLowerCase().contains("xplora")) {
-            return new Xplora(name, size);
+            return new Xplora(name, size, t);
         }
         if(name.toLowerCase().contains("teacher")) {
-            return new TeacherRoom(name,size);
+            return new TeacherRoom(name, size, t);
         }
         if(name.toLowerCase().contains("canteen")) {
-            return new Canteen(name,size);
+            return new Canteen(name, size, t);
         }
-        return new Classroom(name,size);
+        return new Classroom(name,size, t);
 
     }
 

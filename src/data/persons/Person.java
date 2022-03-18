@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Person implements Comparable, Serializable {
@@ -15,6 +16,7 @@ public abstract class Person implements Comparable, Serializable {
     private BufferedImage[] sprites;
     private boolean isSpawned;
     private Point2D position;
+
 
     public Person(String name, BufferedImage[] sprites){
         this.name = name;
