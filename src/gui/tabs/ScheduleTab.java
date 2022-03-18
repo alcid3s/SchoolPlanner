@@ -32,6 +32,7 @@ public class ScheduleTab extends Tab{
 
     public ScheduleTab(Stage stage){
         super("Schedule");
+        Schedule.getInstance().setExample();
         setClosable(false);
         tab = this;
 

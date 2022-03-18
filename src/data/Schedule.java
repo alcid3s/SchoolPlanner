@@ -19,12 +19,11 @@ public class Schedule implements Serializable{
     private ArrayList<Teacher> teacherList;
     private ArrayList<Room> roomList;
 
-    public Schedule(){
+    public Schedule() {
         this.lessonList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = new ArrayList<>();
-        //setExample();
         sort();
     }
 
@@ -164,15 +163,15 @@ public class Schedule implements Serializable{
         Collections.sort(this.teacherList);
     }
 
-    private void setExample(){
+    public void setExample(){
         groupList.add(new Group("Proftaak B", 30));
         groupList.add(new Group("Proftaak A", 25));
         teacherList.add(new Teacher("Pieter"));
         teacherList.add(new Teacher("Edwin"));
         teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
-        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
-        lessonList.add(new Lesson("OGP1", getRoom("LA134"), getTeacher("Pieter"), getGroup("Proftaak A"), Util.makeTime("15", "05"), Util.makeTime("16", "00")));
+        lessonList.add(new Lesson("WIS", getRoom("LA135"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
+        lessonList.add(new Lesson("OGP", getRoom("CollegeHall"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
+        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Pieter"), getGroup("Proftaak A"), Util.makeTime("15", "05"), Util.makeTime("16", "00")));
     }
 
     public boolean save(File file) {
