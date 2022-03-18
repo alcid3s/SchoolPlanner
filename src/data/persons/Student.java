@@ -1,33 +1,50 @@
 package data.persons;
 import org.jfree.fx.FXGraphics2D;
 
+import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Student extends Person {
-    private Point2D position;
-    public Student(String name){
-        super(name);
-        position = new Point2D.Double(1000, -1175);
+
+    public Student(String name) {
+        super(name, getImages());
+    }
+
+    private static BufferedImage[] getImages() {
+        try {
+            BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("student.png")));
+            BufferedImage[] sprites = new BufferedImage[totalImage.getWidth()/32];
+            sprites[0] = totalImage.getSubimage(0,0,32,32);
+            return sprites;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void draw(FXGraphics2D graphics) {
-        if(getImage() != null){
-            AffineTransform tx = new AffineTransform();
-            tx.translate(graphics.getTransform().getTranslateX() + position.getX(), graphics.getTransform().getTranslateY() + position.getY());
-            graphics.drawImage(getImage()[0], tx, null);
+        if(isSpawned()) {
+            if (getSprites() != null) {
+                AffineTransform tx = graphics.getTransform();
+                tx.translate(getPosition().getX(), getPosition().getY());
+                graphics.drawImage(getSprites()[0], tx, null);
+            }
         }
     }
 
-
-
     @Override
-    public void update() {
-
+    public void update(double deltaTime) {
+        if(isSpawned()){
+            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - 200 * deltaTime));
+        }
     }
 
     public static String getRandomName(){

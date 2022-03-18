@@ -52,7 +52,7 @@ public class Camera{
 
     public void mouseScroll(ScrollEvent e){
         float zoom = this.zoom * (float)(1 + e.getDeltaY()/500.0f);
-        if(zoom > 0.42258725 && zoom < 1.1535156){
+        if(zoom > 0.42258725 && zoom < 1.1535156 || true){
             this.zoom = zoom;
             resizable.draw(g2d);
         }

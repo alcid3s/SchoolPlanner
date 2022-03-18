@@ -13,6 +13,7 @@ public class TiledObject {
     private String color;
     private String fontFamily;
     private int pixelSize;
+    private JsonObject jsonObject;
 
     public TiledObject(JsonObject object) {
         name = object.getString("name");
@@ -20,6 +21,7 @@ public class TiledObject {
         width = object.getInt("width");
         x = object.getInt("x");
         y = object.getInt("y");
+        jsonObject = object;
 
         JsonObject textObject = object.getJsonObject("text");
         if(textObject != null) {
@@ -65,5 +67,9 @@ public class TiledObject {
 
     public int getPixelSize() {
         return pixelSize;
+    }
+
+    public JsonObject getJsonObject() {
+        return jsonObject;
     }
 }

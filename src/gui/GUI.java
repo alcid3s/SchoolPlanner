@@ -1,6 +1,5 @@
 package gui;
 
-import data.tilted.TiledMap;
 import gui.tabs.ScheduleTab;
 import gui.tabs.SimulationTab;
 import javafx.application.Application;
@@ -19,8 +18,9 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage){
         TabPane tabs = new TabPane();
+        SimulationTab simulationTab = new SimulationTab();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
-        tabs.getTabs().add(new SimulationTab());
+        tabs.getTabs().add(simulationTab);
         tabs.setPrefHeight(1017);
         tabs.setPrefWidth(1920);
         tabs.autosize();

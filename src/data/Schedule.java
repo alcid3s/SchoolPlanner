@@ -23,8 +23,8 @@ public class Schedule implements Serializable{
         this.lessonList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
-        this.roomList = AllRooms.AllRooms();
-        setExample();
+        this.roomList = new ArrayList<>();
+        //setExample();
         sort();
     }
 

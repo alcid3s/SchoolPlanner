@@ -10,6 +10,7 @@ public class TiledObjectLayer {
     private int x;
     private int y;
     private String name;
+    private JsonObject jsonObject;
 
     public TiledObjectLayer(JsonObject object) {
         if(object.containsKey("offsetx")) {
@@ -19,6 +20,7 @@ public class TiledObjectLayer {
             offsetX = 0;
             offsetY = 0;
         }
+        this.jsonObject = object;
         x = object.getInt("x");
         y = object.getInt("y");
         name = object.getString("name");
@@ -26,5 +28,33 @@ public class TiledObjectLayer {
         object.getJsonArray("objects").forEach(o -> {
             objects.add(new TiledObject(o.asJsonObject()));
         });
+    }
+
+    public ArrayList<TiledObject> getObjects() {
+        return objects;
+    }
+
+    public int getOffsetX() {
+        return offsetX;
+    }
+
+    public int getOffsetY() {
+        return offsetY;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public JsonObject getJsonObject() {
+        return jsonObject;
     }
 }

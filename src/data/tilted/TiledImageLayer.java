@@ -58,10 +58,6 @@ public class TiledImageLayer {
     }
 
     public void draw(FXGraphics2D graphics) {
-        graphics.setColor(Color.pink);
-        graphics.draw(new Line2D.Double(0,100,0,-100));
-        graphics.draw(new Line2D.Double(100, 0, -100, 0));
-
         for(int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
                 int data = values[i][j];

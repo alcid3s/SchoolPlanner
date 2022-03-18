@@ -1,17 +1,19 @@
 package data.rooms;
 
+import data.Target;
+
 import java.io.Serializable;
 
 public abstract class Room implements Comparable, Serializable {
 
     private String name;
     private int capacity;
-    private String systemName;
+    private Target target;
+
 
     public Room(String name, int capacity){
         this.name = name;
         this.capacity = capacity;
-        this.systemName = name + " (" + capacity + ")";
     }
 
     public String getName(){
@@ -19,7 +21,7 @@ public abstract class Room implements Comparable, Serializable {
     }
 
     public String getSystemName(){
-        return this.systemName;
+        return name + " (" + capacity + ")";
     }
 
     public int getCapacity(){
