@@ -570,6 +570,23 @@
           "width":317.333333333333,
           "x":928,
           "y":158.666666666667
+        },
+        {
+          "height":288,
+          "id":63,
+          "name":"Xplora2",
+          "properties":[
+            {
+              "name":"size",
+              "type":"int",
+              "value":8
+            }],
+          "rotation":0,
+          "type":"",
+          "visible":true,
+          "width":221,
+          "x":3105,
+          "y":158
         }],
       "opacity":1,
       "type":"objectgroup",
@@ -744,7 +761,7 @@
       "y":0
     }],
   "nextlayerid":8,
-  "nextobjectid":63,
+  "nextobjectid":65,
   "orientation":"orthogonal",
   "renderorder":"right-down",
   "tiledversion":"1.8.1",

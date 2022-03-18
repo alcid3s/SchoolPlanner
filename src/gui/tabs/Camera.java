@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 
 public class Camera{
     private Point2D centerPoint = new Point2D.Double(0,0);
-    private float zoom = 0.75f;
+    private float zoom = 1f; // TODO 0.75
     private double rotation = 0;
     private Point2D lastMousePos;
     private Canvas canvas;

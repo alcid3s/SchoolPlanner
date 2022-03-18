@@ -2,6 +2,7 @@ package data.tilted;
 
 import org.jfree.fx.FXGraphics2D;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -31,6 +32,12 @@ public class TiledImageLayer {
         }
 
         values = new int[width][height];
+
+        JsonArray layerData = layerObject.getJsonArray("data");
+        for (int i = 0; i < layerData.size(); i++) {
+            int data = layerData.getInt(i);
+            addValue(data, i % getWidth(), (i / getWidth()));
+        }
     }
 
     public boolean addValue(int data, int width, int height) {
@@ -51,7 +58,7 @@ public class TiledImageLayer {
                     }
                 }
         }
-        return "TiltedLayer:\n" +
+        return "TiltedLayer: " + name + "\n" +
                 "Width: " + width + "\n" +
                 "Height: " + height + "\n" +
                 "Values: " + valuesAsString.toString();
@@ -91,5 +98,9 @@ public class TiledImageLayer {
 
     public String getName() {
         return name;
+    }
+
+    public void print2DMapValues() {
+        System.out.println("2d map with [" + getWidth() + "] [" + getHeight() + "]");
     }
 }

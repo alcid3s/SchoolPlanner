@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
 public class GUI extends Application {
 
     public static void main(String[] args) {
@@ -21,8 +23,8 @@ public class GUI extends Application {
         SimulationTab simulationTab = new SimulationTab();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
         tabs.getTabs().add(simulationTab);
-        tabs.setPrefHeight(1017);
-        tabs.setPrefWidth(1920);
+        tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
         Scene scene = new Scene(tabs);
         primaryStage.setTitle("SchoolPlanner");

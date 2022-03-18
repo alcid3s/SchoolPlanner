@@ -1,6 +1,7 @@
 package data.tilted;
 
 import data.Schedule;
+import data.Target;
 import data.rooms.*;
 import org.jfree.fx.FXGraphics2D;
 
@@ -15,6 +16,7 @@ public class TiledMap {
     private TiledImageLayer collisionLayer;
     private Point2D studentSpawn;
     private Point2D teacherSpawn;
+    private Target t;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
@@ -25,14 +27,9 @@ public class TiledMap {
             if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
                 if(layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
                     collisionLayer = new TiledImageLayer(layer.asJsonObject());
+                    System.out.println(collisionLayer);
                 } else {
                     TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
-
-                    JsonArray layerData = layer.asJsonObject().getJsonArray("data");
-                    for (int i = 0; i < layerData.size(); i++) {
-                        int data = layerData.getInt(i);
-                        tiledLayer.addValue(data, i % tiledLayer.getWidth(), (i / tiledLayer.getWidth()));
-                    }
                     imageLayers.add(tiledLayer);
                     System.out.println(tiledLayer);
                 }
@@ -53,6 +50,8 @@ public class TiledMap {
             TiledSetManager.getInstance().addTiledImageSet(new TiledImageSet(tileSet.asJsonObject()));
         });
         initSpawns();
+
+        t = new Target(getStudentSpawn(), collisionLayer);
 
     }
 
@@ -94,7 +93,6 @@ public class TiledMap {
     }
 
     public void draw(FXGraphics2D graphics) {
-
         for(TiledImageLayer layer : imageLayers) {
             layer.draw(graphics);
         }
