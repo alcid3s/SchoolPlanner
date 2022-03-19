@@ -48,9 +48,11 @@ public class TiledMap {
             TiledSetManager.getInstance().addTiledImageSet(new TiledImageSet(tileSet.asJsonObject()));
         });
 
-        roomLayer.getObjects().forEach(tiledObject -> {
-            Schedule.getInstance().addRoom(createNewRoom(tiledObject));
-        });
+        if(roomLayer != null) {
+            roomLayer.getObjects().forEach(tiledObject -> {
+                Schedule.getInstance().addRoom(createNewRoom(tiledObject));
+            });
+        }
         initSpawns();
 
     }

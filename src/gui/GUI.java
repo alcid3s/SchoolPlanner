@@ -23,12 +23,14 @@ public class GUI extends Application {
         SimulationTab simulationTab = new SimulationTab();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
         tabs.getTabs().add(simulationTab);
-        tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
         Scene scene = new Scene(tabs);
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+
 
         primaryStage.show();
 

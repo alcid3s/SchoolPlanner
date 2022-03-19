@@ -94,6 +94,7 @@ public class SimulationTab extends Tab implements Resizable {
             totalFrames = 0;
         }
 
+        long millis = System.nanoTime();
         g2d.setTransform(new AffineTransform());
         g2d.setBackground(Color.BLACK);
         g2d.setClip(null);
@@ -116,6 +117,10 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
         g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
+
+        millis = System.nanoTime() - millis;
+        if(millis/1000000.0 > 1)
+            System.out.println("Total took " + millis/1000000.0 + " ms");
 
 //        if(!this.groupList.isEmpty()) {
 //            for (Group group : this.groupList) {

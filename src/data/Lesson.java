@@ -116,4 +116,8 @@ public class Lesson implements Comparable, Serializable {
     public String getJsonString() {
         return name + ";" + room.getName() + ";" + teacher.getName() + ";" + group.getName() + ";" + startDate.toString() + ";" + endDate.toString();
     }
+
+    public boolean notNull() {
+        return this.room != null && this.teacher != null && this.group != null;
+    }
 }
