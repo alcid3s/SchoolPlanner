@@ -1,7 +1,7 @@
 package data.tilted;
 
 import data.Schedule;
-import data.Target;
+import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
 import org.jfree.fx.FXGraphics2D;
 
@@ -75,7 +75,7 @@ public class TiledMap {
             }
         }
         System.out.println(location);
-        Target t = new Target(location, collisionLayer);
+        MapTarget t = new MapTarget(location, collisionLayer);
         if(name.toLowerCase().contains("la") || name.toLowerCase().contains("zaal")) {
             return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }

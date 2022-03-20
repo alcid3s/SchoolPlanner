@@ -1,12 +1,10 @@
 package data.rooms;
 
-import data.Target;
+import data.tilted.pathfinding.target.MapTarget;
 import data.persons.Person;
-import data.persons.Student;
 import data.tilted.TiledImageLayer;
 import data.tilted.TiledMap;
 import data.tilted.TiledObject;
-import data.tilted.TiledObjectLayer;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -17,7 +15,7 @@ public abstract class Room implements Comparable, Serializable {
     private TiledMap map;
     private String name;
     private int capacity;
-    private Target target;
+    private MapTarget target;
     private int x;
     private int y;
     private int width;
@@ -27,7 +25,7 @@ public abstract class Room implements Comparable, Serializable {
     private HashMap<Point, Boolean> teacherChairs;
 
 
-    public Room(TiledMap map, String name, int capacity, Target target, Point location, int x, int y, int width, int height) {
+    public Room(TiledMap map, String name, int capacity, MapTarget target, Point location, int x, int y, int width, int height) {
         this.map = map;
         this.name = name;
         this.capacity = capacity;
@@ -96,7 +94,7 @@ public abstract class Room implements Comparable, Serializable {
         return tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height;
     }
 
-    public Target getTarget() {
+    public MapTarget getTarget() {
         return target;
     }
 

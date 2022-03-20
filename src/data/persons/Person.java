@@ -1,17 +1,12 @@
 package data.persons;
 
 import data.Schedule;
-import data.Target;
 import data.rooms.Room;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.imageio.ImageIO;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;

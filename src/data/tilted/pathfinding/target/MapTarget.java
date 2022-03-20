@@ -1,4 +1,4 @@
-package data;
+package data.tilted.pathfinding.target;
 
 import data.tilted.TiledImageLayer;
 import data.tilted.TiledSetManager;
@@ -15,10 +15,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public class Target {
+public class MapTarget implements Target{
     private int tileXLocation;
     private int tileYLocation;
-    private int[][] reached;
+    public int[][] reached;
 
     public static final HashMap<RenderingHints.Key, Object> RenderingProperties = new HashMap<>();
 
@@ -28,7 +28,7 @@ public class Target {
         RenderingProperties.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
-    public Target(Point location, TiledImageLayer collisionLayer) {
+    public MapTarget(Point location, TiledImageLayer collisionLayer) {
         tileXLocation = location.x;
         tileYLocation = location.y;
         Pair<Integer, Integer> start = new Pair<>(tileXLocation, tileYLocation);
@@ -152,5 +152,37 @@ public class Target {
         }
 
         return pointToReturn;
+    }
+
+    public int getTileXLocation() {
+        return tileXLocation;
+    }
+
+    public void setTileXLocation(int tileXLocation) {
+        this.tileXLocation = tileXLocation;
+    }
+
+    public int getTileYLocation() {
+        return tileYLocation;
+    }
+
+    public void setTileYLocation(int tileYLocation) {
+        this.tileYLocation = tileYLocation;
+    }
+
+    public int[][] getReached() {
+        return reached;
+    }
+
+    public void setReached(int[][] reached) {
+        this.reached = reached;
+    }
+
+    public HashMap<Integer, BufferedImage> getImages() {
+        return images;
+    }
+
+    public void setImages(HashMap<Integer, BufferedImage> images) {
+        this.images = images;
     }
 }
