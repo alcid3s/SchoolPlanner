@@ -72,4 +72,8 @@ public class TiledObject {
     public JsonObject getJsonObject() {
         return jsonObject;
     }
+
+    public boolean isInObject(int tileX, int tileY) {
+        return tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height;
+    }
 }

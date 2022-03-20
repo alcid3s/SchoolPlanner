@@ -1,7 +1,10 @@
 package data.persons;
+import com.sun.xml.internal.ws.api.model.wsdl.editable.EditableWSDLFault;
+import data.Schedule;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -15,6 +18,7 @@ public class Student extends Person {
 
     public Student(String name) {
         super(name, getImages());
+        target = Schedule.getInstance().getRoomList().get(new Random().nextInt(Schedule.getInstance().getRoomList().size()));
 
     }
 
@@ -35,7 +39,7 @@ public class Student extends Person {
         if(isSpawned()) {
             if (getSprites() != null) {
                 AffineTransform tx = graphics.getTransform();
-                tx.translate(getPosition().getX(), getPosition().getY());
+                tx.translate(getPosition().getX() - 16, getPosition().getY() - 16);
                 graphics.drawImage(getSprites()[0], tx, null);
             }
         }
@@ -44,7 +48,26 @@ public class Student extends Person {
     @Override
     public void update(double deltaTime) {
         if(isSpawned()){
-            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - 200 * deltaTime));
+            if(target != null && !target.isInRoom(this)) {
+                int tileX = (int) Math.floor(getPosition().getX() / 32);
+                int tileY = (int) Math.floor(getPosition().getY() / 32);
+
+                Point direction = target.getTarget().getDirection(tileX, tileY);
+                Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
+                Point2D neededToMove = new Point2D.Double(goTo.getX() - getPosition().getX(), goTo.getY() - getPosition().getY());
+                neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0,0) * speed, neededToMove.getY() / neededToMove.distance(0,0) * speed);
+
+                double angleTo = Math.atan2(neededToMove.getY(), neededToMove.getX());
+                double aDiff = angleTo - angle;
+                while(aDiff < -Math.PI) {
+                    aDiff += 2 * Math.PI;
+                }
+                while(aDiff > Math.PI) {
+                    aDiff -= 2 * Math.PI;
+                }
+                //System.out.println("Needed to move: " + neededToMove.getX() + " " + neededToMove.getY());
+                setPosition(new Point2D.Double(getPosition().getX() + (neededToMove.getX() * deltaTime), getPosition().getY() + (neededToMove.getY() * deltaTime)));
+            }
         }
     }
 

@@ -1,34 +1,38 @@
 package gui.tabs;
 
+import data.tilted.TiledMap;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import org.jfree.fx.ResizableCanvas;
+
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 public class Camera{
-    private Point2D centerPoint = new Point2D.Double(0,0);
+    private Point2D centerPoint;
     private float zoom = 0.75f;
     private double rotation = 0;
     private Point2D lastMousePos;
-    private Resizable resizable;
+    private SimulationTab tab;
     private FXGraphics2D g2d;
+    private Node clickEvents;
 
-    public Camera(Canvas canvas, Resizable resizable, FXGraphics2D g2d){
-        this.resizable = resizable;
-        this.g2d = g2d;
-
-        canvas.setOnMousePressed(e -> this.lastMousePos = new Point2D.Double(e.getX(), e.getY()));
-        canvas.setOnMouseDragged(e -> mouseDragged(e));
-        canvas.setOnScroll(e -> mouseScroll(e));
+    public Camera(SimulationTab tab){
+        this.clickEvents = tab.getPane();
+        this.tab = tab;
+        centerPoint = new Point2D.Double(0,0);
+        clickEvents.setOnMousePressed(e -> this.lastMousePos = new Point2D.Double(e.getX(), e.getY()));
+        clickEvents.setOnMouseDragged(e -> mouseDragged(e));
+        clickEvents.setOnScroll(e -> mouseScroll(e));
     }
 
-    public AffineTransform getTransform(int windowWidth, int windowHeight)  {
+    public AffineTransform getTransform()  {
         AffineTransform tx = new AffineTransform();
-        tx.translate(windowWidth/2, windowHeight/2);
         tx.scale(zoom, zoom);
         tx.translate(centerPoint.getX(), centerPoint.getY());
         tx.rotate(rotation);
@@ -42,15 +46,15 @@ public class Camera{
                     centerPoint.getY() - (lastMousePos.getY() - e.getY()) / zoom
             );
             lastMousePos = new Point2D.Double(e.getX(), e.getY());
-            resizable.draw(g2d);
+            tab.setUpdateBackground(true);
         }
     }
 
     public void mouseScroll(ScrollEvent e){
         float zoom = this.zoom * (float)(1 + e.getDeltaY() / 500.0f);
-        if(zoom > 0.42258725 && zoom < 1.1535156){
+        if(zoom > 0.42258725 && zoom < 1.1535156 || true){
             this.zoom = zoom;
-            resizable.draw(g2d);
+            tab.setUpdateBackground(true);
         }
     }
 }

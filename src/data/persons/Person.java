@@ -1,6 +1,8 @@
 package data.persons;
 
 import data.Schedule;
+import data.Target;
+import data.rooms.Room;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.imageio.ImageIO;
@@ -14,6 +16,9 @@ import java.util.Objects;
 public abstract class Person implements Comparable, Serializable {
     private String name;
     private BufferedImage[] sprites;
+    public Room target;
+    public double angle;
+    public double speed;
     private boolean isSpawned;
     private Point2D position;
 
@@ -21,6 +26,8 @@ public abstract class Person implements Comparable, Serializable {
     public Person(String name, BufferedImage[] sprites){
         this.name = name;
         this.sprites = sprites;
+        this.angle = 0;
+        this.speed = 200;
     }
 
     public String getName(){

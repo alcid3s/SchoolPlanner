@@ -402,10 +402,15 @@
       "name":"Rooms",
       "objects":[
         {
-          "height":253.333333333333,
+          "height":254.333333333333,
           "id":50,
           "name":"LA137",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"65,26"
+            },
             {
               "name":"size",
               "type":"int",
@@ -414,8 +419,8 @@
           "rotation":0,
           "type":"",
           "visible":true,
-          "width":504,
-          "x":2052,
+          "width":506.5,
+          "x":2049.5,
           "y":608
         },
         {
@@ -423,6 +428,11 @@
           "id":51,
           "name":"Xplora",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"93,33"
+            },
             {
               "name":"size",
               "type":"int",
@@ -441,6 +451,11 @@
           "name":"Xplora1",
           "properties":[
             {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"90,12"
+            },
+            {
               "name":"size",
               "type":"int",
               "value":14
@@ -457,6 +472,11 @@
           "id":54,
           "name":"LA135",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"47,26"
+            },
             {
               "name":"size",
               "type":"int",
@@ -475,6 +495,11 @@
           "name":"CollegeHall",
           "properties":[
             {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"46,12"
+            },
+            {
               "name":"size",
               "type":"int",
               "value":60
@@ -491,6 +516,11 @@
           "id":56,
           "name":"LA124",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"24,16"
+            },
             {
               "name":"size",
               "type":"int",
@@ -509,6 +539,11 @@
           "name":"Canteen",
           "properties":[
             {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"38,38"
+            },
+            {
               "name":"size",
               "type":"int",
               "value":144
@@ -525,6 +560,11 @@
           "id":58,
           "name":"LA136",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"65,40"
+            },
             {
               "name":"size",
               "type":"int",
@@ -543,6 +583,11 @@
           "name":"LA134",
           "properties":[
             {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"47,40"
+            },
+            {
               "name":"size",
               "type":"int",
               "value":24
@@ -560,6 +605,11 @@
           "name":"TeacherRoom",
           "properties":[
             {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"38,12"
+            },
+            {
               "name":"size",
               "type":"int",
               "value":26
@@ -576,6 +626,11 @@
           "id":63,
           "name":"Xplora2",
           "properties":[
+            {
+              "name":"centerLocation",
+              "type":"string",
+              "value":"97,12"
+            },
             {
               "name":"size",
               "type":"int",
@@ -761,7 +816,7 @@
       "y":0
     }],
   "nextlayerid":8,
-  "nextobjectid":65,
+  "nextobjectid":67,
   "orientation":"orthogonal",
   "renderorder":"right-down",
   "tiledversion":"1.8.1",

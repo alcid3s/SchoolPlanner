@@ -28,9 +28,9 @@ public class Target {
         RenderingProperties.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
-    public Target(Point2D location, TiledImageLayer collisionLayer) {
-        tileXLocation = (int) (location.getX()/32);
-        tileYLocation = (int) (location.getY()/32);
+    public Target(Point location, TiledImageLayer collisionLayer) {
+        tileXLocation = location.x;
+        tileYLocation = location.y;
         Pair<Integer, Integer> start = new Pair<>(tileXLocation, tileYLocation);
 
         Queue<Pair<Integer,Integer>> frontier = new LinkedList<>();
@@ -61,7 +61,6 @@ public class Target {
                 }
             }
         }
-        print();
     }
     public void print() {
         for(int i = 0; i < reached.length; i++) {
@@ -130,5 +129,28 @@ public class Target {
         g2d.dispose();
 
         return img;
+    }
+
+    public Point getDirection(int tileX, int tileY) {
+        ArrayList<Point> directions = new ArrayList<>(Arrays.asList(new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)));
+
+        Point pointToReturn = new Point(0,0);
+        if(tileY > 0 && reached.length > tileY && tileX > 0 && reached[tileY].length > tileX) {
+            int current = reached[tileY][tileX];
+            for (Point p : directions) {
+                Point newPoint = new Point(tileX + p.x, tileY + p.y);
+                /*if(newPoint.x < 0 || newPoint.x > reached[newPoint.y].length || newPoint.y < 0 || newPoint.y > reached.length) {
+                    continue;
+                }*/
+                if (newPoint.y > 0 && reached.length > newPoint.y && newPoint.x > 0 && reached[newPoint.y].length > newPoint.x) {
+                    if (reached[newPoint.y][newPoint.x] < current) {
+                        current = reached[newPoint.y][newPoint.x];
+                        pointToReturn = p;
+                    }
+                }
+            }
+        }
+
+        return pointToReturn;
     }
 }

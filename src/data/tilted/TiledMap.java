@@ -6,6 +6,7 @@ import data.rooms.*;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.*;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -15,14 +16,18 @@ public class TiledMap {
     private ArrayList<TiledObjectLayer> objectLayers;
     private TiledImageLayer collisionLayer;
     private TiledObjectLayer roomLayer;
-    private Point2D studentSpawn;
-    private Point2D teacherSpawn;
+    private Point studentSpawn;
+    private Point teacherSpawn;
+    private int height;
+    private int width;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
         JsonObject object = jsonReader.readObject();
         imageLayers = new ArrayList<>();
         objectLayers = new ArrayList<>();
+        this.height = object.getInt("height") * 32;
+        this.width = object.getInt("width") * 32;
         object.getJsonArray("layers").forEach(layer -> {
             if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
                 if(layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
@@ -60,24 +65,30 @@ public class TiledMap {
     private Room createNewRoom(TiledObject objectLayer) {
         String name = objectLayer.getName();
         int size = 0;
-        Target t = new Target(getCenterLocation(Optional.of(objectLayer)), collisionLayer);
+        Point location = new Point(0,0);
         for(JsonValue ob : objectLayer.getJsonObject().getJsonArray("properties")) {
             if(ob.asJsonObject().getString("name").equalsIgnoreCase("size"))
                 size = ob.asJsonObject().getInt("value");
+            if(ob.asJsonObject().getString("name").equalsIgnoreCase("centerLocation")) {
+                String[] values = ob.asJsonObject().getString("value").split(",");
+                location = new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+            }
         }
+        System.out.println(location);
+        Target t = new Target(location, collisionLayer);
         if(name.toLowerCase().contains("la") || name.toLowerCase().contains("zaal")) {
-            return new Classroom(name, size, t);
+            return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
         if(name.toLowerCase().contains("xplora")) {
-            return new Xplora(name, size, t);
+            return new Xplora(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
         if(name.toLowerCase().contains("teacher")) {
-            return new TeacherRoom(name, size, t);
+            return new TeacherRoom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
         if(name.toLowerCase().contains("canteen")) {
-            return new Canteen(name, size, t);
+            return new Canteen(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        return new Classroom(name,size, t);
+        return new Classroom(this, name,size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
 
     }
 
@@ -86,12 +97,12 @@ public class TiledMap {
         teacherSpawn = getCenterLocation(getObject("teacherSpawn"));
     }
 
-    public Point2D getCenterLocation(Optional<TiledObject> objectOptional) {
+    public Point getCenterLocation(Optional<TiledObject> objectOptional) {
         if(objectOptional.isPresent()) {
             TiledObject object = objectOptional.get();
-            return new Point2D.Double(object.getX() + (object.getWidth() / 2), object.getY() + (object.getHeight() / 2));
+            return new Point(object.getX() + (object.getWidth() / 2), object.getY() + (object.getHeight() / 2));
         } else {
-            return new Point2D.Double(0,0);
+            return new Point(0,0);
         }
     }
 
@@ -138,5 +149,17 @@ public class TiledMap {
 
     public Point2D getTeacherSpawn() {
         return teacherSpawn;
+    }
+
+    public TiledObjectLayer getRoomLayer() {
+        return roomLayer;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
