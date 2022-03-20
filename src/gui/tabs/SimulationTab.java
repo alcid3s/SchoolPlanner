@@ -3,6 +3,7 @@ package gui.tabs;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
+import data.rooms.Room;
 import data.tilted.TiledMap;
 import data.tilted.pathfinding.SpawnGroup;
 import javafx.animation.AnimationTimer;
@@ -139,6 +140,7 @@ public class SimulationTab extends Tab implements Resizable {
                 student.draw(g2d);
             }
         }
+        g2d.setColor(Color.BLUE);
        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
 
         //DRAW FPS COUNTER
@@ -146,6 +148,7 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
         g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
+
 
         millis = System.nanoTime() - millis;
         if(millis/1000000.0 > 5)

@@ -57,4 +57,32 @@ public class Camera{
             tab.setUpdateBackground(true);
         }
     }
+
+    public Point2D getCenterPoint() {
+        return centerPoint;
+    }
+
+    public float getZoom() {
+        return zoom;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public Point2D getLastMousePos() {
+        return lastMousePos;
+    }
+
+    public SimulationTab getTab() {
+        return tab;
+    }
+
+    public FXGraphics2D getG2d() {
+        return g2d;
+    }
+
+    public Node getClickEvents() {
+        return clickEvents;
+    }
 }

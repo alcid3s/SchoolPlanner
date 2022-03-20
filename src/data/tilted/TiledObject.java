@@ -74,6 +74,7 @@ public class TiledObject {
     }
 
     public boolean isInObject(int tileX, int tileY) {
+        System.out.println("TiledObject -> Is in object: " + (tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height) + " " + tileX + " " + tileY + " " + x + " " + y + " " + width + " " + height);
         return tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height;
     }
 }

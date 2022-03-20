@@ -15,35 +15,25 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public class MapTarget implements Target{
-    private int tileXLocation;
-    private int tileYLocation;
-    public int[][] reached;
+public class MapTarget extends Target {
 
     public static final HashMap<RenderingHints.Key, Object> RenderingProperties = new HashMap<>();
 
-    static{
+    static {
         RenderingProperties.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         RenderingProperties.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         RenderingProperties.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
 
     public MapTarget(Point location, TiledImageLayer collisionLayer) {
-        tileXLocation = location.x;
-        tileYLocation = location.y;
+        super(location, collisionLayer,collisionLayer.getWidth(), collisionLayer.getHeight());
         Pair<Integer, Integer> start = new Pair<>(tileXLocation, tileYLocation);
 
         Queue<Pair<Integer,Integer>> frontier = new LinkedList<>();
         frontier.offer(start);
-        reached = new int[collisionLayer.getHeight()][collisionLayer.getWidth()];
         System.out.println("Created 2d map with [" + collisionLayer.getHeight() + "] [" + collisionLayer.getWidth() + "]");
         System.out.println("Collision layer bounds: ");
         collisionLayer.print2DMapValues();
-        for(int i = 0; i < collisionLayer.getHeight(); i++) {
-            for(int j = 0; j < collisionLayer.getWidth(); j++) {
-                reached[i][j] = Integer.MAX_VALUE;
-            }
-        }
         reached[start.getValue()][start.getKey()] = 0;
 
         ArrayList<Pair<Integer,Integer>> valuesToAdd = new ArrayList<>(Arrays.asList(new Pair<>(1, 0), new Pair<>(-1,0), new Pair<>(0,1), new Pair<>(0,-1)));
@@ -60,19 +50,6 @@ public class MapTarget implements Target{
                     }
                 }
             }
-        }
-    }
-    public void print() {
-        for(int i = 0; i < reached.length; i++) {
-            for(int j = 0; j < reached[i].length; j++) {
-                int value = reached[i][j];
-                if(value == Integer.MAX_VALUE) {
-                    System.out.print("-1\t");
-                } else {
-                    System.out.print(value + "\t");
-                }
-            }
-            System.out.println();
         }
     }
 
@@ -139,9 +116,6 @@ public class MapTarget implements Target{
             int current = reached[tileY][tileX];
             for (Point p : directions) {
                 Point newPoint = new Point(tileX + p.x, tileY + p.y);
-                /*if(newPoint.x < 0 || newPoint.x > reached[newPoint.y].length || newPoint.y < 0 || newPoint.y > reached.length) {
-                    continue;
-                }*/
                 if (newPoint.y > 0 && reached.length > newPoint.y && newPoint.x > 0 && reached[newPoint.y].length > newPoint.x) {
                     if (reached[newPoint.y][newPoint.x] < current) {
                         current = reached[newPoint.y][newPoint.x];

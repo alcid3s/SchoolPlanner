@@ -1,8 +1,10 @@
 package data.tilted;
 
 import data.Schedule;
+import data.persons.Person;
 import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
+import data.tilted.pathfinding.target.TargetCallback;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.*;

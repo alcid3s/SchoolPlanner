@@ -2,6 +2,7 @@ package data.persons;
 
 import data.Schedule;
 import data.rooms.Room;
+import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.geom.Point2D;
@@ -11,25 +12,25 @@ import java.io.Serializable;
 public abstract class Person implements Comparable, Serializable {
     private String name;
     private BufferedImage[] sprites;
-    public Room target;
+    public Target target;
     public double angle;
     public double speed;
     private boolean isSpawned;
     private Point2D position;
 
 
-    public Person(String name, BufferedImage[] sprites){
+    public Person(String name, BufferedImage[] sprites) {
         this.name = name;
         this.sprites = sprites;
         this.angle = 0;
         this.speed = 200;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
         Schedule.getInstance().sort();
     }
