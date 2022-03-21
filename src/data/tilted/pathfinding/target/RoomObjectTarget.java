@@ -25,10 +25,10 @@ public class RoomObjectTarget extends Target {
         this.tileRoomX = room.getX()/32;
         this.tileRoomY = room.getY()/32;
 
-        System.out.println("Created 2d map with [" + reached.length + "] [" + reached[0].length + "]");
+        //System.out.println("Created 2d map with [" + reached.length + "] [" + reached[0].length + "]");
 
         Pair<Integer, Integer> start = new Pair<>(tileXLocation, tileYLocation);
-        System.out.println("Start position: " + start.getKey() + " " + start.getValue());
+        //System.out.println("Start position: " + start.getKey() + " " + start.getValue());
 
         Queue<Pair<Integer,Integer>> frontier = new LinkedList<>();
         frontier.offer(start);
@@ -53,12 +53,13 @@ public class RoomObjectTarget extends Target {
                 }
             }
         }
-        print();
+        //print();
     }
 
 
     public Point getDirection(int tileX, int tileY) {
         if(room.isInRoom(tileX,tileY)) {
+            System.out.println("in room");
             tileX = tileX - tileRoomX;
             tileY = tileY - tileRoomY;
             ArrayList<Point> directions = new ArrayList<>(Arrays.asList(new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)));

@@ -17,17 +17,17 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class Room implements Comparable, Serializable {
-    private TiledMap map;
-    private String name;
-    private int capacity;
-    private MapTarget target;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-    private Point location;
-    private ArrayList<UsableObject> studentsChairs;
-    private ArrayList<UsableObject> teacherChairs;
+    protected TiledMap map;
+    protected String name;
+    protected int capacity;
+    protected MapTarget target;
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected Point location;
+    protected ArrayList<UsableObject> studentsChairs;
+    protected ArrayList<UsableObject> teacherChairs;
 
 
     public Room(TiledMap map, String name, int capacity, MapTarget target, Point location, int x, int y, int width, int height) {
@@ -40,26 +40,19 @@ public abstract class Room implements Comparable, Serializable {
         this.width = width;
         this.height = height;
         this.location = location;
+        System.out.println("\n\n\n\n\n----name " + name);
 
         initChairs();
     }
 
-    private void initChairs() {
+    public void initChairs() {
         studentsChairs = new ArrayList<>();
         teacherChairs = new ArrayList<>();
 
         Optional<TiledImageLayer> layerOptional = map.getLayer("Chairs");
-        Optional<TiledObject> roomOptional;
-        if(this instanceof Classroom) {
-            roomOptional = map.getObject("student" + name);
-        }
-        else {
-            roomOptional = map.getObject(name);
-        }
-        if(roomOptional.isPresent() && layerOptional.isPresent()) {
+        if(layerOptional.isPresent()) {
             System.out.println("Loading chairs...");
             TiledImageLayer layer = layerOptional.get();
-            TiledObject room = roomOptional.get();
             System.out.println("Room start point: " + name + " " + x/32 + " " + y/32);
 
             int xTile = (int) Math.floor(x/32);
@@ -68,19 +61,14 @@ public abstract class Room implements Comparable, Serializable {
             int heightTile = (int) Math.floor(height/32);
             for(int i = xTile; i <= xTile + widthTile; i++) {
                 for(int j = yTile; j <= yTile + heightTile; j++) {
-                    System.out.println(room.getName() + " " + i + " " + j);
+                    //System.out.println(room.getName() + " " + i + " " + j);
                     if(layer.getValues()[i][j] == 0) {
                         continue;
                     }
                     if(isInRoom(i,j)) {
-                        Point p = new Point(i,j);
                         Point pTile = new Point(i - xTile,j - yTile);
                         UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32);
-                        if(room.isInObject(i,j)) {
-                            studentsChairs.add(object);
-                        } else {
-                            teacherChairs.add(object);
-                        }
+                        studentsChairs.add(object);
                     }
                 }
             }
@@ -88,11 +76,10 @@ public abstract class Room implements Comparable, Serializable {
             System.out.println("Could not find Chairs layer or room with name: student" + name + " (" + name + ")");
             return;
         }
+
         System.out.println("Room: " + name);
         System.out.println("\t(x,y) " + x + " , " + y + " (width,height) " + width + " , " + height + " <- Whole room");
-        System.out.println("\t(x,y) " + roomOptional.get().getX() + " , " + roomOptional.get().getY() + " (width,height) " + roomOptional.get().getWidth() + " , " + roomOptional.get().getHeight() + " <- Students room");
         System.out.println("\tStudents: " + studentsChairs.size() + "\n\tTeachers: " + teacherChairs.size());
-
     }
 
     public Optional<UsableObject> getFreeChair(Person p) {
@@ -138,7 +125,7 @@ public abstract class Room implements Comparable, Serializable {
     }
 
     public boolean isInRoom(int tileX, int tileY) {
-        return tileX * 32 >= x && Math.floor(tileX * 32) <= x + width && Math.floor(tileY * 32) >= y && Math.floor(tileY * 32) <= y + height;
+        return tileX * 32 > x && Math.floor(tileX * 32) < x + width && Math.floor(tileY * 32) > y && Math.floor(tileY * 32) < y + height;
     }
 
     public MapTarget getTarget() {

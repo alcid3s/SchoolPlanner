@@ -3,11 +3,11 @@ package data.tilted;
 import javax.json.JsonObject;
 
 public class TiledObject {
-    private String name;
-    private int height;
-    private int width;
-    private int x;
-    private int y;
+    public String name;
+    public int height;
+    public int width;
+    public int x;
+    public int y;
 
     private String text;
     private String color;
@@ -74,7 +74,7 @@ public class TiledObject {
     }
 
     public boolean isInObject(int tileX, int tileY) {
-        System.out.println("TiledObject -> Is in object: " + (tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height) + " " + tileX + " " + tileY + " " + x + " " + y + " " + width + " " + height);
+        //System.out.println("TiledObject -> Is in object: " + (tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height) + " " + tileX + " " + tileY + " " + x + " " + y + " " + width + " " + height);
         return tileX * 32 >= x && tileX * 32 <= x + width && tileY * 32 >= y && tileY * 32 <= y + height;
     }
 }

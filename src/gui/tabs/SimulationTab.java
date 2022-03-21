@@ -112,7 +112,7 @@ public class SimulationTab extends Tab implements Resizable {
         updateBackground = false;
 
         millis = System.nanoTime() - millis;
-        if(millis > 1.0)
+        if(millis > 5.0)
             System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
 
     }

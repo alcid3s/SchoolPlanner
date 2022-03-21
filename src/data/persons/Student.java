@@ -23,7 +23,7 @@ public class Student extends Person {
     public Student(String name) {
         super(name, getImages());
         Room r = Schedule.getInstance().getRoomList().get(new Random().nextInt(Schedule.getInstance().getRoomList().size()));
-        //Room r = Schedule.getInstance().getRoom("LA137");
+        //Room r = Schedule.getInstance().getRoom("Xplora4Kamer");
         Optional<UsableObject> object = r.getFreeChair(this);
         if(object.isPresent()) {
             target = object.get().getTarget();
@@ -65,7 +65,6 @@ public class Student extends Person {
                 int tileX = (int) Math.floor(getPosition().getX() / 32);
                 int tileY = (int) Math.floor(getPosition().getY() / 32);
                 if(!target.isAtTarget(tileX, tileY)) {
-
                     Point direction = target.getDirection(tileX, tileY);
                     if(direction.x != 0 || direction.y != 0) {
                         Point2D neededToMove = calculateMovement(direction, tileX,tileY);
@@ -116,6 +115,7 @@ public class Student extends Person {
         while (aDiff > Math.PI) {
             aDiff -= 2 * Math.PI;
         }
+        angle = angleTo;
         return neededToMove;
     }
 }
