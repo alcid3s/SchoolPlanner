@@ -59,7 +59,6 @@ public class RoomObjectTarget extends Target {
 
     public Point getDirection(int tileX, int tileY) {
         if(room.isInRoom(tileX,tileY)) {
-            System.out.println("in room");
             tileX = tileX - tileRoomX;
             tileY = tileY - tileRoomY;
             ArrayList<Point> directions = new ArrayList<>(Arrays.asList(new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)));
