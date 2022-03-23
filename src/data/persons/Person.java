@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;
-    private BufferedImage[] sprites;
+    private final BufferedImage[] sprites;
     public Target target;
     public double angle;
     public double speed;

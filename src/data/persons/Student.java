@@ -1,5 +1,5 @@
 package data.persons;
-import com.sun.xml.internal.ws.api.model.wsdl.editable.EditableWSDLFault;
+
 import data.Schedule;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
@@ -15,10 +15,11 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
-
 import java.util.Scanner;
 
 public class Student extends Person {
+    private int animationCounter = 0;
+    private Point direction;
 
     public Student(String name) {
         super(name, getImages());
@@ -32,14 +33,19 @@ public class Student extends Person {
         } else {
             System.out.println("Student -> Target not found! (Room: " + r.getName() + ")");
         }
-
     }
 
     private static BufferedImage[] getImages() {
         try {
-            BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("student.png")));
-            BufferedImage[] sprites = new BufferedImage[totalImage.getWidth()/32];
-            sprites[0] = totalImage.getSubimage(0,0,32,32);
+            BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
+            BufferedImage[] sprites = new BufferedImage[48 * 3];
+            int counter = 0;
+            for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < 3; x++) {
+                    sprites[counter] = totalImage.getSubimage(x * 48,y * 48,48, 48);
+                    counter++;
+                }
+            }
             return sprites;
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,9 +59,41 @@ public class Student extends Person {
             if (getSprites() != null) {
                 AffineTransform tx = graphics.getTransform();
                 tx.translate(getPosition().getX() - 16, getPosition().getY() - 16);
-                graphics.drawImage(getSprites()[0], tx, null);
+
+                // System.out.println(this.direction);
+                if(this.direction != null) {
+                    if (this.direction.x == 0 && this.direction.y == -1) {
+                        drawAnimation(graphics, tx, 1);
+                    } else if (this.direction.x == 1 && this.direction.y == 0) {
+                        drawAnimation(graphics, tx, 2);
+                    } else if (this.direction.x == -1 && this.direction.y == 0) {
+                        drawAnimation(graphics, tx, 3);
+                    } else if (this.direction.x == 0 && this.direction.y == 1) {
+                        drawAnimation(graphics, tx, 4);
+                    } else {
+                        drawAnimation(graphics, tx, 5);
+                    }
+                }else{
+                    drawAnimation(graphics, tx, 5);
+                }
             }
         }
+    }
+
+    private void drawAnimation(FXGraphics2D graphics, AffineTransform tx, int state) {
+        if(state == 1 && this.animationCounter >= 11 || state == 1 && this.animationCounter < 9){
+            this.animationCounter = 9;
+        }else if(state == 2 && this.animationCounter >= 8 || state == 2 && this.animationCounter < 6){
+            this.animationCounter = 6;
+        }else if(state == 3 && this.animationCounter >= 5 || state == 3 && this.animationCounter < 3){
+            this.animationCounter = 3;
+        }else if(state == 4 && this.animationCounter >= 2 || state == 4 && this.animationCounter < 0){
+            this.animationCounter = 0;
+        }else if(state == 5){
+            this.animationCounter = 0;
+        }
+        graphics.drawImage(getSprites()[animationCounter], tx, null);
+        animationCounter++;
     }
 
     @Override
@@ -65,13 +103,14 @@ public class Student extends Person {
                 int tileX = (int) Math.floor(getPosition().getX() / 32);
                 int tileY = (int) Math.floor(getPosition().getY() / 32);
                 if(!target.isAtTarget(tileX, tileY)) {
-                    Point direction = target.getDirection(tileX, tileY);
+                    this.direction = target.getDirection(tileX, tileY);
                     if(direction.x != 0 || direction.y != 0) {
                         Point2D neededToMove = calculateMovement(direction, tileX,tileY);
                         move(neededToMove, deltaTime);
                     }
                 } else {
                     target = null;
+                    this.direction = null;
                 }
             }
         }

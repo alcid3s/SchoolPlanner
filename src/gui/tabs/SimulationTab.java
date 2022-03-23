@@ -82,7 +82,7 @@ public class SimulationTab extends Tab implements Resizable {
         if(timer > -0.1) {
             timer -= deltaTime;
         }
-        //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+       // groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
                 if (!student.isSpawned()) {
