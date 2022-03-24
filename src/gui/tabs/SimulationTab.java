@@ -18,6 +18,7 @@ import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.time.LocalTime;
 import java.util.List;
 
 public class SimulationTab extends Tab implements Resizable {
@@ -36,6 +37,11 @@ public class SimulationTab extends Tab implements Resizable {
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
     private int totalFrames = 0;
+
+    private static boolean flag = false;
+    private static int fastForward = 1;
+    private static LocalTime clock = LocalTime.of(8, 0,0);
+
 
 
 
@@ -117,6 +123,21 @@ public class SimulationTab extends Tab implements Resizable {
 
     }
 
+    private static void updateClock(FXGraphics2D g2d, Canvas canvas){
+        g2d.setTransform(new AffineTransform());
+        Shape clockSpace = new Rectangle((int) canvas.getHeight() - 300, (int) canvas.getWidth() - 300, (int) canvas.getHeight(), (int) canvas.getWidth());
+        g2d.setColor(Color.RED);
+        g2d.draw(clockSpace);
+        g2d.setColor(Color.YELLOW);
+
+        if(flag){
+            clock = clock.plusMinutes(fastForward);
+            flag = false;
+        }
+
+        g2d.drawString(String.valueOf(clock), (int) canvas.getWidth()-90, (int) canvas.getHeight() - 150);
+    }
+
     @Override
     public void draw(FXGraphics2D g2d) {
         //FPS COUNTER
@@ -125,6 +146,7 @@ public class SimulationTab extends Tab implements Resizable {
             lastFPSCheck = System.nanoTime();
             currentFPS = totalFrames;
             totalFrames = 0;
+            flag = true;
         }
         if(updateBackground) {
             drawBackground(gBackground);
@@ -149,6 +171,7 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
         g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
 
+        updateClock(g2d, this.canvas);
 
         millis = System.nanoTime() - millis;
         if(millis/1000000.0 > 5)
