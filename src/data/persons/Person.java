@@ -41,7 +41,7 @@ public abstract class Person implements Comparable, Serializable {
     public void spawn(Point2D position) {
         if(!isSpawned()) {
             setSpawned(true);
-            setPosition(new Point2D.Double(position.getX() - sprites[0].getWidth()/2, position.getY() - sprites[0].getWidth()/2));
+            setPosition(new Point2D.Double(position.getX() - sprites[0].getWidth()/2, position.getY() - sprites[0].getHeight()/2));
         }
     }
 

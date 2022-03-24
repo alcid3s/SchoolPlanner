@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class Student extends Person {
     private int animationCounter = 0;
     private Point direction;
+    private static final int size  = 32;
 
     public Student(String name) {
         super(name, getImages());
@@ -38,11 +39,11 @@ public class Student extends Person {
     private static BufferedImage[] getImages() {
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
-            BufferedImage[] sprites = new BufferedImage[48 * 3];
+            BufferedImage[] sprites = new BufferedImage[size * 3];
             int counter = 0;
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 3; x++) {
-                    sprites[counter] = totalImage.getSubimage(x * 48,y * 48,48, 48);
+                    sprites[counter] = totalImage.getSubimage(x * size,y * size,size, size);
                     counter++;
                 }
             }
@@ -58,7 +59,7 @@ public class Student extends Person {
         if(isSpawned()) {
             if (getSprites() != null) {
                 AffineTransform tx = graphics.getTransform();
-                tx.translate(getPosition().getX() - 16, getPosition().getY() - 16);
+                tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
 
                 // System.out.println(this.direction);
                 if(this.direction != null) {
