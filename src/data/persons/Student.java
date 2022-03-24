@@ -4,6 +4,7 @@ import data.Schedule;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
 import org.jfree.fx.FXGraphics2D;
+import tasks.IdleTask;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -98,7 +99,10 @@ public class Student extends Person {
 
     @Override
     public void update(double deltaTime) {
-
+        if(task == null) {
+            task = new IdleTask(this);
+        }
+        task.update(deltaTime);
     }
 
 

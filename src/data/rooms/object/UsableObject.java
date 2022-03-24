@@ -17,9 +17,11 @@ public class UsableObject {
     private int y;
     private int width;
     private int height;
+    private Room r;
 
     public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height) {
         this.users = new ArrayList<>();
+        this.r = r;
         this.maxUsers = maxUsers;
         this.x = loc.x;
         this.y = loc.y;
@@ -41,7 +43,9 @@ public class UsableObject {
     }
 
     public boolean isInsideUsableRange(int x, int y) {
-        return x >= this.x && x <= this.x + width && y >= this.y && y <= this.y + height;
+        int realX = this.x * 32 + r.getX();
+        int realY = this.y * 32 + r.getY();
+        return (x >= realX && y >= realY && x <= realX + width && y <= realY + height);
     }
 
     public boolean isFree() {
@@ -81,12 +85,24 @@ public class UsableObject {
     }
 
     public void check(Person p) {
-        if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
+        if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()) && !users.contains(p)) {
             users.add(p);
         }
     }
 
     public void update() {
         users.removeIf(p -> !isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()));
+    }
+
+    @Override
+    public String toString() {
+        return "UsableObject{" +
+                "target=" + target +
+                ", maxUsers=" + maxUsers +
+                ", x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                '}';
     }
 }

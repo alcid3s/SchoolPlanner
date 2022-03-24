@@ -32,9 +32,11 @@ public class IdleTask extends Task {
 
     private void getRoomAndObject(Class<? extends Room> c) {
         int i = 0;
+        room = null;
+        usableObject = null;
         while(room == null || usableObject == null) {
             i++;
-            room = Room.getRandomRoom(Xplora.class);
+            room = Room.getRandomRoom(c);
             if(room != null) {
                 usableObject = room.getFreeChair(p).orElse(null);
             }
@@ -47,12 +49,12 @@ public class IdleTask extends Task {
     @Override
     public void update(double deltaTime) {
         if(room == null || usableObject == null) {
-            return;
+            createNewTask();
         }
         timer-= deltaTime;
+        usableObject.check(p);
         if(usableObject.isFree() && !usableObject.isUsingEvent(p) && !usableObject.getTarget().isAtTarget(p)) {
             p.goCloserToTarget(usableObject.getTarget(), deltaTime);
-            usableObject.check(p);
         } else {
             if(!usableObject.isFree() && !usableObject.isUsingEvent(p)) {
                 Optional<UsableObject> objectOptional = room.getFreeChair(p);
