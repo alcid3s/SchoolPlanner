@@ -41,7 +41,7 @@ public abstract class Room implements Comparable, Serializable {
         this.width = width;
         this.height = height;
         this.location = location;
-        System.out.println("\n\n\n\n\n----name " + name);
+        System.out.println("\n----name " + name);
 
         initChairs();
     }

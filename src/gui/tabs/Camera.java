@@ -25,7 +25,7 @@ public class Camera{
     public Camera(SimulationTab tab){
         this.clickEvents = tab.getPane();
         this.tab = tab;
-        centerPoint = new Point2D.Double(0,0);
+        centerPoint = new Point2D.Double(-tab.getCanvas().getWidth()/2,-tab.getCanvas().getHeight()/2);
         clickEvents.setOnMousePressed(e -> this.lastMousePos = new Point2D.Double(e.getX(), e.getY()));
         clickEvents.setOnMouseDragged(e -> mouseDragged(e));
         clickEvents.setOnScroll(e -> mouseScroll(e));
@@ -33,6 +33,7 @@ public class Camera{
 
     public AffineTransform getTransform()  {
         AffineTransform tx = new AffineTransform();
+        tx.translate(tab.getCanvas().getWidth()/2,tab.getCanvas().getHeight()/2);
         tx.scale(zoom, zoom);
         tx.translate(centerPoint.getX(), centerPoint.getY());
         tx.rotate(rotation);

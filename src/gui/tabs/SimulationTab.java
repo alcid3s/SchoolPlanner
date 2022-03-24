@@ -3,9 +3,7 @@ package gui.tabs;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
-import data.rooms.Room;
 import data.tilted.TiledMap;
-import data.tilted.pathfinding.SpawnGroup;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
@@ -13,11 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.time.LocalTime;
 import java.util.List;
 

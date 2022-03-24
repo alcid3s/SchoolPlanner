@@ -88,15 +88,6 @@ public abstract class Person implements Comparable, Serializable {
         Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
         Point2D neededToMove = new Point2D.Double(goTo.getX() - getPosition().getX(), goTo.getY() - getPosition().getY());
         neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0, 0) * speed, neededToMove.getY() / neededToMove.distance(0, 0) * speed);
-        double angleTo = Math.atan2(neededToMove.getY(), neededToMove.getX());
-        double aDiff = angleTo - angle;
-        while (aDiff < -Math.PI) {
-            aDiff += 2 * Math.PI;
-        }
-        while (aDiff > Math.PI) {
-            aDiff -= 2 * Math.PI;
-        }
-        angle = angleTo;
         return neededToMove;
     }
 

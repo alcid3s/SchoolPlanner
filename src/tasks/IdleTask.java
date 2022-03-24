@@ -3,6 +3,7 @@ package tasks;
 import data.persons.Person;
 import data.rooms.Canteen;
 import data.rooms.Room;
+import data.rooms.Toilet;
 import data.rooms.Xplora;
 import data.rooms.object.UsableObject;
 
@@ -11,6 +12,7 @@ import java.util.Random;
 
 public class IdleTask extends Task {
     private double timer;
+    private double maxTimeToMove;
 
     public IdleTask(Person p) {
         super(p, null, null);
@@ -18,15 +20,17 @@ public class IdleTask extends Task {
 
     private void createNewTask() {
         Random random = new Random();
-        timer = 30 + random.nextInt(20);
+        timer = 10 + random.nextInt(20);
+        maxTimeToMove = 30;
 
-        switch (random.nextInt(2)) {
-            case 0:
-                getRoomAndObject(Xplora.class);
-                break;
-            case 1:
-                getRoomAndObject(Canteen.class);
-                break;
+        int value = random.nextInt(11);
+        if(value <= 6) {
+            getRoomAndObject(Xplora.class);
+        } else if(value <= 9) {
+            getRoomAndObject(Canteen.class);
+        } else {
+            getRoomAndObject(Toilet.class);
+            timer = random.nextInt(8);
         }
     }
 
@@ -50,8 +54,12 @@ public class IdleTask extends Task {
     public void update(double deltaTime) {
         if(room == null || usableObject == null) {
             createNewTask();
+            return;
         }
-        timer-= deltaTime;
+        maxTimeToMove-= deltaTime;
+        if(usableObject.isUsingEvent(p)) {
+            timer -= deltaTime;
+        }
         usableObject.check(p);
         if(usableObject.isFree() && !usableObject.isUsingEvent(p) && !usableObject.getTarget().isAtTarget(p)) {
             p.goCloserToTarget(usableObject.getTarget(), deltaTime);
@@ -65,7 +73,7 @@ public class IdleTask extends Task {
                 }
             }
         }
-        if(timer <= 0) {
+        if(timer <= 0 || maxTimeToMove <= 0) {
             createNewTask();
         }
     }

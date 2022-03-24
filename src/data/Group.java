@@ -28,13 +28,13 @@ public class Group implements Comparable, Serializable {
         this.name = values[0];
         this.size = Integer.parseInt(values[1]);
         for(int i = 0; i < size; i++) {
-            this.students.add(new Student(Student.getRandomName()));
+            this.students.add(new Student(Names.getInstance().getRandomName()));
         }
     }
 
     public void addNewStudent(){
         this.size++;
-        this.students.add(new Student(Student.getRandomName()));
+        this.students.add(new Student(Names.getInstance().getRandomName()));
     }
 
     public ArrayList<Person> getStudents(){

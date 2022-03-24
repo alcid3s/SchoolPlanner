@@ -23,18 +23,6 @@ public class Student extends Person {
 
     public Student(String name) {
         super(name, getImages());
-        Room r = Schedule.getInstance().getRoomList().get(new Random().nextInt(Schedule.getInstance().getRoomList().size()));
-        //Room r = Schedule.getInstance().getRoom("Xplora4Kamer");
-        Optional<UsableObject> object = r.getFreeChair(this);
-/*
-        if(object.isPresent()) {
-            target = object.get().getTarget();
-            System.out.println("Student -> Found Target! (Room: " + r.getName() + ")");
-            target.print();
-        } else {
-            System.out.println("Student -> Target not found! (Room: " + r.getName() + ")");
-        }
-*/
     }
 
     private static BufferedImage[] getImages() {
@@ -105,28 +93,6 @@ public class Student extends Person {
             task = new IdleTask(this);
         }
         task.update(deltaTime);
-    }
-
-
-    //TODO Make more Efficient. Singleton Class which reads the names 1 time and not again for every student.
-    public static String getRandomName() {
-        File file = new File("src/Names.txt");
-        Random random = new Random();
-        int pos = random.nextInt(1081);
-        try {
-            Scanner scanner = new Scanner(file);
-
-            for (int i = 0; i < pos - 1; i++) {
-                scanner.nextLine();
-            }
-            String name = scanner.nextLine();
-            scanner.close();
-
-            return name;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
     }
 
 }
