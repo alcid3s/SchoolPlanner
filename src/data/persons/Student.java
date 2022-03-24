@@ -27,7 +27,7 @@ public class Student extends Person {
         Room r = Schedule.getInstance().getRoomList().get(new Random().nextInt(Schedule.getInstance().getRoomList().size()));
         //Room r = Schedule.getInstance().getRoom("Xplora4Kamer");
         Optional<UsableObject> object = r.getFreeChair(this);
-        if(object.isPresent()) {
+        if (object.isPresent()) {
             target = object.get().getTarget();
             System.out.println("Student -> Found Target! (Room: " + r.getName() + ")");
             target.print();
@@ -44,7 +44,7 @@ public class Student extends Person {
             int counter = 0;
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 3; x++) {
-                    sprites[counter] = totalImage.getSubimage(x * size,y * size,size, size);
+                    sprites[counter] = totalImage.getSubimage(x * size, y * size, size, size);
                     counter++;
                 }
             }
@@ -57,13 +57,13 @@ public class Student extends Person {
 
     @Override
     public void draw(FXGraphics2D graphics) {
-        if(isSpawned()) {
+        if (isSpawned()) {
             if (getSprites() != null) {
                 AffineTransform tx = graphics.getTransform();
                 tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
 
                 // System.out.println(this.direction);
-                if(this.direction != null) {
+                if (this.direction != null) {
                     if (this.direction.x == 0 && this.direction.y == -1) {
                         drawAnimation(graphics, tx, Facing.NORTH);
                     } else if (this.direction.x == 1 && this.direction.y == 0) {
@@ -75,7 +75,7 @@ public class Student extends Person {
                     } else {
                         drawAnimation(graphics, tx, Facing.STATIONARY);
                     }
-                }else{
+                } else {
                     drawAnimation(graphics, tx, Facing.STATIONARY);
                 }
             }
@@ -83,15 +83,15 @@ public class Student extends Person {
     }
 
     private void drawAnimation(FXGraphics2D graphics, AffineTransform tx, Facing state) {
-        if(state == Facing.NORTH && this.animationCounter >= 11 || state == Facing.NORTH && this.animationCounter < 9){
+        if (state == Facing.NORTH && this.animationCounter >= 11 || state == Facing.NORTH && this.animationCounter < 9) {
             this.animationCounter = 9;
-        }else if(state == Facing.EAST && this.animationCounter >= 8 || state == Facing.EAST && this.animationCounter < 6){
+        } else if (state == Facing.EAST && this.animationCounter >= 8 || state == Facing.EAST && this.animationCounter < 6) {
             this.animationCounter = 6;
-        }else if(state == Facing.SOUTH && this.animationCounter >= 5 || state == Facing.SOUTH && this.animationCounter < 3){
+        } else if (state == Facing.SOUTH && this.animationCounter >= 5 || state == Facing.SOUTH && this.animationCounter < 3) {
             this.animationCounter = 3;
-        }else if(state == Facing.WEST && this.animationCounter >= 2 || state == Facing.WEST && this.animationCounter < 0){
+        } else if (state == Facing.WEST && this.animationCounter >= 2 || state == Facing.WEST && this.animationCounter < 0) {
             this.animationCounter = 0;
-        }else if(state == Facing.STATIONARY){
+        } else if (state == Facing.STATIONARY) {
             this.animationCounter = 0;
         }
         graphics.drawImage(getSprites()[animationCounter], tx, null);
@@ -100,14 +100,14 @@ public class Student extends Person {
 
     @Override
     public void update(double deltaTime) {
-        if(isSpawned()) {
-            if(target != null) {
+        if (isSpawned()) {
+            if (target != null) {
                 int tileX = (int) Math.floor(getPosition().getX() / 32);
                 int tileY = (int) Math.floor(getPosition().getY() / 32);
-                if(!target.isAtTarget(tileX, tileY)) {
+                if (!target.isAtTarget(tileX, tileY)) {
                     this.direction = target.getDirection(tileX, tileY);
-                    if(direction.x != 0 || direction.y != 0) {
-                        Point2D neededToMove = calculateMovement(direction, tileX,tileY);
+                    if (direction.x != 0 || direction.y != 0) {
+                        Point2D neededToMove = calculateMovement(direction, tileX, tileY);
                         move(neededToMove, deltaTime);
                     }
                 } else {
@@ -118,7 +118,7 @@ public class Student extends Person {
         }
     }
 
-    public static String getRandomName(){
+    public static String getRandomName() {
         File file = new File("src/Names.txt");
         Random random = new Random();
         int pos = random.nextInt(1081);
@@ -126,14 +126,14 @@ public class Student extends Person {
         try {
             Scanner scanner = new Scanner(file);
 
-            for(int i = 0; i < pos - 1; i++){
+            for (int i = 0; i < pos - 1; i++) {
                 scanner.nextLine();
             }
             String name = scanner.nextLine();
             scanner.close();
 
             return name;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -141,7 +141,6 @@ public class Student extends Person {
 
     public void move(Point2D neededToMove, double deltaTime) {
         setPosition(new Point2D.Double(getPosition().getX() + (neededToMove.getX() * deltaTime), getPosition().getY() + (neededToMove.getY() * deltaTime)));
-
     }
 
     public Point2D calculateMovement(Point direction, int tileX, int tileY) {
