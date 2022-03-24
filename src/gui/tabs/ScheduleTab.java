@@ -32,6 +32,7 @@ public class ScheduleTab extends Tab{
 
     public ScheduleTab(Stage stage){
         super("Schedule");
+        Schedule.getInstance().setExample();
         setClosable(false);
         tab = this;
 
@@ -40,7 +41,7 @@ public class ScheduleTab extends Tab{
 
         if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
             canvas.setWidth(1920);
-            canvas.setHeight(935);
+            canvas.setHeight(1080);
         }else{
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
@@ -134,12 +135,14 @@ public class ScheduleTab extends Tab{
         int textLocation = (rectangle.width / 2) + xStart;
 
         //graphics.drawRect(textLocation, yStart+10, 150,25);
-        String time = leadingZero(startHour) + ":" + leadingZero(startMinute) + " - " + leadingZero(endHour) + ":" + leadingZero(endMinute);
-        graphics.drawString(time, textLocation - graphics.getFontMetrics().stringWidth(time)/2, yStart + 30);
-        graphics.drawString(lesson.getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getName())/2, yStart + 60);
-        graphics.drawString(lesson.getGroup().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getGroup().getName())/2, yStart + 90);
-        graphics.drawString(lesson.getRoom().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getRoom().getName())/2, yStart + 120);
-        graphics.drawString(lesson.getTeacher().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getTeacher().getName())/2, yStart + 150);
+        if(lesson.notNull()) {
+            String time = leadingZero(startHour) + ":" + leadingZero(startMinute) + " - " + leadingZero(endHour) + ":" + leadingZero(endMinute);
+            graphics.drawString(time, textLocation - graphics.getFontMetrics().stringWidth(time) / 2, yStart + 30);
+            graphics.drawString(lesson.getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getName()) / 2, yStart + 60);
+            graphics.drawString(lesson.getGroup().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getGroup().getName()) / 2, yStart + 90);
+            graphics.drawString(lesson.getRoom().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getRoom().getName()) / 2, yStart + 120);
+            graphics.drawString(lesson.getTeacher().getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getTeacher().getName()) / 2, yStart + 150);
+        }
     }
 
     private String leadingZero(int num){

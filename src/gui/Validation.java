@@ -24,7 +24,7 @@ public class Validation{
         }
     }
 
-    public static boolean sizeIsValid(Room room, Group group){
+    public static boolean sizeIsValid(Room room, Group group) {
         if(group.getSize() <= room.getCapacity()){
             return true;
         }

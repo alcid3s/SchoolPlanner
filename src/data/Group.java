@@ -10,16 +10,14 @@ public class Group implements Comparable, Serializable {
 
     private ArrayList<Person> students;
     private String name;
-    private String systemName;
     private int size;
 
     public Group(String name, int size){
         this.students = new ArrayList<>();
         this.name = name;
         this.size = size;
-        this.systemName = name + " (" + size + ")";
 
-        for(int i = 0; i < size; i++){
+        for(int i = 0; i < size; i++) {
             this.students.add(new Student(Student.getRandomName()));
         }
     }
@@ -29,8 +27,7 @@ public class Group implements Comparable, Serializable {
         String[] values = jsonData.split(";");
         this.name = values[0];
         this.size = Integer.parseInt(values[1]);
-        this.systemName = name + " (" + size + ")";
-        for(int i = 0; i < size; i++){
+        for(int i = 0; i < size; i++) {
             this.students.add(new Student(Student.getRandomName()));
         }
     }
@@ -50,12 +47,11 @@ public class Group implements Comparable, Serializable {
 
     public void setName(String name){
         this.name = name;
-        this.systemName = name + " (" + size + ")";
         Schedule.getInstance().sort();
     }
 
-    public String getSystemName(){
-        return this.systemName;
+    public String getSystemName() {
+        return  name + " (" + size + ")";
     }
 
     public int getSize(){
