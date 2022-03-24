@@ -4,6 +4,7 @@ import data.Schedule;
 import data.rooms.Room;
 import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
+import tasks.Task;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public abstract class Person implements Comparable, Serializable {
     private String name;
     private final BufferedImage[] sprites;
-    public Target target;
+    public Task task;
     public double angle;
     public double speed;
     private boolean isSpawned;

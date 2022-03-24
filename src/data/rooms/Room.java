@@ -1,5 +1,6 @@
 package data.rooms;
 
+import data.Schedule;
 import data.persons.Student;
 import data.persons.Teacher;
 import data.rooms.object.UsableObject;
@@ -155,5 +156,16 @@ public abstract class Room implements Comparable, Serializable {
         teacherChairs.forEach(o -> {
             o.update();
         });
+    }
+
+    public static Room getRandomRoom(Class<? extends Room> c) {
+        ArrayList<Room> rooms = new ArrayList<>(Schedule.getInstance().getRoomList());
+        Collections.shuffle(rooms);
+        for(Room room : rooms) {
+            if(c.isInstance(room)) {
+                return room;
+            }
+        }
+        return null;
     }
 }

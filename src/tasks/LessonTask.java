@@ -18,7 +18,7 @@ public class LessonTask extends Task {
 
     @Override
     public void update(double deltaTime) {
-        if(usableObject == null)
+        if(usableObject == null || room == null)
             return;
         if(usableObject.isFree() && !usableObject.isUsingEvent(p) && !usableObject.getTarget().isAtTarget(p)) {
             p.goCloserToTarget(usableObject.getTarget(), deltaTime);
