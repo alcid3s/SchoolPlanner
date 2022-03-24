@@ -1,5 +1,6 @@
 package gui;
 
+import data.Names;
 import gui.tabs.ScheduleTab;
 import gui.tabs.SimulationTab;
 import javafx.application.Application;
@@ -31,6 +32,7 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
+        Names.getInstance();
 
         primaryStage.show();
 

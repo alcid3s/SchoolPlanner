@@ -18,7 +18,7 @@ public class Group implements Comparable, Serializable {
         this.size = size;
 
         for(int i = 0; i < size; i++) {
-            this.students.add(new Student(Student.getRandomName()));
+            this.students.add(new Student(Names.getInstance().getRandomName()));
         }
     }
 
