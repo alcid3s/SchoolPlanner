@@ -1,5 +1,8 @@
 package data;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Names {
@@ -15,8 +18,16 @@ public class Names {
 
     public Names() {
         names = new ArrayList<>();
-        //TODO Read Names file, add every name to names arraylist.
-
+        try {
+            File file = new File(getClass().getResource("/Names.txt").toURI());
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String name = scanner.nextLine();
+                names.add(name);
+            }
+        } catch (FileNotFoundException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 
