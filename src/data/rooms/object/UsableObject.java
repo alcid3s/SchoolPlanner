@@ -31,7 +31,7 @@ public class UsableObject {
     }
 
     public boolean startUsingEvent(Person p) {
-        if(maxUsers > users.size()) {
+        if (maxUsers > users.size()) {
             users.add(p);
             return true;
         }
