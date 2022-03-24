@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Teacher extends Person {
     private Point direction = new Point(1, 1);
     private int animationCounter = 0;
+    private static final int size = 32;
 
     public Teacher(String name) {
         super(name, getImages());
@@ -21,11 +22,11 @@ public class Teacher extends Person {
     private static BufferedImage[] getImages() {
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
-            BufferedImage[] sprites = new BufferedImage[48 * 3];
+            BufferedImage[] sprites = new BufferedImage[size * 3];
             int counter = 0;
             for (int y = 4; y < 8; y++) {
                 for (int x = 6; x < 9; x++) {
-                    sprites[counter] = totalImage.getSubimage(x * 48, y * 48, 48, 48);
+                    sprites[counter] = totalImage.getSubimage(x * size, y * size, size, size);
                     counter++;
                 }
             }
@@ -41,7 +42,7 @@ public class Teacher extends Person {
         if (isSpawned()) {
             if (getSprites() != null) {
                 AffineTransform tx = graphics.getTransform();
-                tx.translate(getPosition().getX() - 16, getPosition().getY() - 16);
+                tx.translate(getPosition().getX() - (size/2), getPosition().getY() - (size/2));
 
                 // System.out.println(this.direction);
                 if (this.direction.x == 0 && this.direction.y == -1) {
