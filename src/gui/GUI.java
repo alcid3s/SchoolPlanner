@@ -34,8 +34,6 @@ public class GUI extends Application {
 
         primaryStage.show();
 
-        primaryStage.setOnCloseRequest(e -> {
-            Platform.exit();
-        });
+        primaryStage.setOnCloseRequest(e -> Platform.exit());
     }
 }

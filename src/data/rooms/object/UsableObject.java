@@ -34,7 +34,7 @@ public class UsableObject {
     }
 
     public boolean startUsingEvent(Person p) {
-        if(maxUsers > users.size()) {
+        if (maxUsers > users.size()) {
             users.add(p);
             return true;
         }
@@ -43,11 +43,10 @@ public class UsableObject {
 
     public void update() {
         users.forEach(p -> {
-            if(!isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
+            if (!isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
                 stopUsingEvent(p);
             }
         });
-
     }
 
     public boolean isInsideUsableRange(int x, int y) {

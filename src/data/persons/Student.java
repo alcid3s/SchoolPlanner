@@ -36,13 +36,14 @@ public class Student extends Person {
     }
 
     private static BufferedImage[] getImages() {
+        final int size = 48;
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
             BufferedImage[] sprites = new BufferedImage[48 * 3];
             int counter = 0;
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 3; x++) {
-                    sprites[counter] = totalImage.getSubimage(x * 48,y * 48,48, 48);
+                    sprites[counter] = totalImage.getSubimage(x * size,y * size,size, size);
                     counter++;
                 }
             }
@@ -63,33 +64,33 @@ public class Student extends Person {
                 // System.out.println(this.direction);
                 if(this.direction != null) {
                     if (this.direction.x == 0 && this.direction.y == -1) {
-                        drawAnimation(graphics, tx, 1);
+                        drawAnimation(graphics, tx, Facing.NORTH);
                     } else if (this.direction.x == 1 && this.direction.y == 0) {
-                        drawAnimation(graphics, tx, 2);
+                        drawAnimation(graphics, tx, Facing.EAST);
                     } else if (this.direction.x == -1 && this.direction.y == 0) {
-                        drawAnimation(graphics, tx, 3);
+                        drawAnimation(graphics, tx, Facing.SOUTH);
                     } else if (this.direction.x == 0 && this.direction.y == 1) {
-                        drawAnimation(graphics, tx, 4);
+                        drawAnimation(graphics, tx, Facing.WEST);
                     } else {
-                        drawAnimation(graphics, tx, 5);
+                        drawAnimation(graphics, tx, Facing.STATIONARY);
                     }
                 }else{
-                    drawAnimation(graphics, tx, 5);
+                    drawAnimation(graphics, tx, Facing.STATIONARY);
                 }
             }
         }
     }
 
-    private void drawAnimation(FXGraphics2D graphics, AffineTransform tx, int state) {
-        if(state == 1 && this.animationCounter >= 11 || state == 1 && this.animationCounter < 9){
+    private void drawAnimation(FXGraphics2D graphics, AffineTransform tx, Facing state) {
+        if(state == Facing.NORTH && this.animationCounter >= 11 || state == Facing.NORTH && this.animationCounter < 9){
             this.animationCounter = 9;
-        }else if(state == 2 && this.animationCounter >= 8 || state == 2 && this.animationCounter < 6){
+        }else if(state == Facing.EAST && this.animationCounter >= 8 || state == Facing.EAST && this.animationCounter < 6){
             this.animationCounter = 6;
-        }else if(state == 3 && this.animationCounter >= 5 || state == 3 && this.animationCounter < 3){
+        }else if(state == Facing.SOUTH && this.animationCounter >= 5 || state == Facing.SOUTH && this.animationCounter < 3){
             this.animationCounter = 3;
-        }else if(state == 4 && this.animationCounter >= 2 || state == 4 && this.animationCounter < 0){
+        }else if(state == Facing.WEST && this.animationCounter >= 2 || state == Facing.WEST && this.animationCounter < 0){
             this.animationCounter = 0;
-        }else if(state == 5){
+        }else if(state == Facing.STATIONARY){
             this.animationCounter = 0;
         }
         graphics.drawImage(getSprites()[animationCounter], tx, null);
