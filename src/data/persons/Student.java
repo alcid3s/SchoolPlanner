@@ -37,7 +37,7 @@ public class Student extends Person {
     }
 
     private static BufferedImage[] getImages() {
-        final int size = 48;
+        final int size = 32;
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
             BufferedImage[] sprites = new BufferedImage[size * 3];
