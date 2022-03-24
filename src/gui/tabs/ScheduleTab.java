@@ -41,7 +41,7 @@ public class ScheduleTab extends Tab{
 
         if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
             canvas.setWidth(1920);
-            canvas.setHeight(1080);
+            canvas.setHeight(900);
         }else{
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
