@@ -32,8 +32,6 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
-        Names.getInstance();
-
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(e -> {

@@ -24,7 +24,6 @@ public class Names {
             while (scanner.hasNextLine()) {
                 String name = scanner.nextLine();
                 names.add(name);
-                System.out.println(name);
             }
         } catch (FileNotFoundException | URISyntaxException e) {
             e.printStackTrace();
