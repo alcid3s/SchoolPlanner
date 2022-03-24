@@ -18,8 +18,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Student extends Person {
-    private int animationCounter = 0;
-    private Point direction;
 
     public Student(String name) {
         super(name, getImages());
@@ -116,7 +114,9 @@ public class Student extends Person {
         }
     }
 
-    public static String getRandomName(){
+
+    //TODO Make more Efficient. Singleton Class which reads the names 1 time and not again for every student.
+    public static String getRandomName() {
         File file = new File("src/Names.txt");
         Random random = new Random();
         int pos = random.nextInt(1081);
@@ -137,24 +137,4 @@ public class Student extends Person {
         }
     }
 
-    public void move(Point2D neededToMove, double deltaTime) {
-        setPosition(new Point2D.Double(getPosition().getX() + (neededToMove.getX() * deltaTime), getPosition().getY() + (neededToMove.getY() * deltaTime)));
-
-    }
-
-    public Point2D calculateMovement(Point direction, int tileX, int tileY) {
-        Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
-        Point2D neededToMove = new Point2D.Double(goTo.getX() - getPosition().getX(), goTo.getY() - getPosition().getY());
-        neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0, 0) * speed, neededToMove.getY() / neededToMove.distance(0, 0) * speed);
-        double angleTo = Math.atan2(neededToMove.getY(), neededToMove.getX());
-        double aDiff = angleTo - angle;
-        while (aDiff < -Math.PI) {
-            aDiff += 2 * Math.PI;
-        }
-        while (aDiff > Math.PI) {
-            aDiff -= 2 * Math.PI;
-        }
-        angle = angleTo;
-        return neededToMove;
-    }
 }

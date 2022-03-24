@@ -95,6 +95,9 @@ public class SimulationTab extends Tab implements Resizable {
                 }
             }
         }
+        Schedule.getInstance().getRoomList().forEach(room -> {
+            room.update(deltaTime);
+        });
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -147,7 +150,7 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
+        g2d.drawString(currentFPS + "",2, 25);
 
 
         millis = System.nanoTime() - millis;

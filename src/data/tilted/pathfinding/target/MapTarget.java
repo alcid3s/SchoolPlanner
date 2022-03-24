@@ -124,7 +124,6 @@ public class MapTarget extends Target {
                 }
             }
         }
-
         return pointToReturn;
     }
 

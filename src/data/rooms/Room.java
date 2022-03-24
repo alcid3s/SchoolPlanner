@@ -147,4 +147,13 @@ public abstract class Room implements Comparable, Serializable {
     public int getHeight() {
         return height;
     }
+
+    public void update(double deltaTime) {
+        studentsChairs.forEach(o -> {
+            o.update();
+        });
+        teacherChairs.forEach(o -> {
+            o.update();
+        });
+    }
 }

@@ -2,7 +2,6 @@ package data.rooms.object;
 
 import data.rooms.Room;
 import data.tilted.TiledImageLayer;
-import data.tilted.pathfinding.target.MapTarget;
 import data.persons.Person;
 import data.tilted.pathfinding.target.RoomObjectTarget;
 import data.tilted.pathfinding.target.Target;
@@ -29,10 +28,6 @@ public class UsableObject {
         target = new RoomObjectTarget(r, loc, collisionLayer);
     }
 
-    public void stopUsingEvent(Person p) {
-        users.remove(p);
-    }
-
     public boolean startUsingEvent(Person p) {
         if(maxUsers > users.size()) {
             users.add(p);
@@ -41,13 +36,8 @@ public class UsableObject {
         return false;
     }
 
-    public void update() {
-        users.forEach(p -> {
-            if(!isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
-                stopUsingEvent(p);
-            }
-        });
-
+    public boolean stopUsingEvent(Person p) {
+        return users.remove(p);
     }
 
     public boolean isInsideUsableRange(int x, int y) {
@@ -84,5 +74,19 @@ public class UsableObject {
 
     public int getHeight() {
         return height;
+    }
+
+    public boolean isUsingEvent(Person p) {
+        return users.contains(p);
+    }
+
+    public void check(Person p) {
+        if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
+            users.add(p);
+        }
+    }
+
+    public void update() {
+        users.removeIf(p -> !isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()));
     }
 }
