@@ -1,7 +1,6 @@
 package data.tilted.pathfinding.target;
 
 import data.tilted.TiledImageLayer;
-import data.tilted.TiledSetManager;
 import javafx.util.Pair;
 import org.jfree.fx.FXGraphics2D;
 
@@ -10,7 +9,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.*;

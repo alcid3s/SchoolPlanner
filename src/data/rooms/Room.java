@@ -8,13 +8,11 @@ import data.tilted.pathfinding.target.MapTarget;
 import data.persons.Person;
 import data.tilted.TiledImageLayer;
 import data.tilted.TiledMap;
-import data.tilted.TiledObject;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class Room implements Comparable, Serializable {

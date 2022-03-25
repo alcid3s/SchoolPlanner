@@ -1,6 +1,5 @@
 package gui;
 
-import data.Names;
 import gui.tabs.ScheduleTab;
 import gui.tabs.SimulationTab;
 import javafx.application.Application;
