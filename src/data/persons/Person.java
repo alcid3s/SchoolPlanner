@@ -2,7 +2,6 @@ package data.persons;
 
 import data.Animation;
 import data.Schedule;
-import data.rooms.Room;
 import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 import tasks.Task;
@@ -10,7 +9,6 @@ import tasks.Task;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public abstract class Person implements Comparable, Serializable {

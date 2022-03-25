@@ -3,8 +3,6 @@ package data;
 import data.persons.Facing;
 
 import java.awt.image.BufferedImage;
-import java.lang.management.BufferPoolMXBean;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Animation {

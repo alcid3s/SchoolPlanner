@@ -3,7 +3,6 @@ package tasks;
 import data.persons.Person;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
-import data.tilted.pathfinding.target.Target;
 
 public abstract class Task {
     protected Person p;

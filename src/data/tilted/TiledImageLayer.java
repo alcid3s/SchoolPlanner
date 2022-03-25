@@ -4,12 +4,9 @@ import org.jfree.fx.FXGraphics2D;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TiledImageLayer {
     private int width;

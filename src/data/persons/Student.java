@@ -1,18 +1,10 @@
 package data.persons;
 
 import data.Animation;
-import data.Schedule;
-import data.rooms.Room;
-import data.rooms.object.UsableObject;
-import org.jfree.fx.FXGraphics2D;
 import tasks.IdleTask;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 

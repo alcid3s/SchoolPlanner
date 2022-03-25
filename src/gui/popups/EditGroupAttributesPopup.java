@@ -1,8 +1,6 @@
 package gui.popups;
 
 import data.Group;
-import data.rooms.Classroom;
-import data.rooms.Room;
 import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;

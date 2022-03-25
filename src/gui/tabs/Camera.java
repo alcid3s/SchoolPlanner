@@ -1,14 +1,10 @@
 package gui.tabs;
 
-import data.tilted.TiledMap;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
