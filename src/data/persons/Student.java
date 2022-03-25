@@ -1,5 +1,6 @@
 package data.persons;
 
+import data.Animation;
 import data.Schedule;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
@@ -13,84 +14,46 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Student extends Person {
-    private static final int size  = 32;
 
     public Student(String name) {
-        super(name, getImages());
+        super(name, getAnimation());
     }
 
-    private static BufferedImage[] getImages() {
+    private static Animation getAnimation() {
         final int size = 32;
+        Animation animation = new Animation(3);
+        ArrayList<Facing> faces = new ArrayList<>(Arrays.asList(Facing.SOUTH, Facing.WEST, Facing.EAST, Facing.NORTH));
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
-            BufferedImage[] sprites = new BufferedImage[size * 3];
-            int counter = 0;
+            //BufferedImage[] sprites = new BufferedImage[size * 3];
             for (int y = 0; y < 4; y++) {
+                BufferedImage[] sprites = new BufferedImage[3];
                 for (int x = 0; x < 3; x++) {
-                    sprites[counter] = totalImage.getSubimage(x * size, y * size, size, size);
-                    counter++;
+                    sprites[x] = totalImage.getSubimage(x * size, y * size, size, size);
+                }
+                animation.setFacing(faces.get(y), sprites);
+                if(faces.get(y).equals(Facing.SOUTH)) {
+                    animation.setFacing(Facing.STATIONARY, sprites);
                 }
             }
-            return sprites;
+            return animation;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    @Override
-    public void draw(FXGraphics2D graphics) {
-        if (isSpawned()) {
-            if (getSprites() != null) {
-                AffineTransform tx = graphics.getTransform();
-                tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
-
-                // System.out.println(this.direction);
-                if (this.direction != null) {
-                    if (this.direction.x == 0 && this.direction.y == -1) {
-                        drawAnimation(graphics, tx, Facing.NORTH);
-                    } else if (this.direction.x == 1 && this.direction.y == 0) {
-                        drawAnimation(graphics, tx, Facing.EAST);
-                    } else if (this.direction.x == -1 && this.direction.y == 0) {
-                        drawAnimation(graphics, tx, Facing.SOUTH);
-                    } else if (this.direction.x == 0 && this.direction.y == 1) {
-                        drawAnimation(graphics, tx, Facing.WEST);
-                    } else {
-                        drawAnimation(graphics, tx, Facing.STATIONARY);
-                    }
-                } else {
-                    drawAnimation(graphics, tx, Facing.STATIONARY);
-                }
-            }
-        }
-    }
-
-    private void drawAnimation(FXGraphics2D graphics, AffineTransform tx, Facing state) {
-        if (state == Facing.NORTH && this.animationCounter >= 11 || state == Facing.NORTH && this.animationCounter < 9) {
-            this.animationCounter = 9;
-        } else if (state == Facing.EAST && this.animationCounter >= 8 || state == Facing.EAST && this.animationCounter < 6) {
-            this.animationCounter = 6;
-        } else if (state == Facing.SOUTH && this.animationCounter >= 5 || state == Facing.SOUTH && this.animationCounter < 3) {
-            this.animationCounter = 3;
-        } else if (state == Facing.WEST && this.animationCounter >= 2 || state == Facing.WEST && this.animationCounter < 0) {
-            this.animationCounter = 0;
-        } else if (state == Facing.STATIONARY) {
-            this.animationCounter = 0;
-        }
-        graphics.drawImage(getSprites()[animationCounter], tx, null);
-        animationCounter++;
-    }
 
     @Override
     public void update(double deltaTime) {
         if(task == null) {
             task = new IdleTask(this);
+        }
+        if(direction != null) {
+            animation.update(deltaTime, Facing.getFacing(direction));
         }
         task.update(deltaTime);
     }

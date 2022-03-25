@@ -1,5 +1,6 @@
 package data.persons;
 
+import data.Animation;
 import data.Schedule;
 import data.rooms.Room;
 import data.tilted.pathfinding.target.Target;
@@ -7,13 +8,15 @@ import org.jfree.fx.FXGraphics2D;
 import tasks.Task;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;
-    private final BufferedImage[] sprites;
+    public Animation animation;
+    public final int size;
     public Task task;
     public double angle;
     public double speed;
@@ -23,11 +26,12 @@ public abstract class Person implements Comparable, Serializable {
     public Point direction;
 
 
-    public Person(String name, BufferedImage[] sprites) {
+    public Person(String name, Animation animation) {
         this.name = name;
-        this.sprites = sprites;
+        this.animation = animation;
         this.angle = 0;
         this.speed = 200;
+        this.size = this.animation.getImage().getWidth();
     }
 
     public String getName() {
@@ -39,13 +43,19 @@ public abstract class Person implements Comparable, Serializable {
         Schedule.getInstance().sort();
     }
 
-    public abstract void draw(FXGraphics2D graphics);
+    public void draw(FXGraphics2D graphics) {
+        if (isSpawned()) {
+            AffineTransform tx = graphics.getTransform();
+            tx.translate(getPosition().getX() - (size / 2.0), getPosition().getY() - (size / 2.0));
+            graphics.drawImage(animation.getImage(), tx, null);
+        }
+    }
     public abstract void update(double deltaTime);
 
     public void spawn(Point2D position) {
         if(!isSpawned()) {
             setSpawned(true);
-            setPosition(new Point2D.Double(position.getX() - sprites[0].getWidth()/2, position.getY() - sprites[0].getHeight()/2));
+            setPosition(new Point2D.Double(position.getX() - size/2, position.getY() - size/2));
         }
     }
 
@@ -80,9 +90,6 @@ public abstract class Person implements Comparable, Serializable {
         this.position = position;
     }
 
-    public BufferedImage[] getSprites() {
-        return sprites;
-    }
 
     public Point2D calculateMovement(Point direction, int tileX, int tileY) {
         Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
@@ -105,7 +112,6 @@ public abstract class Person implements Comparable, Serializable {
                 move(neededToMove, deltaTime);
             }
         } else {
-            target = null;
             this.direction = null;
         }
     }

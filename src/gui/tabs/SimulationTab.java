@@ -1,5 +1,6 @@
 package gui.tabs;
 
+import data.Clock;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
@@ -38,11 +39,14 @@ public class SimulationTab extends Tab implements Resizable {
     private static int fastForward = 1;
     private static LocalTime clock = LocalTime.of(8, 0,0);
 
+    private Clock clockTime;
+
 
 
 
     public SimulationTab(){
         super("Simulation");
+        clockTime = new Clock();
         map = new TiledMap("School_Map.json");
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
@@ -84,7 +88,7 @@ public class SimulationTab extends Tab implements Resizable {
         if(timer > -0.1) {
             timer -= deltaTime;
         }
-        //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+        groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
                 if (!student.isSpawned()) {
@@ -100,6 +104,7 @@ public class SimulationTab extends Tab implements Resizable {
         Schedule.getInstance().getRoomList().forEach(room -> {
             room.update(deltaTime);
         });
+        clockTime.update(deltaTime);
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -115,26 +120,10 @@ public class SimulationTab extends Tab implements Resizable {
         map.draw(g);
 
         updateBackground = false;
-
         millis = System.nanoTime() - millis;
-        if(millis > 5.0)
+        if(millis > 6.0)
             System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
 
-    }
-
-    private static void updateClock(FXGraphics2D g2d, Canvas canvas){
-        g2d.setTransform(new AffineTransform());
-        Shape clockSpace = new Rectangle((int) canvas.getHeight() - 300, (int) canvas.getWidth() - 300, (int) canvas.getHeight(), (int) canvas.getWidth());
-        g2d.setColor(Color.RED);
-        g2d.draw(clockSpace);
-        g2d.setColor(Color.YELLOW);
-
-        if(flag){
-            clock = clock.plusMinutes(fastForward);
-            flag = false;
-        }
-
-        g2d.drawString(String.valueOf(clock), (int) canvas.getWidth()-90, (int) canvas.getHeight() - 150);
     }
 
     @Override
@@ -145,7 +134,6 @@ public class SimulationTab extends Tab implements Resizable {
             lastFPSCheck = System.nanoTime();
             currentFPS = totalFrames;
             totalFrames = 0;
-            flag = true;
         }
         if(updateBackground) {
             drawBackground(gBackground);
@@ -170,10 +158,10 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
         g2d.drawString(currentFPS + "",2, 25);
 
-        updateClock(g2d, this.canvas);
+        clockTime.draw(g2d, canvas);
 
         millis = System.nanoTime() - millis;
-        if(millis/1000000.0 > 5)
+        if(millis/1000000.0 > 6)
             System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
 
 //        if(!this.groupList.isEmpty()) {
