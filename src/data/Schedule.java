@@ -171,7 +171,7 @@ public class Schedule implements Serializable{
         teacherList.add(new Teacher("Etienne"));
         lessonList.add(new Lesson("WIS", getRoom("LA135"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
         lessonList.add(new Lesson("OGP", getRoom("CollegeHall"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
-        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Pieter"), getGroup("Proftaak A"), Util.makeTime("15", "05"), Util.makeTime("16", "00")));
+        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Etienne"), getGroup("Proftaak A"), Util.makeTime("12", "05"), Util.makeTime("16", "00")));
     }
 
     public boolean save(File file) {

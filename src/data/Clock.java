@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Clock {
+public class Clock implements Updatable{
     private int speed;
     private boolean check;
     private LocalTime time;
@@ -16,8 +16,8 @@ public class Clock {
     private ClockCallback callback;
 
     public Clock(ClockCallback callback){
-        check = false;
-        time = LocalTime.of(7, 45,0);
+        check = true;
+        time = LocalTime.of(5, 45,0);
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.callback = callback;
@@ -35,6 +35,7 @@ public class Clock {
         g2d.setTransform(transform);
     }
 
+    @Override
     public void update(double deltaTime) {
         if(time.getHour() >= 8 && time.getHour() < 16 && !check){
             check = true;

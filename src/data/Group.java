@@ -2,6 +2,8 @@ package data;
 
 import data.persons.Person;
 import data.persons.Student;
+import tasks.LessonTask;
+import tasks.Task;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,11 +13,13 @@ public class Group implements Comparable, Serializable {
     private ArrayList<Person> students;
     private String name;
     private int size;
+    private Task task;
 
     public Group(String name, int size){
         this.students = new ArrayList<>();
         this.name = name;
         this.size = size;
+        this.task = null;
 
         for(int i = 0; i < size; i++) {
             this.students.add(new Student(Names.getInstance().getRandomName()));
@@ -33,8 +37,11 @@ public class Group implements Comparable, Serializable {
     }
 
     public void addNewStudent(){
-        this.size++;
         this.students.add(new Student(Names.getInstance().getRandomName()));
+    }
+
+    public void removeStudent(){
+        this.students.remove(0);
     }
 
     public ArrayList<Person> getStudents(){
@@ -60,6 +67,15 @@ public class Group implements Comparable, Serializable {
 
     public void setSize(int size){
         this.size = size;
+        if(size < this.students.size()){
+            while(this.size != this.students.size()){
+                removeStudent();
+            }
+        }else if(size > this.students.size()){
+            while(this.size != this.students.size()){
+                addNewStudent();
+            }
+        }
     }
 
     @Override

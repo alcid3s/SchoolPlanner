@@ -137,6 +137,10 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
+    public void setTask(Task task){
+        this.task = task;
+    }
+
     public void leave() {
         this.task = new LeaveTask(this);
     }

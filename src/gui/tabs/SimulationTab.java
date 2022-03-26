@@ -1,9 +1,6 @@
 package gui.tabs;
 
-import data.Clock;
-import data.ClockCallback;
-import data.Group;
-import data.Schedule;
+import data.*;
 import data.persons.Person;
 import data.tilted.TiledMap;
 import javafx.animation.AnimationTimer;
@@ -13,13 +10,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import tasks.LessonTask;
+import tasks.Task;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationTab extends Tab implements Resizable, ClockCallback{
+public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback{
     private BorderPane mainPane;
     private Canvas canvas;
     private Canvas backgroundCanvas;
@@ -31,6 +31,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback{
     private List<Group> groupList;
     private Pane pane;
     private double timer = 0.5;
+    private List<Updatable> timers;
 
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
@@ -43,7 +44,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback{
 
     public SimulationTab(){
         super("Simulation");
-        clockTime = new Clock(this);
+        this.timers = new ArrayList<>();
+        this.timers.add(clockTime = new Clock(this));
         map = TiledMap.getInstance();
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
@@ -114,7 +116,18 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback{
             room.update(deltaTime);
         });
 
-        clockTime.update(deltaTime);
+        Schedule.getInstance().getLessonList().forEach(l ->{
+            if(l.getStartDate().toLocalTime().equals(clockTime.getTime())){
+                System.out.println("Lesson");
+                timers.add(new Timer(l.getName(), l.getEndDate().toLocalTime(), this,clockTime));
+                l.getGroup().getStudents().forEach(s -> {
+                    s.setTask(new LessonTask(s, l.getRoom()));
+                });
+                l.getTeacher().setTask(new LessonTask(l.getTeacher(), l.getRoom()));
+            }
+        });
+
+        this.timers.forEach(t -> t.update(deltaTime));
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -288,6 +301,16 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback{
                 t.leave();
             }
             t.setDoSpawn(false);
+        });
+    }
+
+    @Override
+    public void onEndOfClass(Timer source) {
+        Schedule.getInstance().getLessonList().forEach(l ->{
+            if(l.getName().equals(source.getName())){
+                l.getGroup().getStudents().forEach(s -> s.setTask(null));
+                l.getTeacher().setTask(null);
+            }
         });
     }
 }

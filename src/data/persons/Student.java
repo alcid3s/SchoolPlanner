@@ -2,6 +2,7 @@ package data.persons;
 
 import data.Animation;
 import tasks.IdleTask;
+import tasks.Task;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
