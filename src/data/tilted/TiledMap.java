@@ -3,6 +3,7 @@ package data.tilted;
 import data.Schedule;
 import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
+import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.*;
@@ -18,10 +19,13 @@ public class TiledMap {
     private TiledObjectLayer roomLayer;
     private Point studentSpawn;
     private Point teacherSpawn;
+    private MapTarget exitTarget;
     private int height;
     private int width;
+    private static TiledMap map;
 
     public TiledMap(String filename) {
+        map = this;
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
         JsonObject object = jsonReader.readObject();
         imageLayers = new ArrayList<>();
@@ -62,6 +66,13 @@ public class TiledMap {
 
     }
 
+    public static TiledMap getInstance(){
+        if(map == null){
+            map = new TiledMap("School_Map.json");
+        }
+        return map;
+    }
+
     private Room createNewRoom(TiledObject objectLayer) {
         String name = objectLayer.getName();
         int size = 0;
@@ -98,6 +109,9 @@ public class TiledMap {
     private void initSpawns() {
         studentSpawn = getCenterLocation(getObject("studentSpawn"));
         teacherSpawn = getCenterLocation(getObject("teacherSpawn"));
+        Point s = new Point((int)studentSpawn.getX() / 32, (int)studentSpawn.getY() / 32);
+        exitTarget = new MapTarget(s, collisionLayer);
+
     }
 
     public Point getCenterLocation(Optional<TiledObject> objectOptional) {
@@ -146,12 +160,16 @@ public class TiledMap {
         return collisionLayer;
     }
 
-    public Point2D getStudentSpawn() {
+    public Point getStudentSpawn() {
         return studentSpawn;
     }
 
-    public Point2D getTeacherSpawn() {
+    public Point getTeacherSpawn() {
         return teacherSpawn;
+    }
+
+    public MapTarget getExitTarget(){
+        return exitTarget;
     }
 
     public TiledObjectLayer getRoomLayer() {

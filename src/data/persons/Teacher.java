@@ -1,12 +1,10 @@
 package data.persons;
 
 import data.Animation;
-import org.jfree.fx.FXGraphics2D;
+
 import tasks.IdleTask;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,9 +12,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Teacher extends Person {
-    private Point direction = new Point(1, 1);
-    private int animationCounter = 0;
-    private static final int size = 32;
 
     public Teacher(String name) {
         super(name, getAnimation());
@@ -46,21 +41,29 @@ public class Teacher extends Person {
         }
     }
 
-    @Override
-    public void draw(FXGraphics2D graphics) {
-        if (isSpawned()) {
-            AffineTransform tx = graphics.getTransform();
-            tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
-            graphics.drawImage(getAnimation().getImage(), tx, null);
-        }
-    }
+//    @Override
+//    public void draw(FXGraphics2D graphics) {
+//        if (isSpawned()) {
+//            AffineTransform tx = graphics.getTransform();
+//            tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
+//            graphics.drawImage(getAnimation().getImage(), tx, null);
+//        }
+//    }
 
     @Override
     public void update(double deltaTime) {
-        if(task == null) {
-            task = new IdleTask(this);
+        if(doUpdate){
+            if(task == null) {
+                task = new IdleTask(this);
+            }
+            if(direction != null) {
+                if(task.isPlayerUsingObject()) {
+                    animation.update(0, Facing.getFacing(direction));
+                } else {
+                    animation.update(deltaTime, Facing.getFacing(direction));
+                }
+            }
+            task.update(deltaTime);
         }
-        getAnimation().update(deltaTime, Facing.getFacing(direction));
-        task.update(deltaTime);
     }
 }

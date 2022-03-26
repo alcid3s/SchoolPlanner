@@ -13,7 +13,6 @@ import java.util.Scanner;
 import java.util.*;
 
 public class Student extends Person {
-    private Point direction;
 
     public Student(String name) {
         super(name, getAnimation());
@@ -46,17 +45,19 @@ public class Student extends Person {
 
     @Override
     public void update(double deltaTime) {
-        if(task == null) {
-            task = new IdleTask(this);
-        }
-        if(direction != null) {
-            if(task.isPlayerUsingObject()) {
-                animation.update(0, Facing.getFacing(direction));
-            } else {
-                animation.update(deltaTime, Facing.getFacing(direction));
+        if(doUpdate){
+            if(task == null) {
+                task = new IdleTask(this);
             }
+            if(direction != null) {
+                if(task.isPlayerUsingObject()) {
+                    animation.update(0, Facing.getFacing(direction));
+                } else {
+                    animation.update(deltaTime, Facing.getFacing(direction));
+                }
+            }
+            task.update(deltaTime);
         }
-        task.update(deltaTime);
     }
 
 }

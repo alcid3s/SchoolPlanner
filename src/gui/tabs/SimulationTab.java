@@ -1,6 +1,7 @@
 package gui.tabs;
 
 import data.Clock;
+import data.ClockCallback;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
@@ -18,7 +19,7 @@ import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
 import java.util.List;
 
-public class SimulationTab extends Tab implements Resizable {
+public class SimulationTab extends Tab implements Resizable, ClockCallback{
     private BorderPane mainPane;
     private Canvas canvas;
     private Canvas backgroundCanvas;
@@ -37,17 +38,13 @@ public class SimulationTab extends Tab implements Resizable {
 
     private static boolean flag = false;
     private static int fastForward = 1;
-    private static LocalTime clock = LocalTime.of(8, 0,0);
 
     private Clock clockTime;
 
-
-
-
     public SimulationTab(){
         super("Simulation");
-        clockTime = new Clock();
-        map = new TiledMap("School_Map.json");
+        clockTime = new Clock(this);
+        map = TiledMap.getInstance();
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
 
@@ -83,11 +80,11 @@ public class SimulationTab extends Tab implements Resizable {
         draw(g);
     }
 
-
     private void update(double deltaTime) {
         if(timer > -0.1) {
             timer -= deltaTime;
         }
+
         groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
@@ -116,6 +113,7 @@ public class SimulationTab extends Tab implements Resizable {
         Schedule.getInstance().getRoomList().forEach(room -> {
             room.update(deltaTime);
         });
+
         clockTime.update(deltaTime);
     }
 
@@ -263,5 +261,33 @@ public class SimulationTab extends Tab implements Resizable {
 
     public Pane getPane() {
         return pane;
+    }
+
+    @Override
+    public void onBeginTime() {
+        Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s ->{
+            s.setDoUpdate(true);
+            s.setDoSpawn(true);
+        } ));
+        Schedule.getInstance().getTeacherList().forEach(t ->{
+            t.setDoUpdate(true);
+            t.setDoSpawn(true);
+        } );
+    }
+
+    @Override
+    public void onEndTime() {
+        Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
+            if(s.isSpawned()){
+                s.leave();
+            }
+            s.setDoSpawn(false);
+        }));
+        Schedule.getInstance().getTeacherList().forEach(t -> {
+            if(t.isSpawned()){
+                t.leave();
+            }
+            t.setDoSpawn(false);
+        });
     }
 }

@@ -7,20 +7,25 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class Clock {
     private int speed;
+    private boolean check;
     private LocalTime time;
     private DateTimeFormatter formatter;
+    private ClockCallback callback;
 
-    public Clock() {
-        time = LocalTime.of(8, 0,0);
+    public Clock(ClockCallback callback){
+        check = false;
+        time = LocalTime.of(7, 45,0);
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
-
+        this.callback = callback;
     }
 
+    public LocalTime getTime(){
+        return time;
+    }
 
     public void draw(FXGraphics2D g2d, Canvas canvas) {
         AffineTransform transform = g2d.getTransform();
@@ -31,9 +36,15 @@ public class Clock {
     }
 
     public void update(double deltaTime) {
+        if(time.getHour() >= 8 && time.getHour() < 16 && !check){
+            check = true;
+            callback.onBeginTime();
+        }else if((time.getHour() >= 16 || time.getHour() < 8) && check){
+            check = false;
+            callback.onEndTime();
+        }
+
         time = time.plusSeconds((int) (speed * deltaTime * 150));
-
     }
-
-
 }
+
