@@ -3,6 +3,7 @@ package data.tilted;
 import data.Schedule;
 import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
+import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.*;
@@ -20,6 +21,8 @@ public class TiledMap {
     private Point teacherSpawn;
     private int height;
     private int width;
+
+    private Target exitTarget;
 
     public TiledMap(String filename) {
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
@@ -164,5 +167,9 @@ public class TiledMap {
 
     public int getWidth() {
         return width;
+    }
+
+    public Target getExitTarget() {
+        return exitTarget;
     }
 }

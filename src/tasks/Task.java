@@ -15,11 +15,24 @@ public abstract class Task {
       this.room = r;
     }
 
+
     public abstract void update(double deltaTime);
 
     public boolean isPlayerUsingObject() {
         if(usableObject != null)
             return usableObject.isUsingEvent(p);
         return false;
+    }
+
+    public Person getP() {
+        return p;
+    }
+
+    public UsableObject getUsableObject() {
+        return usableObject;
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

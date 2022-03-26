@@ -4,6 +4,7 @@ import data.Clock;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
+import data.rooms.object.UsableObject;
 import data.tilted.TiledMap;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -12,9 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import tasks.Task;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -150,6 +154,18 @@ public class SimulationTab extends Tab implements Resizable {
             }
         }
         g2d.setColor(Color.BLUE);
+        //SEE WHERE STUDENT 0 GOES TO
+        /*try {
+            UsableObject t = groupList.get(0).getStudents().get(0).getTask().getUsableObject();
+            if (t != null) {
+
+                AffineTransform tx = g2d.getTransform();
+                tx.translate(t.getX() * 32 + t.getR().getX() - (32 / 2.0), t.getY() * 32 + t.getR().getY() - (32 / 2.0));
+                g2d.drawImage(ImageIO.read(getClass().getClassLoader().getResource("student.png")), tx, null);
+            }
+        } catch (IndexOutOfBoundsException | IOException e) {
+            e.printStackTrace();
+        }*/
        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
 
         //DRAW FPS COUNTER
@@ -163,20 +179,6 @@ public class SimulationTab extends Tab implements Resizable {
         millis = System.nanoTime() - millis;
         if(millis/1000000.0 > 6)
             System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
-
-        
-        
-
-
-//        for(GameObject go : gameObjects) {
-//            go.draw(g2d);
-//        }
-
-//        if(debugSelected) {
-//            g2d.setColor(Color.blue);
-//            DebugDraw.draw(g2d, world, 100);
-//        }
-        //g2d.setTransform(this.tx);
     }
 
     private Canvas createNewCanvas() {

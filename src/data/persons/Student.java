@@ -26,7 +26,6 @@ public class Student extends Person {
         ArrayList<Facing> faces = new ArrayList<>(Arrays.asList(Facing.SOUTH, Facing.WEST, Facing.EAST, Facing.NORTH));
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
-            //BufferedImage[] sprites = new BufferedImage[size * 3];
             for (int y = 0; y < 4; y++) {
                 BufferedImage[] sprites = new BufferedImage[3];
                 for (int x = 0; x < 3; x++) {
@@ -42,13 +41,16 @@ public class Student extends Person {
             return animation;
         } catch (IOException e) {
             e.printStackTrace();
+            images = null;
             return null;
         }
     }
 
-
     @Override
     public void update(double deltaTime) {
+        if(!isSpawned()) {
+            return;
+        }
         if(task == null) {
             task = new IdleTask(this);
         }

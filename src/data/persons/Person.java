@@ -20,7 +20,6 @@ public abstract class Person implements Comparable, Serializable {
     public double speed;
     private boolean isSpawned;
     private Point2D position;
-    public int animationCounter = 0;
     public Point direction;
 
 
@@ -104,8 +103,10 @@ public abstract class Person implements Comparable, Serializable {
     public void goCloserToTarget(Target target, double deltaTime) {
         int tileX = (int) Math.floor(getPosition().getX() / 32);
         int tileY = (int) Math.floor(getPosition().getY() / 32);
+       // System.out.println("At target: " + target.isAtTarget(tileX, tileY));
         if(!target.isAtTarget(tileX, tileY)) {
             this.direction = target.getDirection(tileX, tileY);
+            //System.out.println(direction.x + " " + direction.y);
             if(direction.x != 0 || direction.y != 0) {
                 Point2D neededToMove = calculateMovement(direction, tileX,tileY);
                 move(neededToMove, deltaTime);
@@ -113,5 +114,52 @@ public abstract class Person implements Comparable, Serializable {
         } else {
             this.direction = null;
         }
+    }
+
+    public void moveToExactLocation(Target target, double deltaTime) {
+        int neededX = target.getTotalTileXLocation() * 32 + 16;
+        int neededY = target.getTotalTileYLocation() * 32 + 16;
+
+        double gotoX = neededX - getPosition().getX();
+        double gotoY = neededY - getPosition().getY();
+
+        this.direction = new Point((int)gotoX , (int)gotoY);
+        Point2D.Double p = new Point2D.Double(gotoX, gotoY);
+        //System.out.println("Exact Move: " + p);
+        //System.out.println("\tX: " + getPosition().getX() + " Y: " + getPosition().getY());
+        //System.out.println("\tNeeded: " + neededX + " " + neededY);
+        if(Math.abs(p.x) >= 3 || Math.abs(p.y) >= 3) {
+            Point2D neededToMove = calculateExactMovement(p, getPosition().getX(), getPosition().getY());
+          //  System.out.println("\tGoing to move " + neededToMove);
+            move(neededToMove, deltaTime);
+        }
+    }
+
+    public Point2D calculateExactMovement(Point2D direction, double x, double y) {
+        Point2D goTo = new Point2D.Double(direction.getX() + x, direction.getY() + y);
+        Point2D neededToMove = new Point2D.Double(goTo.getX() - x, goTo.getY() - y);
+        neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0, 0) * speed, neededToMove.getY() / neededToMove.distance(0, 0) * speed);
+        return neededToMove;
+    }
+
+
+    public int getSize() {
+        return size;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public Point getDirection() {
+        return direction;
     }
 }
