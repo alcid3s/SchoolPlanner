@@ -38,7 +38,7 @@ public class TeacherRoom extends Room {
                     }
                     if (isInRoom(i, j)) {
                         Point pTile = new Point(i - xTile, j - yTile);
-                        UsableObject object = new UsableObject(this, map.getCollisionLayer(), 1, pTile, 32, 32);
+                        UsableObject object = new UsableObject(this, map.getCollisionLayer(), 1, pTile, 32, 32, getFacingOfObject(layer.getValues()[i][j]));
                         teacherChairs.add(object);
                     }
                 }

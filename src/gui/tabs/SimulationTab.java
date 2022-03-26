@@ -164,12 +164,6 @@ public class SimulationTab extends Tab implements Resizable {
         if(millis/1000000.0 > 6)
             System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
 
-//        if(!this.groupList.isEmpty()) {
-//            for (Group group : this.groupList) {
-//                this.group.spawnGroup(group);
-//            }
-//        }
-
         
         
 

@@ -1,5 +1,6 @@
 package data.rooms.object;
 
+import data.persons.Facing;
 import data.rooms.Room;
 import data.tilted.TiledImageLayer;
 import data.persons.Person;
@@ -18,8 +19,9 @@ public class UsableObject {
     private int width;
     private int height;
     private Room r;
+    private Facing facingWhenUsing;
 
-    public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height) {
+    public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height, Facing facingWhenUsing) {
         this.users = new ArrayList<>();
         this.r = r;
         this.maxUsers = maxUsers;
@@ -27,6 +29,7 @@ public class UsableObject {
         this.y = loc.y;
         this.width = width;
         this.height = height;
+        this.facingWhenUsing = facingWhenUsing;
         target = new RoomObjectTarget(r, loc, collisionLayer);
     }
 
@@ -104,5 +107,13 @@ public class UsableObject {
                 ", width=" + width +
                 ", height=" + height +
                 '}';
+    }
+
+    public Room getR() {
+        return r;
+    }
+
+    public Facing getFacingWhenUsing() {
+        return facingWhenUsing;
     }
 }

@@ -1,6 +1,7 @@
 package data.rooms;
 
 import data.Schedule;
+import data.persons.Facing;
 import data.persons.Student;
 import data.persons.Teacher;
 import data.rooms.object.UsableObject;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 
 public abstract class Room implements Comparable, Serializable {
@@ -66,7 +68,7 @@ public abstract class Room implements Comparable, Serializable {
                     }
                     if(isInRoom(i,j)) {
                         Point pTile = new Point(i - xTile,j - yTile);
-                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32);
+                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32, getFacingOfObject(layer.getValues()[i][j]));
                         studentsChairs.add(object);
                     }
                 }
@@ -165,5 +167,29 @@ public abstract class Room implements Comparable, Serializable {
             }
         }
         return null;
+    }
+
+    private HashMap<Integer, Facing> hashMap = new HashMap<Integer, Facing>()
+    {{
+        put(286, Facing.SOUTH);
+        put(287, Facing.NORTH);
+        put(302, Facing.EAST);
+        put(303, Facing.WEST);
+
+        put(217, Facing.WEST);
+        put(270, Facing.EAST);
+        put(254, Facing.SOUTH);
+        put(255, Facing.NORTH);
+        put(1, Facing.NORTH);
+        put(147, Facing.EAST);
+        put(149,Facing.WEST);
+        put(97,Facing.SOUTH);
+    }};
+    public Facing getFacingOfObject(int id) {
+        System.out.println("Getting id of " + id);
+        if(hashMap.containsKey(id)) {
+            return hashMap.get(id);
+        }
+        return Facing.SOUTH;
     }
 }

@@ -59,6 +59,7 @@ public class IdleTask extends Task {
         maxTimeToMove-= deltaTime;
         if(usableObject.isUsingEvent(p)) {
             timer -= deltaTime;
+            p.direction = usableObject.getFacingWhenUsing().getDirection();
         }
         usableObject.check(p);
         if(usableObject.isFree() && !usableObject.isUsingEvent(p) && !usableObject.getTarget().isAtTarget(p)) {
