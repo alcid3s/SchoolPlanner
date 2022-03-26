@@ -48,6 +48,7 @@ public abstract class Person implements Comparable, Serializable {
             graphics.drawImage(animation.getImage(), tx, null);
         }
     }
+
     public abstract void update(double deltaTime);
 
     public void spawn(Point2D position) {

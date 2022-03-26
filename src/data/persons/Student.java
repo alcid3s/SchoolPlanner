@@ -9,14 +9,20 @@ import java.io.IOException;
 import java.util.*;
 
 public class Student extends Person {
+    private static HashMap<Facing, BufferedImage[]> images;
 
     public Student(String name) {
         super(name, getAnimation());
     }
 
     private static Animation getAnimation() {
-        final int size = 32;
         Animation animation = new Animation(3);
+        if(images != null) {
+            images.forEach(animation::setFacing);
+            return animation;
+        }
+        images = new HashMap<>();
+        final int size = 32;
         ArrayList<Facing> faces = new ArrayList<>(Arrays.asList(Facing.SOUTH, Facing.WEST, Facing.EAST, Facing.NORTH));
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
@@ -27,8 +33,10 @@ public class Student extends Person {
                     sprites[x] = totalImage.getSubimage(x * size, y * size, size, size);
                 }
                 animation.setFacing(faces.get(y), sprites);
+                images.put(faces.get(y), sprites);
                 if(faces.get(y).equals(Facing.SOUTH)) {
                     animation.setFacing(Facing.STATIONARY, sprites);
+                    images.put(Facing.STATIONARY, sprites);
                 }
             }
             return animation;

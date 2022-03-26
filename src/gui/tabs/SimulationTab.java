@@ -88,7 +88,7 @@ public class SimulationTab extends Tab implements Resizable {
         if(timer > -0.1) {
             timer -= deltaTime;
         }
-        groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+        //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
                 if (!student.isSpawned()) {
@@ -121,7 +121,7 @@ public class SimulationTab extends Tab implements Resizable {
 
         updateBackground = false;
         millis = System.nanoTime() - millis;
-        if(millis > 6.0)
+        if(millis/1000000.0 > 6.0)
             System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
 
     }
