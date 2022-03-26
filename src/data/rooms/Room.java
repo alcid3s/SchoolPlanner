@@ -171,25 +171,31 @@ public abstract class Room implements Comparable, Serializable {
 
     private HashMap<Integer, Facing> hashMap = new HashMap<Integer, Facing>()
     {{
-        put(286, Facing.SOUTH);
-        put(287, Facing.NORTH);
-        put(302, Facing.EAST);
-        put(303, Facing.WEST);
+        put(286, Facing.NORTH);
+        put(287, Facing.SOUTH);
+        put(288, Facing.NORTH);
+        put(302, Facing.WEST);
+        put(303, Facing.EAST);
+        put(304, Facing.WEST);
 
-        put(217, Facing.WEST);
-        put(270, Facing.EAST);
-        put(254, Facing.SOUTH);
-        put(255, Facing.NORTH);
-        put(1, Facing.NORTH);
-        put(147, Facing.EAST);
-        put(149,Facing.WEST);
-        put(97,Facing.SOUTH);
+        put(271, Facing.EAST);
+        put(272, Facing.WEST);
+        put(270, Facing.WEST);
+        put(254, Facing.NORTH);
+        put(255, Facing.SOUTH);
+        put(256, Facing.NORTH);
+        put(1, Facing.SOUTH);
+        put(147, Facing.WEST);
+        put(149,Facing.EAST);
+        put(97,Facing.NORTH);
+        put(2707, Facing.SOUTH);
     }};
     public Facing getFacingOfObject(int id) {
-        System.out.println("Getting id of " + id);
+       // System.out.println("Getting id of " + id);
         if(hashMap.containsKey(id)) {
             return hashMap.get(id);
         }
+        System.out.println("Could not find id: " + id);
         return Facing.SOUTH;
     }
 }

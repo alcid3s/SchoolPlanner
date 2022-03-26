@@ -16,4 +16,10 @@ public abstract class Task {
     }
 
     public abstract void update(double deltaTime);
+
+    public boolean isPlayerUsingObject() {
+        if(usableObject != null)
+            return usableObject.isUsingEvent(p);
+        return false;
+    }
 }

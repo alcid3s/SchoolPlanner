@@ -45,7 +45,11 @@ public class Student extends Person {
             task = new IdleTask(this);
         }
         if(direction != null) {
-            animation.update(deltaTime, Facing.getFacing(direction));
+            if(task.isPlayerUsingObject()) {
+                animation.update(0, Facing.getFacing(direction));
+            } else {
+                animation.update(deltaTime, Facing.getFacing(direction));
+            }
         }
         task.update(deltaTime);
     }
