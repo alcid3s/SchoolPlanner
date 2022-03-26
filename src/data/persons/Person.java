@@ -155,12 +155,8 @@ public abstract class Person implements Comparable, Serializable {
 
         this.direction = new Point((int)gotoX , (int)gotoY);
         Point2D.Double p = new Point2D.Double(gotoX, gotoY);
-        //System.out.println("Exact Move: " + p);
-        //System.out.println("\tX: " + getPosition().getX() + " Y: " + getPosition().getY());
-        //System.out.println("\tNeeded: " + neededX + " " + neededY);
         if(Math.abs(p.x) >= 3 || Math.abs(p.y) >= 3) {
             Point2D neededToMove = calculateExactMovement(p, getPosition().getX(), getPosition().getY());
-          //  System.out.println("\tGoing to move " + neededToMove);
             move(neededToMove, deltaTime);
         }
     }
