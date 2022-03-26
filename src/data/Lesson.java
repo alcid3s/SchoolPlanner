@@ -14,6 +14,7 @@ public class Lesson implements Comparable, Serializable {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String name;
+    private boolean hasTask;
 
     public Lesson(String name, Room room, Person teacher, Group group, LocalDateTime startDate, LocalDateTime endDate){
         this.room = room;
@@ -81,6 +82,14 @@ public class Lesson implements Comparable, Serializable {
     public void setName(String name){
         this.name = name;
         Schedule.getInstance().sort();
+    }
+
+    public void setHasTask(boolean set){
+        this.hasTask = set;
+    }
+
+    public boolean getHasTask(){
+        return this.hasTask;
     }
 
     @Override

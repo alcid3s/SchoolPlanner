@@ -119,12 +119,15 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         });
 
         Schedule.getInstance().getLessonList().forEach(l ->{
-            if(l.getStartDate().toLocalTime().equals(clockTime.getTime())){
-                System.out.println("Lesson");
+            if(l.getStartDate().toLocalTime().getHour() == clockTime.getTime().getHour() && l.getStartDate().toLocalTime().getMinute() >= clockTime.getTime().getMinute() && !l.getHasTask()){
+                l.setHasTask(true);
+                System.out.println("lesson");
                 timers.add(new Timer(l.getName(), l.getEndDate().toLocalTime(), this,clockTime));
-                l.getGroup().getStudents().forEach(s -> {
-                    s.setTask(new LessonTask(s, l.getRoom()));
-                });
+                if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
+                    l.getGroup().getStudents().forEach(s -> {
+                        s.setTask(new LessonTask(s, l.getRoom()));
+                    });
+                }
                 l.getTeacher().setTask(new LessonTask(l.getTeacher(), l.getRoom()));
             }
         });
@@ -278,6 +281,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
     @Override
     public void onBeginTime() {
+        Schedule.getInstance().getLessonList().forEach(l -> System.out.println(l));
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s ->{
             s.setDoUpdate(true);
             s.setDoSpawn(true);
@@ -308,6 +312,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     public void onEndOfClass(Timer source) {
         Schedule.getInstance().getLessonList().forEach(l ->{
             if(l.getName().equals(source.getName())){
+                l.setHasTask(false);
                 l.getGroup().getStudents().forEach(s -> s.setTask(null));
                 l.getTeacher().setTask(null);
             }
