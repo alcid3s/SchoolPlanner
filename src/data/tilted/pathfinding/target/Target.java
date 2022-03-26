@@ -66,6 +66,20 @@ public abstract class Target {
     }
 
     public boolean isAtTarget(Person p) {
+        System.out.println((Math.floor(p.getPosition().getX()/32) == tileXLocation && Math.floor(p.getPosition().getY()/32) == tileYLocation) + " " + Math.floor(p.getPosition().getX()/32) + " " + Math.floor(p.getPosition().getY()/32) + " " + tileXLocation + " " + tileYLocation);
         return Math.floor(p.getPosition().getX()/32) == tileXLocation && Math.floor(p.getPosition().getY()/32) == tileYLocation;
+    }
+
+    public boolean isExactAtTarget(Person p) {
+        System.out.println((p.getPosition().getX() - tileXLocation*32 == 16 && p.getPosition().getY() - tileYLocation*32 == 16) + " Exact at target?");
+        return p.getPosition().getX() - tileXLocation*32 == 16 && p.getPosition().getY() - tileYLocation*32 == 16;
+    }
+
+    public int getTotalTileXLocation() {
+        return tileXLocation;
+    }
+
+    public int getTotalTileYLocation() {
+        return tileXLocation;
     }
 }

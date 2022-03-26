@@ -57,6 +57,7 @@ public abstract class Person implements Comparable, Serializable {
             graphics.drawImage(animation.getImage(), tx, null);
         }
     }
+
     public abstract void update(double deltaTime);
 
     public void spawn(Point2D position) {
@@ -143,5 +144,52 @@ public abstract class Person implements Comparable, Serializable {
 
     public void leave() {
         this.task = new LeaveTask(this);
+    }
+
+    public void moveToExactLocation(Target target, double deltaTime) {
+        int neededX = target.getTotalTileXLocation() * 32 + 16;
+        int neededY = target.getTotalTileYLocation() * 32 + 16;
+
+        double gotoX = neededX - getPosition().getX();
+        double gotoY = neededY - getPosition().getY();
+
+        this.direction = new Point((int)gotoX , (int)gotoY);
+        Point2D.Double p = new Point2D.Double(gotoX, gotoY);
+        //System.out.println("Exact Move: " + p);
+        //System.out.println("\tX: " + getPosition().getX() + " Y: " + getPosition().getY());
+        //System.out.println("\tNeeded: " + neededX + " " + neededY);
+        if(Math.abs(p.x) >= 3 || Math.abs(p.y) >= 3) {
+            Point2D neededToMove = calculateExactMovement(p, getPosition().getX(), getPosition().getY());
+          //  System.out.println("\tGoing to move " + neededToMove);
+            move(neededToMove, deltaTime);
+        }
+    }
+
+    public Point2D calculateExactMovement(Point2D direction, double x, double y) {
+        Point2D goTo = new Point2D.Double(direction.getX() + x, direction.getY() + y);
+        Point2D neededToMove = new Point2D.Double(goTo.getX() - x, goTo.getY() - y);
+        neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0, 0) * speed, neededToMove.getY() / neededToMove.distance(0, 0) * speed);
+        return neededToMove;
+    }
+
+
+    public int getSize() {
+        return size;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public Point getDirection() {
+        return direction;
     }
 }

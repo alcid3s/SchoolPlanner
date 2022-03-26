@@ -57,12 +57,18 @@ public class IdleTask extends Task {
             return;
         }
         maxTimeToMove-= deltaTime;
+        usableObject.check(p);
+        //System.out.println(usableObject.getTarget().isExactAtTarget(p));
+        if(usableObject.isUsingEvent(p) && !usableObject.getTarget().isExactAtTarget(p)) {
+            p.moveToExactLocation(usableObject.getTarget(), deltaTime);
+        }
         if(usableObject.isUsingEvent(p)) {
             timer -= deltaTime;
             p.direction = usableObject.getFacingWhenUsing().getDirection();
         }
-        usableObject.check(p);
+        //System.out.println("At target: " + usableObject.getTarget().isAtTarget(p));
         if(usableObject.isFree() && !usableObject.isUsingEvent(p) && !usableObject.getTarget().isAtTarget(p)) {
+            //System.out.println("closer");
             p.goCloserToTarget(usableObject.getTarget(), deltaTime);
         } else {
             if(!usableObject.isFree() && !usableObject.isUsingEvent(p)) {
@@ -77,5 +83,13 @@ public class IdleTask extends Task {
         if(timer <= 0 || maxTimeToMove <= 0) {
             createNewTask();
         }
+    }
+
+    public double getTimer() {
+        return timer;
+    }
+
+    public double getMaxTimeToMove() {
+        return maxTimeToMove;
     }
 }

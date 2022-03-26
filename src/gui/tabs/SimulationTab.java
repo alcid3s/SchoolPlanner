@@ -2,6 +2,7 @@ package gui.tabs;
 
 import data.*;
 import data.persons.Person;
+import data.rooms.object.UsableObject;
 import data.tilted.TiledMap;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -13,8 +14,10 @@ import org.jfree.fx.Resizable;
 import tasks.LessonTask;
 import tasks.Task;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,8 +89,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         if(timer > -0.1) {
             timer -= deltaTime;
         }
-
-        groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+        //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
                 if (!student.isSpawned()) {
@@ -144,7 +146,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
         updateBackground = false;
         millis = System.nanoTime() - millis;
-        if(millis > 6.0)
+        if(millis/1000000.0 > 6.0)
             System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
 
     }
@@ -178,6 +180,18 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         }
 
         g2d.setColor(Color.BLUE);
+        //SEE WHERE STUDENT 0 GOES TO
+        /*try {
+            UsableObject t = groupList.get(0).getStudents().get(0).getTask().getUsableObject();
+            if (t != null) {
+
+                AffineTransform tx = g2d.getTransform();
+                tx.translate(t.getX() * 32 + t.getR().getX() - (32 / 2.0), t.getY() * 32 + t.getR().getY() - (32 / 2.0));
+                g2d.drawImage(ImageIO.read(getClass().getClassLoader().getResource("student.png")), tx, null);
+            }
+        } catch (IndexOutOfBoundsException | IOException e) {
+            e.printStackTrace();
+        }*/
        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
 
         //DRAW FPS COUNTER
@@ -191,20 +205,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         millis = System.nanoTime() - millis;
         if(millis/1000000.0 > 6)
             System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
-
-        
-        
-
-
-//        for(GameObject go : gameObjects) {
-//            go.draw(g2d);
-//        }
-
-//        if(debugSelected) {
-//            g2d.setColor(Color.blue);
-//            DebugDraw.draw(g2d, world, 100);
-//        }
-        //g2d.setTransform(this.tx);
     }
 
     private Canvas createNewCanvas() {

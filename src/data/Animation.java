@@ -30,7 +30,7 @@ public class Animation {
     }
 
     public void update(double deltaTime, Facing facing) {
-        if(!currentFacing.equals(facing)) {
+        if(currentFacing != facing && facing != null) {
             currentFacing = facing;
             animationCount = 0;
         } else {

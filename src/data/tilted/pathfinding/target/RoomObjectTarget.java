@@ -1,5 +1,6 @@
 package data.tilted.pathfinding.target;
 
+import data.persons.Person;
 import data.rooms.Room;
 import data.tilted.TiledImageLayer;
 import javafx.util.Pair;
@@ -18,7 +19,7 @@ public class RoomObjectTarget extends Target {
     private int tileRoomY;
 
     public RoomObjectTarget(Room room, Point location, TiledImageLayer collisionLayer) {
-        super(location, collisionLayer, room.getWidth()/32, room.getHeight()/32);
+        super(printL(location, room), collisionLayer, room.getWidth()/32, room.getHeight()/32);
         this.room = room;
         this.tileRoomWidth = room.getWidth()/32;
         this.tileRoomHeight = room.getHeight()/32;
@@ -54,6 +55,11 @@ public class RoomObjectTarget extends Target {
             }
         }
         //print();
+    }
+
+    private static Point printL(Point location, Room r) {
+        System.out.println("Created object target with x, y: " + location.x + " " + location.y + " " + r.getX() + " " + r.getY() + " " + r.getName());
+        return location;
     }
 
 
@@ -113,5 +119,38 @@ public class RoomObjectTarget extends Target {
     @Override
     public boolean isExactAtTarget(double x, double y) {
         return super.isExactAtTarget(x-tileRoomX*32, y-tileRoomY*32);
+    }
+
+    @Override
+    public boolean isAtTarget(Person p) {
+        int tX = getTotalTileXLocation() * 32;
+        int tY = getTotalTileYLocation() * 32;
+
+        int x = (int) p.getPosition().getX();
+        int y = (int) p.getPosition().getY();
+        //System.out.println((x >= tX && y >= tY && x <= tX + 32 && y <= tX + 32));
+        //System.out.println("X: " + p.getPosition().getX() + " Y: " + p.getPosition().getY() + " " + tX + " " + tY);
+
+        return x >= tX && y >= tY && x <= tX + 32 && y <= tY + 32;
+    }
+
+    @Override
+    public boolean isExactAtTarget(Person p) {
+        int realX = (tileRoomX + tileRoomX) * 32 + 16;
+        int realY = (tileRoomY + tileRoomY) * 32 + 16;
+        int x = (int) p.getPosition().getX();
+        int y = (int) p.getPosition().getX();
+
+        return x == realX && y == realY;
+    }
+
+    @Override
+    public int getTotalTileXLocation() {
+        return tileXLocation + tileRoomX;
+    }
+
+    @Override
+    public int getTotalTileYLocation() {
+        return tileYLocation + tileRoomY;
     }
 }
