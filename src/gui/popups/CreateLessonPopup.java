@@ -8,7 +8,6 @@ import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CreateLessonPopup extends Stage {

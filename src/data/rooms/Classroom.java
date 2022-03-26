@@ -42,7 +42,7 @@ public class Classroom extends Room {
                     if(isInRoom(i,j)) {
                         Point p = new Point(i,j);
                         Point pTile = new Point(i - xTile,j - yTile);
-                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32);
+                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32, getFacingOfObject(layer.getValues()[i][j]));
                         if(room.isInObject(i,j)) {
                             studentsChairs.add(object);
                         } else {

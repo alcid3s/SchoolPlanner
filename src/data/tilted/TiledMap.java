@@ -1,10 +1,8 @@
 package data.tilted;
 
 import data.Schedule;
-import data.persons.Person;
 import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
-import data.tilted.pathfinding.target.TargetCallback;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.*;
@@ -89,6 +87,9 @@ public class TiledMap {
         }
         if(name.toLowerCase().contains("canteen")) {
             return new Canteen(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
+        }
+        if(name.toLowerCase().contains("wc")) {
+            return new Toilet(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
         return new Classroom(this, name,size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
 

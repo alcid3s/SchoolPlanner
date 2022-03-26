@@ -1,6 +1,5 @@
 package gui.popups;
 
-import data.persons.Person;
 import data.persons.Teacher;
 import gui.Util;
 import gui.Validation;

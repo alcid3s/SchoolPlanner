@@ -2,17 +2,17 @@ package data.rooms;
 
 import data.rooms.object.UsableObject;
 import data.tilted.TiledImageLayer;
-import data.tilted.pathfinding.target.MapTarget;
 import data.tilted.TiledMap;
+import data.tilted.pathfinding.target.MapTarget;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class TeacherRoom extends Room {
+public class Toilet extends Room {
 
-    public TeacherRoom(TiledMap m, String name, int capacity, Point location, MapTarget target, int x, int y, int width, int height) {
-        super(m, name, capacity, target, location, x, y, width, height);
+    public Toilet(TiledMap m, String name, int capacity, Point location, MapTarget target, int x, int y, int width, int height){
+        super(m,name, capacity, target,location, x, y, width, height);
     }
 
     @Override
@@ -21,24 +21,25 @@ public class TeacherRoom extends Room {
         teacherChairs = new ArrayList<>();
 
         Optional<TiledImageLayer> layerOptional = map.getLayer("Chairs");
-        if (layerOptional.isPresent()) {
+        if(layerOptional.isPresent()) {
             System.out.println("Loading chairs...");
             TiledImageLayer layer = layerOptional.get();
-            System.out.println("Room start point: " + name + " " + x / 32 + " " + y / 32);
+            System.out.println("Room start point: " + name + " " + x/32 + " " + y/32);
 
-            int xTile = (int) Math.floor(x / 32);
-            int yTile = (int) Math.floor(y / 32);
-            int widthTile = (int) Math.floor(width / 32);
-            int heightTile = (int) Math.floor(height / 32);
-            for (int i = xTile; i <= xTile + widthTile; i++) {
-                for (int j = yTile; j <= yTile + heightTile; j++) {
+            int xTile = (int) Math.floor(x/32);
+            int yTile = (int) Math.floor(y/32);
+            int widthTile = (int) Math.floor(width/32);
+            int heightTile = (int) Math.floor(height/32);
+            for(int i = xTile; i <= xTile + widthTile; i++) {
+                for(int j = yTile; j <= yTile + heightTile; j++) {
                     //System.out.println(room.getName() + " " + i + " " + j);
-                    if (layer.getValues()[i][j] == 0) {
+                    if(layer.getValues()[i][j] == 0) {
                         continue;
                     }
-                    if (isInRoom(i, j)) {
-                        Point pTile = new Point(i - xTile, j - yTile);
-                        UsableObject object = new UsableObject(this, map.getCollisionLayer(), 1, pTile, 32, 32, getFacingOfObject(layer.getValues()[i][j]));
+                    if(isInRoom(i,j)) {
+                        Point pTile = new Point(i - xTile,j - yTile);
+                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32, getFacingOfObject(layer.getValues()[i][j]));
+                        studentsChairs.add(object);
                         teacherChairs.add(object);
                     }
                 }

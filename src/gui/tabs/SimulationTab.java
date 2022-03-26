@@ -1,11 +1,10 @@
 package gui.tabs;
 
+import data.Clock;
 import data.Group;
 import data.Schedule;
 import data.persons.Person;
-import data.rooms.Room;
 import data.tilted.TiledMap;
-import data.tilted.pathfinding.SpawnGroup;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
@@ -13,11 +12,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
+import java.time.LocalTime;
 import java.util.List;
 
 public class SimulationTab extends Tab implements Resizable {
@@ -37,10 +35,18 @@ public class SimulationTab extends Tab implements Resizable {
     private int currentFPS = 0;
     private int totalFrames = 0;
 
+    private static boolean flag = false;
+    private static int fastForward = 1;
+    private static LocalTime clock = LocalTime.of(8, 0,0);
+
+    private Clock clockTime;
+
+
 
 
     public SimulationTab(){
         super("Simulation");
+        clockTime = new Clock();
         map = new TiledMap("School_Map.json");
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
@@ -82,7 +88,7 @@ public class SimulationTab extends Tab implements Resizable {
         if(timer > -0.1) {
             timer -= deltaTime;
         }
-       // groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+        groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
         for (Group group : groupList) {
             for (Person student : group.getStudents()) {
                 if (!student.isSpawned()) {
@@ -107,6 +113,10 @@ public class SimulationTab extends Tab implements Resizable {
                 teacher.update(deltaTime);
             }
         }
+        Schedule.getInstance().getRoomList().forEach(room -> {
+            room.update(deltaTime);
+        });
+        clockTime.update(deltaTime);
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -122,9 +132,8 @@ public class SimulationTab extends Tab implements Resizable {
         map.draw(g);
 
         updateBackground = false;
-
         millis = System.nanoTime() - millis;
-        if(millis > 5.0)
+        if(millis > 6.0)
             System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
 
     }
@@ -164,18 +173,13 @@ public class SimulationTab extends Tab implements Resizable {
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2d.drawString(currentFPS + "",(int) canvas.getWidth()-45, 25);
+        g2d.drawString(currentFPS + "",2, 25);
 
+        clockTime.draw(g2d, canvas);
 
         millis = System.nanoTime() - millis;
-        if(millis/1000000.0 > 5)
+        if(millis/1000000.0 > 6)
             System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
-
-//        if(!this.groupList.isEmpty()) {
-//            for (Group group : this.groupList) {
-//                this.group.spawnGroup(group);
-//            }
-//        }
 
         
         

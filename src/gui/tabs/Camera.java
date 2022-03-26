@@ -1,14 +1,10 @@
 package gui.tabs;
 
-import data.tilted.TiledMap;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -25,7 +21,7 @@ public class Camera{
     public Camera(SimulationTab tab){
         this.clickEvents = tab.getPane();
         this.tab = tab;
-        centerPoint = new Point2D.Double(0,0);
+        centerPoint = new Point2D.Double(-tab.getCanvas().getWidth()/2,-tab.getCanvas().getHeight()/2);
         clickEvents.setOnMousePressed(e -> this.lastMousePos = new Point2D.Double(e.getX(), e.getY()));
         clickEvents.setOnMouseDragged(e -> mouseDragged(e));
         clickEvents.setOnScroll(e -> mouseScroll(e));
@@ -33,6 +29,7 @@ public class Camera{
 
     public AffineTransform getTransform()  {
         AffineTransform tx = new AffineTransform();
+        tx.translate(tab.getCanvas().getWidth()/2,tab.getCanvas().getHeight()/2);
         tx.scale(zoom, zoom);
         tx.translate(centerPoint.getX(), centerPoint.getY());
         tx.rotate(rotation);

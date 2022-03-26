@@ -31,11 +31,8 @@ public class GUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
-
         primaryStage.show();
 
-        primaryStage.setOnCloseRequest(e -> {
-            Platform.exit();
-        });
+        primaryStage.setOnCloseRequest(e -> Platform.exit());
     }
 }

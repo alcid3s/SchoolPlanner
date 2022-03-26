@@ -1,34 +1,38 @@
 package data.persons;
 
+import data.Animation;
 import data.Schedule;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
 import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
+import tasks.Task;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.Random;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;
-    private final BufferedImage[] sprites;
-    public Target target;
+    public Animation animation;
+    public final int size;
+    public Task task;
     public double angle;
     public double speed;
     private boolean isSpawned;
     private Point2D position;
-    private int animationCounter = 0;
+    public Point direction;
+    public int animationCounter = 0;
 
     public Person(String name, BufferedImage[] sprites) {
         this.name = name;
-        this.sprites = sprites;
+        this.animation = animation;
         this.angle = 0;
         this.speed = 200;
+        this.size = this.animation.getImage().getWidth();
         Room r = Schedule.getInstance().getRoomList().get(new Random().nextInt(Schedule.getInstance().getRoomList().size()));
         //Room r = Schedule.getInstance().getRoom("Xplora4Kamer");
         Optional<UsableObject> object = r.getFreeChair(this);
@@ -50,13 +54,19 @@ public abstract class Person implements Comparable, Serializable {
         Schedule.getInstance().sort();
     }
 
-    public abstract void draw(FXGraphics2D graphics);
+    public void draw(FXGraphics2D graphics) {
+        if (isSpawned()) {
+            AffineTransform tx = graphics.getTransform();
+            tx.translate(getPosition().getX() - (size / 2.0), getPosition().getY() - (size / 2.0));
+            graphics.drawImage(animation.getImage(), tx, null);
+        }
+    }
     public abstract void update(double deltaTime);
 
     public void spawn(Point2D position) {
         if(!isSpawned()) {
             setSpawned(true);
-            setPosition(new Point2D.Double(position.getX() - sprites[0].getWidth()/2, position.getY() - sprites[0].getWidth()/2));
+            setPosition(new Point2D.Double(position.getX() - size/2, position.getY() - size/2));
         }
     }
 
@@ -91,8 +101,12 @@ public abstract class Person implements Comparable, Serializable {
         this.position = position;
     }
 
-    public BufferedImage[] getSprites() {
-        return sprites;
+
+    public Point2D calculateMovement(Point direction, int tileX, int tileY) {
+        Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
+        Point2D neededToMove = new Point2D.Double(goTo.getX() - getPosition().getX(), goTo.getY() - getPosition().getY());
+        neededToMove = new Point2D.Double(neededToMove.getX() / neededToMove.distance(0, 0) * speed, neededToMove.getY() / neededToMove.distance(0, 0) * speed);
+        return neededToMove;
     }
 
     public void move(Point2D neededToMove, double deltaTime) {
@@ -130,5 +144,19 @@ public abstract class Person implements Comparable, Serializable {
         }
         graphics.drawImage(getSprites()[animationCounter], tx, null);
         animationCounter++;
+    }
+    public void goCloserToTarget(Target target, double deltaTime) {
+
+        int tileX = (int) Math.floor(getPosition().getX() / 32);
+        int tileY = (int) Math.floor(getPosition().getY() / 32);
+        if(!target.isAtTarget(tileX, tileY)) {
+            this.direction = target.getDirection(tileX, tileY);
+            if(direction.x != 0 || direction.y != 0) {
+                Point2D neededToMove = calculateMovement(direction, tileX,tileY);
+                move(neededToMove, deltaTime);
+            }
+        } else {
+            this.direction = null;
+        }
     }
 }
