@@ -125,12 +125,8 @@ public class RoomObjectTarget extends Target {
     public boolean isAtTarget(Person p) {
         int tX = getTotalTileXLocation() * 32;
         int tY = getTotalTileYLocation() * 32;
-
         int x = (int) p.getPosition().getX();
         int y = (int) p.getPosition().getY();
-        //System.out.println((x >= tX && y >= tY && x <= tX + 32 && y <= tX + 32));
-        //System.out.println("X: " + p.getPosition().getX() + " Y: " + p.getPosition().getY() + " " + tX + " " + tY);
-
         return x >= tX && y >= tY && x <= tX + 32 && y <= tY + 32;
     }
 
@@ -140,7 +136,6 @@ public class RoomObjectTarget extends Target {
         int realY = (tileRoomY + tileRoomY) * 32 + 16;
         int x = (int) p.getPosition().getX();
         int y = (int) p.getPosition().getX();
-
         return x == realX && y == realY;
     }
 
