@@ -24,8 +24,6 @@ public class TiledMap {
     private int width;
     private static TiledMap map;
 
-    private Target exitTarget;
-
     public TiledMap(String filename) {
         map = this;
         JsonReader jsonReader = Json.createReader(getClass().getClassLoader().getResourceAsStream(filename));
@@ -184,9 +182,5 @@ public class TiledMap {
 
     public int getWidth() {
         return width;
-    }
-
-    public Target getExitTarget() {
-        return exitTarget;
     }
 }
