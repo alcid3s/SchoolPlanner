@@ -95,6 +95,18 @@ public class SimulationTab extends Tab implements Resizable {
                 }
             }
         }
+
+        for(Person teacher : Schedule.getInstance().getTeacherList()){
+            if(!teacher.isSpawned()){
+                if(timer <= 0){
+                    teacher.spawn(map.getTeacherSpawn());
+                    System.out.println("spawn");
+                    timer = 0.5;
+                }
+            }else{
+                teacher.update(deltaTime);
+            }
+        }
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -135,11 +147,16 @@ public class SimulationTab extends Tab implements Resizable {
         g2d = g;
         g2d.setTransform(camera.getTransform());
 
-        for (Group group : groupList) {
+        for(Group group : groupList) {
             for (Person student: group.getStudents()) {
                 student.draw(g2d);
             }
         }
+
+        for(Person teacher : Schedule.getInstance().getTeacherList()){
+            teacher.draw(g2d);
+        }
+
         g2d.setColor(Color.BLUE);
        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
 
