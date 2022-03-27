@@ -14,9 +14,8 @@ public class Validation {
     private static String message = "";
 
     public static boolean lessonIsValid(Lesson lesson) {
-        return sizeIsValid(lesson.getRoom(), lesson.getGroup())
-                && timeIsValid(lesson.getStartDate(), lesson.getEndDate())
-                && scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson.getTeacher(), lesson.getRoom(), lesson.getGroup())
+        return timeIsValid(lesson.getStartDate(), lesson.getEndDate())
+                && sizeIsValid(lesson.getRoom(), lesson.getGroup())
                 && isClassRoom(lesson.getRoom());
     }
 
@@ -117,11 +116,7 @@ public class Validation {
     }
 
     public static boolean isClassRoom(Room room) {
-        if (room instanceof Classroom) {
-            return true;
-        }
-        message = "Lesson must be given in a classroom";
-        return false;
+        return room instanceof Classroom;
     }
 
     public static boolean scheduleIsAvailable(LocalDateTime startTime, LocalDateTime endTime, Person teacher, Room room, Group group) {
