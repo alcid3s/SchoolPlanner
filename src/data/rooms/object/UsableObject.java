@@ -6,6 +6,7 @@ import data.tilted.TiledImageLayer;
 import data.persons.Person;
 import data.tilted.pathfinding.target.RoomObjectTarget;
 import data.tilted.pathfinding.target.Target;
+import tasks.LessonTask;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -90,6 +91,9 @@ public class UsableObject {
     public void check(Person p) {
         if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()) && !users.contains(p)) {
             users.add(p);
+            if(p.getTask() instanceof LessonTask) {
+                System.out.println("Added user " + p);
+            }
         }
     }
 

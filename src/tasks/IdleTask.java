@@ -1,10 +1,7 @@
 package tasks;
 
 import data.persons.Person;
-import data.rooms.Canteen;
-import data.rooms.Room;
-import data.rooms.Toilet;
-import data.rooms.Xplora;
+import data.rooms.*;
 import data.rooms.object.UsableObject;
 
 import java.util.Optional;
@@ -25,9 +22,9 @@ public class IdleTask extends Task {
 
         int value = random.nextInt(11);
         if(value <= 6) {
-            getRoomAndObject(Xplora.class);
+            getRoomAndObject(Classroom.class);
         } else if(value <= 9) {
-            getRoomAndObject(Canteen.class);
+            getRoomAndObject(Classroom.class);
         } else {
             getRoomAndObject(Toilet.class);
             timer = random.nextInt(8);

@@ -164,12 +164,15 @@ public class Schedule implements Serializable{
     }
 
     public void setExample(){
-        groupList.add(new Group("Proftaak B", 30));
-        groupList.add(new Group("Proftaak A", 25));
+        groupList.add(new Group("Proftaak B", 20));
+        groupList.add(new Group("Proftaak A", 20));
+        groupList.add(new Group("Proftaak C", 20));
+        groupList.add(new Group("Proftaak D", 20));
+        groupList.add(new Group("Proftaak E", 20));
         teacherList.add(new Teacher("Pieter"));
         teacherList.add(new Teacher("Edwin"));
         teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LA135"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
+        lessonList.add(new Lesson("WIS", getRoom("LA134"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
         lessonList.add(new Lesson("OGP", getRoom("CollegeHall"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
         lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Etienne"), getGroup("Proftaak A"), Util.makeTime("12", "05"), Util.makeTime("16", "00")));
     }

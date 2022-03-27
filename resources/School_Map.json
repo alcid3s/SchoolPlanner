@@ -77,15 +77,15 @@
                  "y":609.25
                 }, 
                 {
-                 "height":94,
+                 "height":96,
                  "id":20,
-                 "name":"teacherCollegeZaal",
+                 "name":"teacherCollegeHall",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":64.3333,
-                 "x":1472.33,
-                 "y":161.33
+                 "width":64,
+                 "x":1472.001875,
+                 "y":160
                 }, 
                 {
                  "height":128,
@@ -392,7 +392,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -402,14 +402,14 @@
          "name":"Rooms",
          "objects":[
                 {
-                 "height":287.996094093105,
+                 "height":320,
                  "id":50,
                  "name":"LA137",
                  "properties":[
                         {
                          "name":"centerLocation",
                          "type":"string",
-                         "value":"65,26"
+                         "value":"65,23"
                         }, 
                         {
                          "name":"size",
@@ -419,9 +419,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":512.000584993961,
-                 "x":2047.99550875604,
-                 "y":576.001301740228
+                 "width":544,
+                 "x":2016,
+                 "y":544
                 }, 
                 {
                  "height":928.00390625,
@@ -468,14 +468,14 @@
                  "y":128
                 }, 
                 {
-                 "height":288,
+                 "height":320,
                  "id":54,
                  "name":"LA135",
                  "properties":[
                         {
                          "name":"centerLocation",
                          "type":"string",
-                         "value":"47,26"
+                         "value":"48,23"
                         }, 
                         {
                          "name":"size",
@@ -485,19 +485,19 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":512,
-                 "x":1472.00174400253,
-                 "y":575.997364267677
+                 "width":544,
+                 "x":1440,
+                 "y":544
                 }, 
                 {
-                 "height":319.99609375,
+                 "height":416,
                  "id":55,
                  "name":"CollegeHall",
                  "properties":[
                         {
                          "name":"centerLocation",
                          "type":"string",
-                         "value":"46,12"
+                         "value":"51,8"
                         }, 
                         {
                          "name":"size",
@@ -507,12 +507,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":1088,
-                 "x":1471.99609375,
-                 "y":128
+                 "width":1120,
+                 "x":1440,
+                 "y":32
                 }, 
                 {
-                 "height":416.002777777778,
+                 "height":448,
                  "id":56,
                  "name":"LA124",
                  "properties":[
@@ -531,7 +531,7 @@
                  "visible":true,
                  "width":799.99765625,
                  "x":64.00390625,
-                 "y":127.997222222222
+                 "y":96
                 }, 
                 {
                  "height":576,
@@ -556,7 +556,7 @@
                  "y":960
                 }, 
                 {
-                 "height":288,
+                 "height":320,
                  "id":58,
                  "name":"LA136",
                  "properties":[
@@ -573,12 +573,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":511.997048611111,
-                 "x":2048,
-                 "y":1248
+                 "width":544,
+                 "x":2016,
+                 "y":1216
                 }, 
                 {
-                 "height":287.99609375,
+                 "height":320,
                  "id":59,
                  "name":"LA134",
                  "properties":[
@@ -595,9 +595,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":511.99609375,
-                 "x":1472,
-                 "y":1248
+                 "width":544,
+                 "x":1440,
+                 "y":1216
                 }, 
                 {
                  "height":384,
@@ -655,7 +655,7 @@
          "name":"Students",
          "objects":[
                 {
-                 "height":416,
+                 "height":448,
                  "id":30,
                  "name":"studentLA124",
                  "rotation":0,
@@ -663,21 +663,21 @@
                  "visible":true,
                  "width":672,
                  "x":64,
-                 "y":128
+                 "y":96
                 }, 
                 {
-                 "height":544,
+                 "height":575.5,
                  "id":33,
                  "name":"canteen",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":1184,
-                 "x":64,
-                 "y":992
+                 "width":1216,
+                 "x":32,
+                 "y":960.5
                 }, 
                 {
-                 "height":320,
+                 "height":416,
                  "id":35,
                  "name":"studentCollegeHall",
                  "rotation":0,
@@ -685,10 +685,10 @@
                  "visible":true,
                  "width":960,
                  "x":1600,
-                 "y":128
+                 "y":32
                 }, 
                 {
-                 "height":288,
+                 "height":320,
                  "id":36,
                  "name":"studentLA137",
                  "rotation":0,
@@ -696,21 +696,21 @@
                  "visible":true,
                  "width":384,
                  "x":2176,
-                 "y":576
+                 "y":544
                 }, 
                 {
-                 "height":287,
+                 "height":320,
                  "id":37,
                  "name":"studentLA135",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":284,
+                 "width":384,
                  "x":1600,
-                 "y":576
+                 "y":544
                 }, 
                 {
-                 "height":287.99609375,
+                 "height":320,
                  "id":38,
                  "name":"studentLA134",
                  "rotation":0,
@@ -718,18 +718,18 @@
                  "visible":true,
                  "width":384,
                  "x":1600,
-                 "y":1247.99558423913
+                 "y":1216
                 }, 
                 {
-                 "height":288,
+                 "height":320,
                  "id":39,
                  "name":"studentLA136",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":284,
+                 "width":384,
                  "x":2176,
-                 "y":1248
+                 "y":1216
                 }, 
                 {
                  "height":288,
@@ -799,7 +799,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 

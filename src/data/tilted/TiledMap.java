@@ -87,7 +87,7 @@ public class TiledMap {
         }
         System.out.println(location);
         MapTarget t = new MapTarget(location, collisionLayer);
-        if(name.toLowerCase().contains("la") || name.toLowerCase().contains("zaal")) {
+        if(name.toLowerCase().contains("la") || name.toLowerCase().contains("college")) {
             return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
         if(name.toLowerCase().contains("xplora")) {

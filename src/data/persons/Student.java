@@ -53,7 +53,7 @@ public class Student extends Person {
 
     @Override
     public void update(double deltaTime) {
-        if(doUpdate){
+        if(doUpdate) {
             if(task == null) {
                 task = new IdleTask(this);
             }

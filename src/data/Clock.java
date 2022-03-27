@@ -15,9 +15,9 @@ public class Clock implements Updatable{
     private DateTimeFormatter formatter;
     private ClockCallback callback;
 
-    public Clock(ClockCallback callback){
+    public Clock(ClockCallback callback) {
         check = false;
-        time = LocalTime.of(7, 0,0);
+        time = LocalTime.of(8, 0,0);
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.callback = callback;
