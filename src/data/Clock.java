@@ -11,19 +11,19 @@ import java.time.format.DateTimeFormatter;
 public class Clock implements Updatable{
     private int speed;
     private boolean check;
-    private LocalTime time;
+    private static LocalTime time;
     private DateTimeFormatter formatter;
     private ClockCallback callback;
 
     public Clock(ClockCallback callback) {
         check = false;
-        time = LocalTime.of(8, 0,0);
+        time = LocalTime.of(8, 30,0);
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.callback = callback;
     }
 
-    public LocalTime getTime(){
+    public static LocalTime getTime(){
         return time;
     }
 
@@ -35,17 +35,24 @@ public class Clock implements Updatable{
         g2d.setTransform(transform);
     }
 
+    public static void resetTime(){
+        time = LocalTime.of(6, 30, 0);
+    }
+
     @Override
     public void update(double deltaTime) {
-        if(time.getHour() >= 8 && time.getHour() < 16 && !check){
+        if(time.getHour() >= 7 && time.getHour() < 16 && !check){
+            speed = 1;
             check = true;
             callback.onBeginTime();
-        }else if((time.getHour() >= 16 || time.getHour() < 8) && check){
+        }else if((time.getHour() >= 16 || time.getHour() < 7) && check){
             check = false;
             callback.onEndTime();
+        }else if(time.getHour() >= 16 && time.getMinute() > 30){
+            speed = 10;
         }
 
-        time = time.plusSeconds((int) (speed * deltaTime * 150));
+        time = time.plusSeconds((int) (speed * deltaTime * 100));
     }
 }
 

@@ -1,6 +1,8 @@
 package tasks;
 
 import data.persons.Person;
+import data.persons.Student;
+import data.persons.Teacher;
 import data.rooms.*;
 import data.rooms.object.UsableObject;
 
@@ -21,11 +23,13 @@ public class IdleTask extends Task {
         maxTimeToMove = 30;
 
         int value = random.nextInt(11);
-        if(value <= 6) {
-            getRoomAndObject(Classroom.class);
-        } else if(value <= 9) {
-            getRoomAndObject(Classroom.class);
-        } else {
+        if(value <= 6 && p instanceof Student) {
+            getRoomAndObject(Xplora.class);
+        } else if(value <= 9 && p instanceof Student) {
+            getRoomAndObject(Canteen.class);
+        } else if(value <= 9 && p instanceof Teacher){
+            getRoomAndObject(TeacherRoom.class);
+        }else {
             getRoomAndObject(Toilet.class);
             timer = random.nextInt(8);
         }

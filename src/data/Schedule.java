@@ -3,6 +3,7 @@ package data;
 import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
+import gui.FileManager;
 import gui.Util;
 import gui.tabs.ScheduleTab;
 
@@ -16,7 +17,7 @@ public class Schedule implements Serializable{
 
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
-    private ArrayList<Teacher> teacherList;
+    private ArrayList<Person> teacherList;
     private ArrayList<Room> roomList;
 
     public Schedule() {
@@ -115,8 +116,8 @@ public class Schedule implements Serializable{
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Teacher getTeacher(String name){
-        for(Teacher t : teacherList){
+    public Person getTeacher(String name){
+        for(Person t : teacherList){
             if(t.getName().equals(name))
                 return t;
         }
@@ -131,7 +132,7 @@ public class Schedule implements Serializable{
         return groupList;
     }
 
-    public ArrayList<Teacher> getTeacherList(){
+    public ArrayList<Person> getTeacherList(){
         return teacherList;
     }
 
@@ -183,34 +184,7 @@ public class Schedule implements Serializable{
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    if(file.exists())
-                        file.delete();
-                    file.createNewFile();
-                    JsonArrayBuilder teacherList = Json.createArrayBuilder();
-                    JsonArrayBuilder groupList = Json.createArrayBuilder();
-                    JsonArrayBuilder lessonList = Json.createArrayBuilder();
-                    this.teacherList.forEach(e -> teacherList.add(e.getJsonString()));
-                    this.groupList.forEach(e -> groupList.add(e.getJsonString()));
-                    this.lessonList.forEach(e -> lessonList.add(e.getJsonString()));
-
-                    Map<String, Object> properties = new HashMap<>(1);
-                    properties.put(JsonGenerator.PRETTY_PRINTING, true);
-                    JsonWriterFactory jf = Json.createWriterFactory(properties);
-                    JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("teachers", teacherList)
-                            .add("groups", groupList)
-                            .add("lessons", lessonList)
-                            .build();
-                    FileWriter fileWriter = new FileWriter(file);
-                    JsonWriter jsonWriter = jf.createWriter(fileWriter);
-                    jsonWriter.writeObject(jsonObject);
-                    jsonWriter.close();
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.saveJson(file, this);
             case "rooster":
                 try {
                     if(file.exists())
@@ -221,7 +195,7 @@ public class Schedule implements Serializable{
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                     objectOutputStream.writeObject(this);
                     objectOutputStream.close();
-
+                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                     return false;
@@ -236,26 +210,7 @@ public class Schedule implements Serializable{
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    InputStream input = new FileInputStream(file);
-                    JsonReader jsonReader = Json.createReader(input);
-                    JsonObject jsonObject = jsonReader.readObject();
-                    clearAllLists();
-                    jsonObject.getJsonArray("teachers").forEach(teacher -> {
-                        addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("groups").forEach(group -> {
-                        addGroup(new Group(group.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("lessons").forEach(lesson -> {
-                        addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
-                    });
-                    ScheduleTab.refreshCanvas();
-                    return true;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.loadJson(file, this);
             case "rooster":
                 try {
                     FileInputStream f = new FileInputStream(file);
@@ -264,6 +219,7 @@ public class Schedule implements Serializable{
                     this.schedule.setLessonList(newSchedule.getLessonList());
                     this.schedule.setTeacherList(newSchedule.getTeacherList());
                     this.schedule.setGroupList(newSchedule.getGroupList());
+                    Clock.resetTime();
                     ScheduleTab.refreshCanvas();
                     return true;
                 } catch (Exception e) {
@@ -293,7 +249,7 @@ public class Schedule implements Serializable{
         this.groupList = groupList;
     }
 
-    public void setTeacherList(ArrayList<Teacher> teacherList) {
+    public void setTeacherList(ArrayList<Person> teacherList) {
         this.teacherList = teacherList;
     }
 
@@ -301,7 +257,7 @@ public class Schedule implements Serializable{
         this.roomList = roomList;
     }
 
-    private void clearAllLists(){
+    public void clearAllLists(){
         this.lessonList.clear();
         this.groupList.clear();
         this.teacherList.clear();

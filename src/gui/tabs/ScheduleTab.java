@@ -32,7 +32,6 @@ public class ScheduleTab extends Tab{
 
     public ScheduleTab(Stage stage){
         super("Schedule");
-        Schedule.getInstance().setExample();
         setClosable(false);
         tab = this;
 
@@ -91,6 +90,7 @@ public class ScheduleTab extends Tab{
             File loadLocation = fileChooser.showOpenDialog(stage);
             if(loadLocation != null) {
                 if(Schedule.getInstance().load(loadLocation)) {
+
                     new Alert(Alert.AlertType.CONFIRMATION, "File Loaded.").show();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Could not load file.").show();

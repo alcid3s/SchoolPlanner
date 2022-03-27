@@ -1,5 +1,6 @@
 package gui;
 
+import data.Schedule;
 import gui.tabs.ScheduleTab;
 import gui.tabs.SimulationTab;
 import javafx.application.Application;
@@ -9,8 +10,10 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
+import java.io.Serializable;
 
-public class GUI extends Application {
+public class GUI extends Application{
 
     public static void main(String[] args) {
        launch(GUI.class);
@@ -33,6 +36,11 @@ public class GUI extends Application {
 
         primaryStage.show();
 
-        primaryStage.setOnCloseRequest(e -> Platform.exit());
+        Schedule.getInstance().load(new File("resources/autosave.json"));
+
+        primaryStage.setOnCloseRequest(e -> {
+            Schedule.getInstance().save(new File("resources/autosave.json"));
+            Platform.exit();
+        });
     }
 }

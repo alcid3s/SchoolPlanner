@@ -6,27 +6,18 @@ public class Timer implements Updatable{
 
     @Override
     public void update(double deltaTime) {
-        this.currentTime = this.clock.getTime();
-        if(this.currentTime.getHour() == this.endTime.getHour() && this.currentTime.getMinute() == this.endTime.getMinute()){
-            this.callback.onEndOfClass(this);
+        if(Clock.getTime().getHour() == this.endTime.getHour() && Clock.getTime().getMinute() == this.endTime.getMinute()){
+            this.callback.onEndOfClass(lesson);
         }
     }
 
     private TimerCallback callback;
-    private LocalTime currentTime;
     private LocalTime endTime;
-    private String name;
-    private Clock clock;
+    private Lesson lesson;
 
-    public Timer(String name, LocalTime endTime,TimerCallback callback, Clock clock){
-        this.currentTime = clock.getTime();
-        this.endTime = endTime;
+    public Timer(Lesson lesson, TimerCallback callback){
+        this.endTime = lesson.getEndDate().toLocalTime();
         this.callback = callback;
-        this.name = name;
-        this.clock = clock;
-    }
-
-    public String getName(){
-        return this.name;
+        this.lesson = lesson;
     }
 }

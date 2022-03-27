@@ -49,7 +49,7 @@ public class Camera{
 
     public void mouseScroll(ScrollEvent e){
         float zoom = this.zoom * (float)(1 + e.getDeltaY() / 500.0f);
-        if(zoom > 0.42258725 && zoom < 1.1535156 || true){
+        if(zoom > 0.42258725 && zoom < 1.2535156){
             this.zoom = zoom;
             tab.setUpdateBackground(true);
         }

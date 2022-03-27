@@ -107,7 +107,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             if(!teacher.isSpawned()){
                 if(timer <= 0){
                     teacher.spawn(map.getTeacherSpawn());
-                    System.out.println("spawn");
                     timer = 0.5;
                 }
             }else{
@@ -119,15 +118,23 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         });
 
         Schedule.getInstance().getLessonList().forEach(l ->{
-            if(l.getStartDate().toLocalTime().getHour() == clockTime.getTime().getHour() && l.getStartDate().toLocalTime().getMinute() >= clockTime.getTime().getMinute() && !l.getHasTask()){
+            int hour = l.getStartDate().getHour();
+            int minute = l.getStartDate().getMinute();
+//            if(minute < 15){
+//                hour -= 1;
+//                minute = 45 + minute;
+//            }else{
+//                minute -= 15;
+//            }
+            if(hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !l.getHasTask()){
                 l.setHasTask(true);
                 System.out.println("lesson");
-                timers.add(new Timer(l.getName(), l.getEndDate().toLocalTime(), this,clockTime));
-                if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
+                timers.add(new Timer(l,this));
+                //if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
                     l.getGroup().getStudents().forEach(s -> {
                         s.setTask(new LessonTask(s, l.getRoom()));
                     });
-                }
+                //}
                 l.getTeacher().setTask(new LessonTask(l.getTeacher(), l.getRoom()));
             }
         });
@@ -309,13 +316,9 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     @Override
-    public void onEndOfClass(Timer source) {
-        Schedule.getInstance().getLessonList().forEach(l ->{
-            if(l.getName().equals(source.getName())){
-                l.setHasTask(false);
-                l.getGroup().getStudents().forEach(s -> s.setTask(null));
-                l.getTeacher().setTask(null);
-            }
-        });
+    public void onEndOfClass(Lesson lesson) {
+        lesson.setHasTask(false);
+        lesson.getGroup().getStudents().forEach(s -> s.setTask(null));
+        lesson.getTeacher().setTask(null);
     }
 }

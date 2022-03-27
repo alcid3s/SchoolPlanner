@@ -60,7 +60,7 @@ public class EditTeachersPopup extends Stage{
             if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 String teacherName = (String) listView.getItems().get(selected);
-                Teacher selectedTeacher = schedule.getTeacher(teacherName);
+                Person selectedTeacher = schedule.getTeacher(teacherName);
                 if(selectedTeacher != null){
                     new EditTeacherAttributesPopup(selectedTeacher).show();
                     close();

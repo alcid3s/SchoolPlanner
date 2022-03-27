@@ -1,6 +1,7 @@
 package data.persons;
 
 import data.Animation;
+import data.Clock;
 import data.Schedule;
 import data.rooms.Room;
 import data.rooms.object.UsableObject;
@@ -37,8 +38,13 @@ public abstract class Person implements Comparable, Serializable {
         this.speed = 200;
         this.size = this.animation.getImage().getWidth();
 
-        doSpawn = false;
-        doUpdate = false;
+        if(Clock.getTime().getHour() < 8 || Clock.getTime().getHour() > 16){
+            this.doUpdate = false;
+            this.doSpawn = false;
+        }else{
+            this.doUpdate = true;
+            this.doSpawn = true;
+        }
     }
 
     public String getName() {

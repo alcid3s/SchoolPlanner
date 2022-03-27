@@ -1,5 +1,6 @@
 package gui.popups;
 
+import data.persons.Person;
 import data.persons.Teacher;
 import gui.Util;
 import gui.Validation;
@@ -21,7 +22,7 @@ public class EditTeacherAttributesPopup extends Stage{
      *
      * @param teacher attributes to be edited
      */
-    public EditTeacherAttributesPopup(Teacher teacher){
+    public EditTeacherAttributesPopup(Person teacher){
         Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {
