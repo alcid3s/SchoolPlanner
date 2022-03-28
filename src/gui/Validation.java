@@ -68,7 +68,7 @@ public class Validation {
     }
 
     public static boolean nameIsValid(String name) {
-        try{
+        try {
             Integer.parseInt(name);
             message = "This name contains numbers";
             return false;
@@ -107,7 +107,7 @@ public class Validation {
             message = "Start time should be before end time";
         } else if (startHour < 8) {
             message = "First class starts at 8:00";
-        } else if ((endHour == 16 && endMinute > 0)||endHour > 16) {
+        } else if ((endHour == 16 && endMinute > 0) || endHour > 16) {
             message = "Last class ends at 16:00";
         } else {
             return true;

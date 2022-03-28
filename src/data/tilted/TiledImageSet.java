@@ -36,8 +36,8 @@ public class TiledImageSet {
             e.printStackTrace();
             return;
         }
-        for(int i = 0; i < tileCount; i++) {
-            BufferedImage currentImage = image.getSubimage(i%columns * tileWidth, i/columns * tileHeight, tileWidth, tileHeight);
+        for (int i = 0; i < tileCount; i++) {
+            BufferedImage currentImage = image.getSubimage(i % columns * tileWidth, i / columns * tileHeight, tileWidth, tileHeight);
             tiles.put(i + firstGid, currentImage);
         }
     }

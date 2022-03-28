@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
-import java.io.Serializable;
 
 public class GUI extends Application {
     private static Scene scene;
@@ -23,13 +22,13 @@ public class GUI extends Application {
 
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         tabs = new TabPane();
         scene = new Scene(tabs);
         SimulationTab simulationTab = new SimulationTab();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
         tabs.getTabs().add(simulationTab);
-        tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-50);
+        tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
         primaryStage.setTitle("SchoolPlanner");
@@ -46,7 +45,7 @@ public class GUI extends Application {
         });
     }
 
-    public static TabPane getTabPane(){
+    public static TabPane getTabPane() {
         return tabs;
     }
 

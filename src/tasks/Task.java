@@ -10,16 +10,16 @@ public abstract class Task {
     protected Room room;
 
     public Task(Person p, UsableObject usableObject, Room r) {
-      this.p = p;
-      this.usableObject = usableObject;
-      this.room = r;
+        this.p = p;
+        this.usableObject = usableObject;
+        this.room = r;
     }
 
 
     public abstract void update(double deltaTime);
 
     public boolean isPlayerUsingObject() {
-        if(usableObject != null)
+        if (usableObject != null)
             return usableObject.isUsingEvent(p);
         return false;
     }

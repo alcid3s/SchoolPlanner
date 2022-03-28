@@ -23,25 +23,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleTab extends Tab{
+public class ScheduleTab extends Tab {
     private static ScheduleTab tab;
     private final int size = 114;
     private final int factor = 2;
-    private BorderPane mainPane;
-    private Canvas canvas;
+    private final Canvas canvas;
 
-    public ScheduleTab(Stage stage){
+    public ScheduleTab(Stage stage) {
         super("Schedule");
         setClosable(false);
         tab = this;
 
-        mainPane = new BorderPane();
+        BorderPane mainPane = new BorderPane();
         canvas = new Canvas();
 
-        if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
+        if (mainPane.getHeight() == 0 || mainPane.getWidth() == 0) {
             canvas.setWidth(1920);
             canvas.setHeight(900);
-        }else{
+        } else {
             canvas.setWidth(mainPane.getWidth());
             canvas.setHeight(mainPane.getHeight());
         }
@@ -65,20 +64,19 @@ public class ScheduleTab extends Tab{
         Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
 
-        Button save = Util.getDefaultButton("Save Rooster", 50,scale);
+        Button save = Util.getDefaultButton("Save Rooster", 50, scale);
         save.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Location to save");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster", "*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
-            if(saveLocation != null) {
-                if(Schedule.getInstance().save(saveLocation)) {
+            if (saveLocation != null) {
+                if (Schedule.getInstance().save(saveLocation)) {
                     new Alert(Alert.AlertType.CONFIRMATION, "File Saved.").show();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Could not save file.").show();
                 }
-            }
-            else
+            } else
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
         });
 
@@ -86,21 +84,20 @@ public class ScheduleTab extends Tab{
         load.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select File to load");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster","*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster", "*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
             File loadLocation = fileChooser.showOpenDialog(stage);
-            if(loadLocation != null) {
-                if(Schedule.getInstance().load(loadLocation)) {
+            if (loadLocation != null) {
+                if (Schedule.getInstance().load(loadLocation)) {
 
                     new Alert(Alert.AlertType.CONFIRMATION, "File Loaded.").show();
                 } else {
                     new Alert(Alert.AlertType.ERROR, "Could not load file.").show();
                 }
-            }
-            else
+            } else
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
         });
 
-        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh,save,load);
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh, save, load);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
@@ -135,7 +132,7 @@ public class ScheduleTab extends Tab{
         int textLocation = (rectangle.width / 2) + xStart;
 
         //graphics.drawRect(textLocation, yStart+10, 150,25);
-        if(lesson.notNull()) {
+        if (lesson.notNull()) {
             String time = leadingZero(startHour) + ":" + leadingZero(startMinute) + " - " + leadingZero(endHour) + ":" + leadingZero(endMinute);
             graphics.drawString(time, textLocation - graphics.getFontMetrics().stringWidth(time) / 2, yStart + 30);
             graphics.drawString(lesson.getName(), textLocation - graphics.getFontMetrics().stringWidth(lesson.getName()) / 2, yStart + 60);
@@ -145,36 +142,36 @@ public class ScheduleTab extends Tab{
         }
     }
 
-    private String leadingZero(int num){
+    private String leadingZero(int num) {
         return num < 10 ? "0" + num : num + "";
     }
 
     /*
     Draws rectangles for time indication.
      */
-    private void drawFrame(FXGraphics2D graphics){
+    private void drawFrame(FXGraphics2D graphics) {
         List<String> array = new ArrayList<>();
-        for(Group group : Schedule.getInstance().getGroupList()){
+        for (Group group : Schedule.getInstance().getGroupList()) {
             array.add(group.getName());
         }
 
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
-        java.awt.Font font = new Font("Verdana", 16, 20);
+        java.awt.Font font = new Font("Verdana", Font.PLAIN, 20);
 
         graphics.draw(new Rectangle(0, 0, 100, 40));
         graphics.setFont(font);
 
         graphics.drawString("Groups", 0, 30);
 
-        for(int i = 0; i < temporaryTimeList.length; i++ ){
+        for (int i = 0; i < temporaryTimeList.length; i++) {
 
             // horizontal and vertical rectangles
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
             graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
 
             // teacher list
-            if(i != 0 && i <= array.size()){
+            if (i != 0 && i <= array.size()) {
                 graphics.drawString(array.get(i - 1), 0, i * 170);
             }
 
@@ -183,7 +180,7 @@ public class ScheduleTab extends Tab{
         }
     }
 
-    private Canvas getCanvas(){
+    private Canvas getCanvas() {
         return canvas;
     }
 
@@ -191,7 +188,7 @@ public class ScheduleTab extends Tab{
         FXGraphics2D graphics = new FXGraphics2D(tab.getCanvas().getGraphicsContext2D());
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, (int)tab.getCanvas().getWidth(), (int)tab.getCanvas().getHeight());
+        graphics.clearRect(0, 0, (int) tab.getCanvas().getWidth(), (int) tab.getCanvas().getHeight());
         tab.drawFrame(graphics);
 
         for (Lesson lesson : Schedule.getInstance().getLessonList()) {

@@ -21,27 +21,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback {
-    private BorderPane mainPane;
     private Canvas canvas;
-    private Canvas backgroundCanvas;
-    private FXGraphics2D gBackground;
+    private final FXGraphics2D gBackground;
     private FXGraphics2D g;
     private boolean updateBackground;
-    private TiledMap map;
-    private Camera camera;
-    private List<Group> groupList;
-    private Pane pane;
+    private final TiledMap map;
+    private final Camera camera;
+    private final List<Group> groupList;
+    private final Pane pane;
     private double timer = 0.5;
-    private List<Updatable> timers;
+    private final List<Updatable> timers;
 
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
     private int totalFrames = 0;
 
-    private static boolean flag = false;
-    private static int fastForward = 1;
-
-    private Clock clockTime;
+    private final Clock clockTime;
 
     public SimulationTab() {
         super("Simulation");
@@ -51,9 +46,9 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
 
-        this.mainPane = new BorderPane();
+        BorderPane mainPane = new BorderPane();
         this.canvas = new Canvas(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-        this.backgroundCanvas = new Canvas(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        Canvas backgroundCanvas = new Canvas(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 
         pane = new Pane();
         this.camera = new Camera(this);
@@ -127,9 +122,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
                 teacher.update(deltaTime);
             }
         }
-        Schedule.getInstance().getRoomList().forEach(room -> {
-            room.update(deltaTime);
-        });
+        Schedule.getInstance().getRoomList().forEach(room -> room.update(deltaTime));
 
         Schedule.getInstance().getLessonList().forEach(lesson -> {
             int hour = lesson.getStartDate().getHour();
@@ -145,9 +138,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
                 System.out.println("lesson");
                 timers.add(new Timer(lesson, this));
                 //if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
-                lesson.getGroup().getStudents().forEach(s -> {
-                    s.setTask(new LessonTask(s, lesson.getRoom()));
-                });
+                lesson.getGroup().getStudents().forEach(s -> s.setTask(new LessonTask(s, lesson.getRoom())));
                 //}
                 lesson.getTeacher().setTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
             }
@@ -239,56 +230,12 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         return this.canvas;
     }
 
-    public BorderPane getMainPane() {
-        return mainPane;
-    }
-
     public Canvas getCanvas() {
         return canvas;
     }
 
-    public Canvas getBackgroundCanvas() {
-        return backgroundCanvas;
-    }
-
     public TiledMap getMap() {
         return map;
-    }
-
-    public Camera getCamera() {
-        return camera;
-    }
-
-    public List<Group> getGroupList() {
-        return groupList;
-    }
-
-    public double getTimer() {
-        return timer;
-    }
-
-    public long getLastFPSCheck() {
-        return lastFPSCheck;
-    }
-
-    public int getCurrentFPS() {
-        return currentFPS;
-    }
-
-    public int getTotalFrames() {
-        return totalFrames;
-    }
-
-    public FXGraphics2D getgBackground() {
-        return gBackground;
-    }
-
-    public FXGraphics2D getG() {
-        return g;
-    }
-
-    public boolean isUpdateBackground() {
-        return updateBackground;
     }
 
     public void setUpdateBackground(boolean updateBackground) {
@@ -301,7 +248,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
     @Override
     public void onBeginTime() {
-        Schedule.getInstance().getLessonList().forEach(l -> System.out.println(l));
+        Schedule.getInstance().getLessonList().forEach(System.out::println);
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             s.setDoUpdate(true);
             s.setDoSpawn(true);

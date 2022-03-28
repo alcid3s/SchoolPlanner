@@ -19,13 +19,13 @@ public class EditGroupsPopup extends Stage {
     /**
      * This is the main popup to edit groups, remove a group, create a new group or edit a group
      */
-    public EditGroupsPopup(){
+    public EditGroupsPopup() {
         setTitle("Edit groups");
         Schedule schedule = Schedule.getInstance();
-        ListView listView = new ListView();
+        ListView<Group> listView = new ListView<Group>();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        for(Group group : schedule.getGroupList()){
+        for (Group group : schedule.getGroupList()) {
             listView.getItems().add(group);
         }
         BorderPane borderPane = new BorderPane();
@@ -45,31 +45,31 @@ public class EditGroupsPopup extends Stage {
         });
 
         remove.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0){
+            if (listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                Group selectedGroup = (Group) listView.getItems().get(selected);
-                if(selectedGroup != null){
-                    if(Validation.groupIsFee(selectedGroup)){
+                Group selectedGroup = listView.getItems().get(selected);
+                if (selectedGroup != null) {
+                    if (Validation.groupIsFee(selectedGroup)) {
                         listView.getItems().remove(selected);
                         schedule.removeGroup(selectedGroup);
                         ScheduleTab.refreshCanvas();
-                    }else{
-                        new Alert(Alert.AlertType.ERROR, "Could not delete group because it is in use. (" + selectedGroup.toString() + ")").show();
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Could not delete group because it is in use. (" + selectedGroup + ")").show();
                     }
-                }else{
+                } else {
                     new Alert(Alert.AlertType.ERROR, "Could not find group").show();
                 }
             }
         });
 
         edit.setOnAction(e -> {
-            if(listView.getSelectionModel().getSelectedItems().size() > 0){
+            if (listView.getSelectionModel().getSelectedItems().size() > 0) {
                 int selected = listView.getSelectionModel().getSelectedIndex();
-                Group selectedGroup = (Group) listView.getItems().get(selected);
-                if(selectedGroup != null){
+                Group selectedGroup = listView.getItems().get(selected);
+                if (selectedGroup != null) {
                     new EditGroupAttributesPopup(selectedGroup).show();
                     close();
-                }else{
+                } else {
                     new Alert(Alert.AlertType.ERROR, "Could not find group.").show();
                 }
             }

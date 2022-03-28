@@ -3,8 +3,6 @@ package data.persons;
 import data.Animation;
 import data.Clock;
 import data.Schedule;
-import data.rooms.Room;
-import data.rooms.object.UsableObject;
 import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 import tasks.LeaveTask;
@@ -13,10 +11,7 @@ import tasks.Task;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-
 import java.io.Serializable;
-import java.util.Optional;
-import java.util.Random;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;
@@ -38,10 +33,10 @@ public abstract class Person implements Comparable, Serializable {
         this.speed = 200;
         this.size = this.animation.getImage().getWidth();
 
-        if(Clock.getTime().getHour() < 8 || Clock.getTime().getHour() > 16){
+        if (Clock.getTime().getHour() < 8 || Clock.getTime().getHour() > 16) {
             this.doUpdate = false;
             this.doSpawn = false;
-        }else{
+        } else {
             this.doUpdate = true;
             this.doSpawn = true;
         }
@@ -67,19 +62,19 @@ public abstract class Person implements Comparable, Serializable {
     public abstract void update(double deltaTime);
 
     public void spawn(Point2D position) {
-        if(!isSpawned() && doSpawn) {
+        if (!isSpawned() && doSpawn) {
             setSpawned(true);
-            setPosition(new Point2D.Double(position.getX() - size/2, position.getY() - size/2));
+            setPosition(new Point2D.Double(position.getX() - size / 2, position.getY() - size / 2));
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.name;
     }
 
     @Override
-    public int compareTo(Object o){
+    public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());
     }
 
@@ -96,11 +91,11 @@ public abstract class Person implements Comparable, Serializable {
         isSpawned = spawned;
     }
 
-    public void setDoSpawn(boolean set){
+    public void setDoSpawn(boolean set) {
         doSpawn = set;
     }
 
-    public void setDoUpdate(boolean set){
+    public void setDoUpdate(boolean set) {
         doUpdate = set;
     }
 
@@ -124,17 +119,17 @@ public abstract class Person implements Comparable, Serializable {
     }
 
     public void goCloserToTarget(Target target, double deltaTime) {
-        if(isSpawned && doUpdate){
+        if (isSpawned && doUpdate) {
             int tileX = (int) Math.floor(getPosition().getX() / 32);
             int tileY = (int) Math.floor(getPosition().getY() / 32);
-            if(!target.isAtTarget(tileX, tileY)) {
+            if (!target.isAtTarget(tileX, tileY)) {
                 this.direction = target.getDirection(tileX, tileY);
-                if(direction.x != 0 || direction.y != 0) {
-                    Point2D neededToMove = calculateMovement(direction, tileX,tileY);
+                if (direction.x != 0 || direction.y != 0) {
+                    Point2D neededToMove = calculateMovement(direction, tileX, tileY);
                     move(neededToMove, deltaTime);
                 }
             } else {
-                if(task instanceof LeaveTask){
+                if (task instanceof LeaveTask) {
                     isSpawned = false;
                     doUpdate = false;
                     task = null;
@@ -144,7 +139,7 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
-    public void setTask(Task task){
+    public void setTask(Task task) {
         this.task = task;
     }
 
@@ -159,9 +154,9 @@ public abstract class Person implements Comparable, Serializable {
         double gotoX = neededX - getPosition().getX();
         double gotoY = neededY - getPosition().getY();
 
-        this.direction = new Point((int)gotoX , (int)gotoY);
+        this.direction = new Point((int) gotoX, (int) gotoY);
         Point2D.Double p = new Point2D.Double(gotoX, gotoY);
-        if(Math.abs(p.x) >= 3 || Math.abs(p.y) >= 3) {
+        if (Math.abs(p.x) >= 3 || Math.abs(p.y) >= 3) {
             Point2D neededToMove = calculateExactMovement(p, getPosition().getX(), getPosition().getY());
             move(neededToMove, deltaTime);
         }
@@ -181,17 +176,5 @@ public abstract class Person implements Comparable, Serializable {
 
     public Task getTask() {
         return task;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public Point getDirection() {
-        return direction;
     }
 }

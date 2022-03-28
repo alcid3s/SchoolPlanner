@@ -1,5 +1,5 @@
 package data;
 
-public interface Updatable{
+public interface Updatable {
     void update(double deltaTime);
 }

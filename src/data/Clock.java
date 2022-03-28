@@ -8,22 +8,22 @@ import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Clock implements Updatable{
+public class Clock implements Updatable {
     private int speed;
     private boolean check;
     private static LocalTime time;
-    private DateTimeFormatter formatter;
-    private ClockCallback callback;
+    private final DateTimeFormatter formatter;
+    private final ClockCallback callback;
 
     public Clock(ClockCallback callback) {
         check = false;
-        time = LocalTime.of(8, 30,0);
+        time = LocalTime.of(8, 30, 0);
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.callback = callback;
     }
 
-    public static LocalTime getTime(){
+    public static LocalTime getTime() {
         return time;
     }
 
@@ -31,24 +31,24 @@ public class Clock implements Updatable{
         AffineTransform transform = g2d.getTransform();
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.YELLOW);
-        g2d.drawString(formatter.format(time), (int) canvas.getWidth()-80, 20);
+        g2d.drawString(formatter.format(time), (int) canvas.getWidth() - 80, 20);
         g2d.setTransform(transform);
     }
 
-    public static void resetTime(){
+    public static void resetTime() {
         time = LocalTime.of(6, 30, 0);
     }
 
     @Override
     public void update(double deltaTime) {
-        if(time.getHour() >= 7 && time.getHour() < 16 && !check){
+        if (time.getHour() >= 7 && time.getHour() < 16 && !check) {
             speed = 1;
             check = true;
             callback.onBeginTime();
-        }else if((time.getHour() >= 16 || time.getHour() < 7) && check){
+        } else if ((time.getHour() >= 16 || time.getHour() < 7) && check) {
             check = false;
             callback.onEndTime();
-        }else if(time.getHour() >= 16 && time.getMinute() > 30){
+        } else if (time.getHour() >= 16 && time.getMinute() > 30) {
             speed = 10;
         }
 

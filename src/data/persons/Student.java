@@ -2,16 +2,14 @@ package data.persons;
 
 import data.Animation;
 import tasks.IdleTask;
-import tasks.Task;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
-
-import java.util.Random;
-import java.util.Scanner;
-import java.util.*;
 
 public class Student extends Person {
     private static HashMap<Facing, BufferedImage[]> images;
@@ -22,7 +20,7 @@ public class Student extends Person {
 
     private static Animation getAnimation() {
         Animation animation = new Animation(3);
-        if(images != null) {
+        if (images != null) {
             images.forEach(animation::setFacing);
             return animation;
         }
@@ -38,7 +36,7 @@ public class Student extends Person {
                 }
                 animation.setFacing(faces.get(y), sprites);
                 images.put(faces.get(y), sprites);
-                if(faces.get(y).equals(Facing.SOUTH)) {
+                if (faces.get(y).equals(Facing.SOUTH)) {
                     animation.setFacing(Facing.STATIONARY, sprites);
                     images.put(Facing.STATIONARY, sprites);
                 }
@@ -53,12 +51,12 @@ public class Student extends Person {
 
     @Override
     public void update(double deltaTime) {
-        if(doUpdate) {
-            if(task == null) {
+        if (doUpdate) {
+            if (task == null) {
                 task = new IdleTask(this);
             }
-            if(direction != null) {
-                if(task.isPlayerUsingObject()) {
+            if (direction != null) {
+                if (task.isPlayerUsingObject()) {
                     animation.update(0, Facing.getFacing(direction));
                 } else {
                     animation.update(deltaTime, Facing.getFacing(direction));
