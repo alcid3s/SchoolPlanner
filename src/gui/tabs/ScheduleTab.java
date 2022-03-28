@@ -16,6 +16,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.Resizable;
+import org.jfree.fx.ResizableCanvas;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -28,7 +31,7 @@ public class ScheduleTab extends Tab{
     private final int size = 114;
     private final int factor = 2;
     private BorderPane mainPane;
-    private Canvas canvas;
+    private ResizableCanvas canvas;
 
     public ScheduleTab(Stage stage){
         super("Schedule");
@@ -36,22 +39,19 @@ public class ScheduleTab extends Tab{
         tab = this;
 
         mainPane = new BorderPane();
-        canvas = new Canvas();
+        canvas = new ResizableCanvas(g -> {
+            drawFrame(g);
+            Schedule.getInstance().getLessonList().forEach(l -> {
+                drawLesson(l, g);
+            });
+        }, mainPane);
 
-        if(mainPane.getHeight() == 0 || mainPane.getWidth() == 0){
-            canvas.setWidth(1920);
-            canvas.setHeight(900);
-        }else{
-            canvas.setWidth(mainPane.getWidth());
-            canvas.setHeight(mainPane.getHeight());
-        }
-
-        mainPane.setTop(canvas);
+        mainPane.setCenter(canvas);
 
 
         refreshCanvas();
 
-        int scale = (int) canvas.getWidth() / 6;
+        int scale = (int) canvas.getWidth();
 
         Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
