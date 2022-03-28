@@ -2,27 +2,25 @@ package gui.tabs;
 
 import data.*;
 import data.persons.Person;
-import data.rooms.object.UsableObject;
 import data.tilted.TiledMap;
+import gui.GUI;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import tasks.LeaveTask;
 import tasks.LessonTask;
-import tasks.Task;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback{
+public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback {
     private BorderPane mainPane;
     private Canvas canvas;
     private Canvas backgroundCanvas;
@@ -45,7 +43,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
     private Clock clockTime;
 
-    public SimulationTab(){
+    public SimulationTab() {
         super("Simulation");
         this.timers = new ArrayList<>();
         this.timers.add(clockTime = new Clock(this));
@@ -70,12 +68,28 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         mainPane.setTop(pane);
         setContent(mainPane);
 
+        GUI.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)) {
+                switch (event.getCode()) {
+                    case B:
+                        List<Person> people = new ArrayList<>(Schedule.getInstance().getTeacherList());
+                        for (Group group : Schedule.getInstance().getGroupList()) {
+                            people.addAll(group.getStudents());
+                        }
+
+                        for (Person person : people) {
+                            person.setTask(new LeaveTask(person));
+                        }
+                }
+            }
+        });
 
         new AnimationTimer() {
             long last = -1;
+
             @Override
             public void handle(long now) {
-                if(last == -1)
+                if (last == -1)
                     last = now;
                 update((now - last) / 1000000000.0);
                 last = now;
@@ -86,7 +100,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     private void update(double deltaTime) {
-        if(timer > -0.1) {
+        if (timer > -0.1) {
             timer -= deltaTime;
         }
         //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
@@ -103,13 +117,13 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             }
         }
 
-        for(Person teacher : Schedule.getInstance().getTeacherList()){
-            if(!teacher.isSpawned()){
-                if(timer <= 0){
+        for (Person teacher : Schedule.getInstance().getTeacherList()) {
+            if (!teacher.isSpawned()) {
+                if (timer <= 0) {
                     teacher.spawn(map.getTeacherSpawn());
                     timer = 0.5;
                 }
-            }else{
+            } else {
                 teacher.update(deltaTime);
             }
         }
@@ -117,28 +131,27 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             room.update(deltaTime);
         });
 
-        Schedule.getInstance().getLessonList().forEach(l ->{
-            int hour = l.getStartDate().getHour();
-            int minute = l.getStartDate().getMinute();
+        Schedule.getInstance().getLessonList().forEach(lesson -> {
+            int hour = lesson.getStartDate().getHour();
+            int minute = lesson.getStartDate().getMinute();
 //            if(minute < 15){
 //                hour -= 1;
 //                minute = 45 + minute;
 //            }else{
 //                minute -= 15;
 //            }
-            if(hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !l.getHasTask()){
-                l.setHasTask(true);
+            if (hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !lesson.getHasTask()) {
+                lesson.setHasTask(true);
                 System.out.println("lesson");
-                timers.add(new Timer(l,this));
+                timers.add(new Timer(lesson, this));
                 //if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
-                    l.getGroup().getStudents().forEach(s -> {
-                        s.setTask(new LessonTask(s, l.getRoom()));
-                    });
+                lesson.getGroup().getStudents().forEach(s -> {
+                    s.setTask(new LessonTask(s, lesson.getRoom()));
+                });
                 //}
-                l.getTeacher().setTask(new LessonTask(l.getTeacher(), l.getRoom()));
+                lesson.getTeacher().setTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
             }
         });
-
         this.timers.forEach(t -> t.update(deltaTime));
     }
 
@@ -147,7 +160,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         g.setTransform(new AffineTransform());
         g.setBackground(Color.BLACK);
         g.setClip(null);
-        g.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
+        g.clearRect(0, 0, (int) this.canvas.getWidth(), (int) this.canvas.getHeight());
 
         g.setTransform(camera.getTransform());
 
@@ -156,8 +169,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
         updateBackground = false;
         millis = System.nanoTime() - millis;
-        if(millis/1000000.0 > 6.0)
-            System.out.println("Total time to draw background " + millis/1000000.0 + " ms");
+        if (millis / 1000000.0 > 6.0)
+            System.out.println("Total time to draw background " + millis / 1000000.0 + " ms");
 
     }
 
@@ -165,12 +178,12 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     public void draw(FXGraphics2D g2d) {
         //FPS COUNTER
         totalFrames++;
-        if(System.nanoTime() > lastFPSCheck + 1000000000) {
+        if (System.nanoTime() > lastFPSCheck + 1000000000) {
             lastFPSCheck = System.nanoTime();
             currentFPS = totalFrames;
             totalFrames = 0;
         }
-        if(updateBackground) {
+        if (updateBackground) {
             drawBackground(gBackground);
         }
         long millis = System.nanoTime();
@@ -179,13 +192,13 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         g2d = g;
         g2d.setTransform(camera.getTransform());
 
-        for(Group group : groupList) {
-            for (Person student: group.getStudents()) {
+        for (Group group : groupList) {
+            for (Person student : group.getStudents()) {
                 student.draw(g2d);
             }
         }
 
-        for(Person teacher : Schedule.getInstance().getTeacherList()){
+        for (Person teacher : Schedule.getInstance().getTeacherList()) {
             teacher.draw(g2d);
         }
 
@@ -202,19 +215,19 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         } catch (IndexOutOfBoundsException | IOException e) {
             e.printStackTrace();
         }*/
-       //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
+        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
 
         //DRAW FPS COUNTER
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2d.drawString(currentFPS + "",2, 25);
+        g2d.drawString(currentFPS + "", 2, 25);
 
         clockTime.draw(g2d, canvas);
 
         millis = System.nanoTime() - millis;
-        if(millis/1000000.0 > 6)
-            System.out.println("Total to draw front canvas " + millis/1000000.0 + " ms");
+        if (millis / 1000000.0 > 6)
+            System.out.println("Total to draw front canvas " + millis / 1000000.0 + " ms");
     }
 
     private Canvas createNewCanvas() {
@@ -289,26 +302,26 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     @Override
     public void onBeginTime() {
         Schedule.getInstance().getLessonList().forEach(l -> System.out.println(l));
-        Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s ->{
+        Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             s.setDoUpdate(true);
             s.setDoSpawn(true);
-        } ));
-        Schedule.getInstance().getTeacherList().forEach(t ->{
+        }));
+        Schedule.getInstance().getTeacherList().forEach(t -> {
             t.setDoUpdate(true);
             t.setDoSpawn(true);
-        } );
+        });
     }
 
     @Override
     public void onEndTime() {
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
-            if(s.isSpawned()){
+            if (s.isSpawned()) {
                 s.leave();
             }
             s.setDoSpawn(false);
         }));
         Schedule.getInstance().getTeacherList().forEach(t -> {
-            if(t.isSpawned()){
+            if (t.isSpawned()) {
                 t.leave();
             }
             t.setDoSpawn(false);

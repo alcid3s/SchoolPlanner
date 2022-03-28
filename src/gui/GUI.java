@@ -13,23 +13,25 @@ import java.awt.*;
 import java.io.File;
 import java.io.Serializable;
 
-public class GUI extends Application{
+public class GUI extends Application {
+    private static Scene scene;
+    private static TabPane tabs;
 
     public static void main(String[] args) {
-       launch(GUI.class);
+        launch(GUI.class);
     }
 
 
     @Override
     public void start(Stage primaryStage){
-        TabPane tabs = new TabPane();
+        tabs = new TabPane();
+        scene = new Scene(tabs);
         SimulationTab simulationTab = new SimulationTab();
         tabs.getTabs().add(new ScheduleTab(primaryStage));
         tabs.getTabs().add(simulationTab);
         tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
-        Scene scene = new Scene(tabs);
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
@@ -42,5 +44,13 @@ public class GUI extends Application{
             Schedule.getInstance().save(new File("resources/autosave.json"));
             Platform.exit();
         });
+    }
+
+    public static TabPane getTabPane(){
+        return tabs;
+    }
+
+    public static Scene getScene() {
+        return scene;
     }
 }
