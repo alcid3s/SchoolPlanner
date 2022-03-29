@@ -1,6 +1,6 @@
 package data.persons;
 
-import data.Animation;
+import simulation.Animation;
 import tasks.IdleTask;
 
 import javax.imageio.ImageIO;

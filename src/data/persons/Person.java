@@ -1,6 +1,6 @@
 package data.persons;
 
-import data.Animation;
+import simulation.Animation;
 import data.Clock;
 import data.Schedule;
 import data.tilted.pathfinding.target.Target;
@@ -131,8 +131,9 @@ public abstract class Person implements Comparable, Serializable {
             } else {
                 if (task instanceof LeaveTask) {
                     isSpawned = false;
-                    doUpdate = false;
+                    doUpdate = true;
                     task = null;
+                    doSpawn = true;
                 }
                 this.direction = null;
             }

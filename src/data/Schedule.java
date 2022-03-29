@@ -10,6 +10,7 @@ import gui.tabs.ScheduleTab;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class Schedule implements Serializable {
@@ -203,6 +204,12 @@ public class Schedule implements Serializable {
                 }
         }
         return false;
+    }
+
+    public List<Person> getAllPersons() {
+        List<Person> people = new ArrayList<>(Schedule.getInstance().getTeacherList());
+        Schedule.getInstance().getGroupList().forEach(g -> {people.addAll(g.getStudents());});
+        return people;
     }
 
     public boolean load(File file) {
