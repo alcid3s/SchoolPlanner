@@ -8,7 +8,6 @@ import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CreateLessonPopup extends Stage {
@@ -27,7 +25,7 @@ public class CreateLessonPopup extends Stage {
         TextField nameField = new TextField();
         ArrayList<Room> roomList = new ArrayList<>();
         for (Room r : Schedule.getInstance().getRoomList()) {
-            if(r instanceof Classroom)
+            if (r instanceof Classroom)
                 roomList.add(r);
         }
         ComboBox roomBox = new ComboBox(FXCollections.observableArrayList(roomList));
@@ -80,10 +78,20 @@ public class CreateLessonPopup extends Stage {
             } else {
                 Lesson lesson = new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomBox.getValue().toString()), Schedule.getInstance().getTeacher(teacherBox.getValue().toString()), Schedule.getInstance().getGroup(groupBox.getValue().toString()), Util.makeTime(startHourBox.getValue().toString(), startMinuteBox.getValue().toString()), Util.makeTime(endHourBox.getValue().toString(), endMinuteBox.getValue().toString()));
                 if (Validation.lessonIsValid(lesson)) {
-                    Schedule.getInstance().addLesson(lesson);
-                    ScheduleTab.refreshCanvas();
-                    new EditLessonsPopup().show();
-                    close();
+                    if (Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson)) {
+                        Schedule.getInstance().addLesson(lesson);
+                        ScheduleTab.refreshCanvas();
+                        new EditLessonsPopup().show();
+                        close();
+                    } else {
+                        String message = Validation.getMessage();
+                        if (AlternativeRoomPopup.checkForOptions(lesson)) {
+                            new AlternativeRoomPopup(lesson, true).show();
+                            close();
+                        } else {
+                            new Alert(Alert.AlertType.ERROR, message).show();
+                        }
+                    }
                 } else {
                     new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                 }

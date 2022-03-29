@@ -1,11 +1,12 @@
 package data.rooms.object;
 
+import data.persons.Facing;
 import data.rooms.Room;
 import data.tilted.TiledImageLayer;
-import data.tilted.pathfinding.target.MapTarget;
 import data.persons.Person;
 import data.tilted.pathfinding.target.RoomObjectTarget;
 import data.tilted.pathfinding.target.Target;
+import tasks.LessonTask;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,19 +19,19 @@ public class UsableObject {
     private int y;
     private int width;
     private int height;
+    private Room r;
+    private Facing facingWhenUsing;
 
-    public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height) {
+    public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height, Facing facingWhenUsing) {
         this.users = new ArrayList<>();
+        this.r = r;
         this.maxUsers = maxUsers;
         this.x = loc.x;
         this.y = loc.y;
         this.width = width;
         this.height = height;
+        this.facingWhenUsing = facingWhenUsing;
         target = new RoomObjectTarget(r, loc, collisionLayer);
-    }
-
-    public void stopUsingEvent(Person p) {
-        users.remove(p);
     }
 
     public boolean startUsingEvent(Person p) {
@@ -41,16 +42,14 @@ public class UsableObject {
         return false;
     }
 
-    public void update() {
-        users.forEach(p -> {
-            if (!isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
-                stopUsingEvent(p);
-            }
-        });
+    public boolean stopUsingEvent(Person p) {
+        return users.remove(p);
     }
 
     public boolean isInsideUsableRange(int x, int y) {
-        return x >= this.x && x <= this.x + width && y >= this.y && y <= this.y + height;
+        int realX = this.x * 32 + r.getX();
+        int realY = this.y * 32 + r.getY();
+        return (x >= realX && y >= realY && x <= realX + width && y <= realY + height);
     }
 
     public boolean isFree() {
@@ -83,5 +82,42 @@ public class UsableObject {
 
     public int getHeight() {
         return height;
+    }
+
+    public boolean isUsingEvent(Person p) {
+        return users.contains(p);
+    }
+
+    public void check(Person p) {
+        if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()) && !users.contains(p)) {
+            users.add(p);
+            if(p.getTask() instanceof LessonTask) {
+                System.out.println("Added user " + p);
+            }
+        }
+    }
+
+    public void update() {
+        users.removeIf(p -> !isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()));
+    }
+
+    @Override
+    public String toString() {
+        return "UsableObject{" +
+                "target=" + target +
+                ", maxUsers=" + maxUsers +
+                ", x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                '}';
+    }
+
+    public Room getR() {
+        return r;
+    }
+
+    public Facing getFacingWhenUsing() {
+        return facingWhenUsing;
     }
 }

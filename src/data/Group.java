@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class Group implements Comparable, Serializable {
 
-    private ArrayList<Person> students;
+    private final ArrayList<Person> students;
     private String name;
     private int size;
 
-    public Group(String name, int size){
+    public Group(String name, int size) {
         this.students = new ArrayList<>();
         this.name = name;
         this.size = size;
 
-        for(int i = 0; i < size; i++) {
-            this.students.add(new Student(Student.getRandomName()));
+        for (int i = 0; i < size; i++) {
+            this.students.add(new Student(Names.getInstance().getRandomName()));
         }
     }
 
@@ -27,48 +27,60 @@ public class Group implements Comparable, Serializable {
         String[] values = jsonData.split(";");
         this.name = values[0];
         this.size = Integer.parseInt(values[1]);
-        for(int i = 0; i < size; i++) {
-            this.students.add(new Student(Student.getRandomName()));
+        for (int i = 0; i < size; i++) {
+            this.students.add(new Student(Names.getInstance().getRandomName()));
         }
     }
 
-    public void addNewStudent(){
-        this.size++;
-        this.students.add(new Student(Student.getRandomName()));
+    public void addNewStudent() {
+        this.students.add(new Student(Names.getInstance().getRandomName()));
     }
 
-    public ArrayList<Person> getStudents(){
+    public void removeStudent() {
+        this.students.remove(0);
+    }
+
+    public ArrayList<Person> getStudents() {
         return students;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
         Schedule.getInstance().sort();
     }
 
     public String getSystemName() {
-        return  name + " (" + size + ")";
+        return name + " (" + size + ")";
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
-    public void setSize(int size){
+    public void setSize(int size) {
         this.size = size;
+        if (size < this.students.size()) {
+            while (this.size != this.students.size()) {
+                removeStudent();
+            }
+        } else if (size > this.students.size()) {
+            while (this.size != this.students.size()) {
+                addNewStudent();
+            }
+        }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name + " (" + size + ")";
     }
 
     @Override
-    public int compareTo(Object o){
+    public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());
     }
 

@@ -14,8 +14,9 @@ public class Lesson implements Comparable, Serializable {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String name;
+    private boolean hasTask;
 
-    public Lesson(String name, Room room, Person teacher, Group group, LocalDateTime startDate, LocalDateTime endDate){
+    public Lesson(String name, Room room, Person teacher, Group group, LocalDateTime startDate, LocalDateTime endDate) {
         this.room = room;
         this.teacher = teacher;
         this.group = group;
@@ -34,69 +35,77 @@ public class Lesson implements Comparable, Serializable {
         this.endDate = LocalDateTime.parse(values[5]);
     }
 
-    public Room getRoom(){
+    public Room getRoom() {
         return room;
     }
 
-    public void setRoom(Room room){
+    public void setRoom(Room room) {
         this.room = room;
     }
 
-    public Person getTeacher(){
+    public Person getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Person teacher){
+    public void setTeacher(Person teacher) {
         this.teacher = teacher;
     }
 
-    public Group getGroup(){
+    public Group getGroup() {
         return group;
     }
 
-    public void setGroup(Group group){
+    public void setGroup(Group group) {
         this.group = group;
     }
 
-    public LocalDateTime getStartDate(){
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime time){
+    public void setStartDate(LocalDateTime time) {
         this.startDate = time;
     }
 
-    public LocalDateTime getEndDate(){
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime time){
+    public void setEndDate(LocalDateTime time) {
         this.endDate = time;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
         Schedule.getInstance().sort();
     }
 
+    public void setHasTask(boolean set) {
+        this.hasTask = set;
+    }
+
+    public boolean getHasTask() {
+        return this.hasTask;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         String startDate;
         String endDate;
 
-        if(this.startDate.getMinute() < 10){
+        if (this.startDate.getMinute() < 10) {
             startDate = this.startDate.getHour() + ":0" + this.startDate.getMinute();
-        }else{
+        } else {
             startDate = this.startDate.getHour() + ":" + this.startDate.getMinute();
         }
 
-        if(this.endDate.getMinute() < 10){
+        if (this.endDate.getMinute() < 10) {
             endDate = this.endDate.getHour() + ":0" + this.endDate.getMinute();
-        }else{
+        } else {
             endDate = this.endDate.getHour() + ":" + this.endDate.getMinute();
         }
 

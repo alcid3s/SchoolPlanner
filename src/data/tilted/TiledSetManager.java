@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class TiledSetManager {
     private static TiledSetManager tiledSetManager;
-    private ArrayList<TiledImageSet> images;
+    private final ArrayList<TiledImageSet> images;
 
     public TiledSetManager() {
         images = new ArrayList<>();
     }
 
     public static TiledSetManager getInstance() {
-        if(tiledSetManager == null) {
+        if (tiledSetManager == null) {
             tiledSetManager = new TiledSetManager();
         }
         return tiledSetManager;

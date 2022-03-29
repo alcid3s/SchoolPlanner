@@ -1,5 +1,6 @@
 package data.tilted.pathfinding.target;
 
+import data.persons.Person;
 import data.tilted.TiledImageLayer;
 
 import java.awt.*;
@@ -7,16 +8,12 @@ import java.awt.*;
 public abstract class Target {
     public int tileXLocation;
     public int tileYLocation;
-    public TargetCallback enterCallback;
-    public TargetCallback leaveCallback;
     public TiledImageLayer collisionLayer;
     public int[][] reached;
 
     public Target(Point location, TiledImageLayer collisionLayer, int xSizeArray, int ySizeArray) {
         this.tileXLocation = location.x;
         this.tileYLocation = location.y;
-        this.enterCallback = enterCallback;
-        this.leaveCallback = leaveCallback;
         this.collisionLayer = collisionLayer;
         this.reached = new int[ySizeArray+1][xSizeArray+1];
         for(int i = 0; i <= ySizeArray; i++) {
@@ -59,13 +56,6 @@ public abstract class Target {
         return tileYLocation;
     }
 
-    public TargetCallback getEnterCallback() {
-        return enterCallback;
-    }
-
-    public TargetCallback getLeaveCallback() {
-        return leaveCallback;
-    }
 
     public TiledImageLayer getCollisionLayer() {
         return collisionLayer;
@@ -73,5 +63,23 @@ public abstract class Target {
 
     public int[][] getReached() {
         return reached;
+    }
+
+    public boolean isAtTarget(Person p) {
+        System.out.println((Math.floor(p.getPosition().getX()/32) == tileXLocation && Math.floor(p.getPosition().getY()/32) == tileYLocation) + " " + Math.floor(p.getPosition().getX()/32) + " " + Math.floor(p.getPosition().getY()/32) + " " + tileXLocation + " " + tileYLocation);
+        return Math.floor(p.getPosition().getX()/32) == tileXLocation && Math.floor(p.getPosition().getY()/32) == tileYLocation;
+    }
+
+    public boolean isExactAtTarget(Person p) {
+        System.out.println((p.getPosition().getX() - tileXLocation*32 == 16 && p.getPosition().getY() - tileYLocation*32 == 16) + " Exact at target?");
+        return p.getPosition().getX() - tileXLocation*32 == 16 && p.getPosition().getY() - tileYLocation*32 == 16;
+    }
+
+    public int getTotalTileXLocation() {
+        return tileXLocation;
+    }
+
+    public int getTotalTileYLocation() {
+        return tileXLocation;
     }
 }

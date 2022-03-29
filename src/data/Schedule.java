@@ -3,21 +3,22 @@ package data;
 import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
+import gui.FileManager;
 import gui.Util;
 import gui.tabs.ScheduleTab;
 
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 
-public class Schedule implements Serializable{
+public class Schedule implements Serializable {
     private static Schedule schedule;
 
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
-    private ArrayList<Teacher> teacherList;
-    private ArrayList<Room> roomList;
+    private ArrayList<Person> teacherList;
+    private final ArrayList<Room> roomList;
 
     public Schedule() {
         this.lessonList = new ArrayList<>();
@@ -33,8 +34,8 @@ public class Schedule implements Serializable{
      * @return the schedule.
      */
 
-    public static Schedule getInstance(){
-        if(schedule == null){
+    public static Schedule getInstance() {
+        if (schedule == null) {
             schedule = new Schedule();
         }
         return schedule;
@@ -45,7 +46,7 @@ public class Schedule implements Serializable{
      *
      * @param lesson to be added.
      */
-    public void addLesson(Lesson lesson){
+    public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
         sort();
     }
@@ -55,12 +56,12 @@ public class Schedule implements Serializable{
      *
      * @param group to be added.
      */
-    public void addGroup(Group group){
+    public void addGroup(Group group) {
         this.groupList.add(group);
         sort();
     }
 
-    public void addRoom(Room room){
+    public void addRoom(Room room) {
         this.roomList.add(room);
         sort();
     }
@@ -71,9 +72,9 @@ public class Schedule implements Serializable{
      * @param name of the lesson
      * @return the lesson with specific name or null if no lesson found.
      */
-    public Lesson getLesson(String name){
-        for(Lesson l : lessonList){
-            if(l.getName().equals(name)){
+    public Lesson getLesson(String name) {
+        for (Lesson l : lessonList) {
+            if (l.getName().equals(name)) {
                 return l;
             }
         }
@@ -86,9 +87,9 @@ public class Schedule implements Serializable{
      * @param name of the group
      * @return the group with specific name or null if no group found.
      */
-    public Group getGroup(String name){
-        for(Group g : groupList){
-            if(g.getName().equals(name) || g.getSystemName().equals(name))
+    public Group getGroup(String name) {
+        for (Group g : groupList) {
+            if (g.getName().equals(name) || g.getSystemName().equals(name))
                 return g;
         }
         return null;
@@ -100,9 +101,9 @@ public class Schedule implements Serializable{
      * @param name of the room
      * @return the room with specific name or null if no room found
      */
-    public Room getRoom(String name){
-        for(Room room : this.roomList){
-            if(room.getName().equals(name) || room.getSystemName().equals(name)){
+    public Room getRoom(String name) {
+        for (Room room : this.roomList) {
+            if (room.getName().equals(name) || room.getSystemName().equals(name)) {
                 return room;
             }
         }
@@ -115,110 +116,87 @@ public class Schedule implements Serializable{
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Teacher getTeacher(String name){
-        for(Teacher t : teacherList){
-            if(t.getName().equals(name))
+    public Person getTeacher(String name) {
+        for (Person t : teacherList) {
+            if (t.getName().equals(name))
                 return t;
         }
         return null;
     }
 
-    public ArrayList<Lesson> getLessonList(){
+    public ArrayList<Lesson> getLessonList() {
         return lessonList;
     }
 
-    public ArrayList<Group> getGroupList(){
+    public ArrayList<Group> getGroupList() {
         return groupList;
     }
 
-    public ArrayList<Teacher> getTeacherList(){
+    public ArrayList<Person> getTeacherList() {
         return teacherList;
     }
 
-    public ArrayList<Room> getRoomList(){
+    public ArrayList<Room> getRoomList() {
         return this.roomList;
     }
 
-    public void addTeacher(Teacher teacher){
+    public void addTeacher(Teacher teacher) {
         this.teacherList.add(teacher);
         sort();
     }
 
-    public boolean removeTeacher(Person teacher){
+    public boolean removeTeacher(Person teacher) {
         return this.teacherList.remove(teacher);
     }
 
-    public void removeLesson(Lesson lesson){
+    public void removeLesson(Lesson lesson) {
         this.lessonList.remove(lesson);
     }
 
-    public void removeGroup(Group group){
+    public void removeGroup(Group group) {
         groupList.remove(group);
     }
 
-    public void sort(){
+    public void sort() {
         Collections.sort(this.lessonList);
         Collections.sort(this.roomList);
         Collections.sort(this.groupList);
         Collections.sort(this.teacherList);
     }
 
-    public void setExample(){
-        groupList.add(new Group("Proftaak B", 30));
-        groupList.add(new Group("Proftaak A", 25));
+    public void setExample() {
+        groupList.add(new Group("Proftaak B", 20));
+        groupList.add(new Group("Proftaak A", 20));
+        groupList.add(new Group("Proftaak C", 20));
+        groupList.add(new Group("Proftaak D", 20));
+        groupList.add(new Group("Proftaak E", 20));
         teacherList.add(new Teacher("Pieter"));
         teacherList.add(new Teacher("Edwin"));
         teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LA135"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
+        lessonList.add(new Lesson("WIS", getRoom("LA134"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
         lessonList.add(new Lesson("OGP", getRoom("CollegeHall"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
-        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Pieter"), getGroup("Proftaak A"), Util.makeTime("15", "05"), Util.makeTime("16", "00")));
+        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Etienne"), getGroup("Proftaak A"), Util.makeTime("12", "05"), Util.makeTime("16", "00")));
     }
 
     public boolean save(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    if(file.exists())
-                        file.delete();
-                    file.createNewFile();
-                    JsonArrayBuilder teacherList = Json.createArrayBuilder();
-                    JsonArrayBuilder groupList = Json.createArrayBuilder();
-                    JsonArrayBuilder lessonList = Json.createArrayBuilder();
-                    this.teacherList.forEach(e -> teacherList.add(e.getJsonString()));
-                    this.groupList.forEach(e -> groupList.add(e.getJsonString()));
-                    this.lessonList.forEach(e -> lessonList.add(e.getJsonString()));
-
-                    Map<String, Object> properties = new HashMap<>(1);
-                    properties.put(JsonGenerator.PRETTY_PRINTING, true);
-                    JsonWriterFactory jf = Json.createWriterFactory(properties);
-                    JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("teachers", teacherList)
-                            .add("groups", groupList)
-                            .add("lessons", lessonList)
-                            .build();
-                    FileWriter fileWriter = new FileWriter(file);
-                    JsonWriter jsonWriter = jf.createWriter(fileWriter);
-                    jsonWriter.writeObject(jsonObject);
-                    jsonWriter.close();
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.saveJson(file, this);
             case "rooster":
                 try {
-                    if(file.exists())
+                    if (file.exists()) {
                         file.delete();
+                    }
                     file.createNewFile();
 
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                     objectOutputStream.writeObject(this);
                     objectOutputStream.close();
-
+                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                     return false;
@@ -229,30 +207,11 @@ public class Schedule implements Serializable{
 
     public boolean load(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    InputStream input = new FileInputStream(file);
-                    JsonReader jsonReader = Json.createReader(input);
-                    JsonObject jsonObject = jsonReader.readObject();
-                    clearAllLists();
-                    jsonObject.getJsonArray("teachers").forEach(teacher -> {
-                        addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("groups").forEach(group -> {
-                        addGroup(new Group(group.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("lessons").forEach(lesson -> {
-                        addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
-                    });
-                    ScheduleTab.refreshCanvas();
-                    return true;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.loadJson(file, this);
             case "rooster":
                 try {
                     FileInputStream f = new FileInputStream(file);
@@ -261,6 +220,7 @@ public class Schedule implements Serializable{
                     this.schedule.setLessonList(newSchedule.getLessonList());
                     this.schedule.setTeacherList(newSchedule.getTeacherList());
                     this.schedule.setGroupList(newSchedule.getGroupList());
+                    Clock.resetTime();
                     ScheduleTab.refreshCanvas();
                     return true;
                 } catch (Exception e) {
@@ -290,15 +250,11 @@ public class Schedule implements Serializable{
         this.groupList = groupList;
     }
 
-    public void setTeacherList(ArrayList<Teacher> teacherList) {
+    public void setTeacherList(ArrayList<Person> teacherList) {
         this.teacherList = teacherList;
     }
 
-    public void setRoomList(ArrayList<Room> roomList) {
-        this.roomList = roomList;
-    }
-
-    private void clearAllLists(){
+    public void clearAllLists() {
         this.lessonList.clear();
         this.groupList.clear();
         this.teacherList.clear();

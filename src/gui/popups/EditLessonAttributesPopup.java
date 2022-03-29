@@ -10,7 +10,6 @@ import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -21,14 +20,14 @@ import javafx.stage.Stage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class EditLessonAttributesPopup extends Stage{
+public class EditLessonAttributesPopup extends Stage {
 
-    public EditLessonAttributesPopup(Lesson lesson){
+    public EditLessonAttributesPopup(Lesson lesson) {
         TextField nameField = new TextField();
         nameField.setText(lesson.getName());
         ArrayList<Room> roomList = new ArrayList<>();
         for (Room r : Schedule.getInstance().getRoomList()) {
-            if(r instanceof Classroom)
+            if (r instanceof Classroom)
                 roomList.add(r);
         }
         ComboBox roomBox = new ComboBox(FXCollections.observableArrayList(roomList));
@@ -78,63 +77,63 @@ public class EditLessonAttributesPopup extends Stage{
             LocalDateTime startTime = lesson.getStartDate();
             LocalDateTime endTime = lesson.getEndDate();
 
-            if(!(startMinuteBox.getValue() == null)){
+            if (!(startMinuteBox.getValue() == null)) {
                 startTime = Util.makeTime("" + startTime.getHour(), startMinuteBox.getValue().toString());
                 editTime = true;
             }
-            if(!(startHourBox.getValue() == null)){
+            if (!(startHourBox.getValue() == null)) {
                 startTime = Util.makeTime(startHourBox.getValue().toString(), "" + startTime.getMinute());
                 editTime = true;
             }
-            if(!(endMinuteBox.getValue() == null)){
+            if (!(endMinuteBox.getValue() == null)) {
                 endTime = Util.makeTime("" + endTime.getHour(), endMinuteBox.getValue().toString());
                 editTime = true;
             }
-            if(!(endHourBox.getValue() == null)){
+            if (!(endHourBox.getValue() == null)) {
                 endTime = Util.makeTime(endHourBox.getValue().toString(), "" + endTime.getMinute());
                 editTime = true;
             }
 
-            if(Validation.timeIsValid(startTime, endTime) && Validation.scheduleIsAvailable(startTime, endTime, lesson) && editTime){
+            if (Validation.timeIsValid(startTime, endTime) && Validation.scheduleIsAvailable(startTime, endTime, lesson) && editTime) {
                 lesson.setStartDate(startTime);
                 lesson.setEndDate(endTime);
-            }else{
+            } else {
                 mayClose = false;
             }
 
-            if(!nameField.getText().isEmpty()){
+            if (!nameField.getText().isEmpty()) {
                 lesson.setName(nameField.getText());
             }
-            if(!(roomBox.getValue() == null)){
+            if (!(roomBox.getValue() == null)) {
                 Room room = Schedule.getInstance().getRoom(roomBox.getValue().toString());
-                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), room, lesson.getRoom()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup())){
+                if (Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), room, lesson.getRoom()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup())) {
                     lesson.setRoom(room);
-                }else{
+                } else {
                     mayClose = false;
                 }
             }
-            if(!(teacherBox.getValue() == null)){
+            if (!(teacherBox.getValue() == null)) {
                 Person teacher = Schedule.getInstance().getTeacher(teacherBox.getValue().toString());
-                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), teacher, lesson.getTeacher())){
+                if (Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), teacher, lesson.getTeacher())) {
                     lesson.setTeacher(teacher);
-                }else{
+                } else {
                     mayClose = false;
                 }
             }
-            if(!(groupBox.getValue() == null)){
+            if (!(groupBox.getValue() == null)) {
                 Group group = Schedule.getInstance().getGroup(groupBox.getValue().toString());
-                if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), group, lesson.getGroup()) && Validation.sizeIsValid(lesson.getRoom(), group)){
+                if (Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), group, lesson.getGroup()) && Validation.sizeIsValid(lesson.getRoom(), group)) {
                     lesson.setGroup(group);
-                }else{
+                } else {
                     mayClose = false;
                 }
             }
 
-            if(mayClose){
+            if (mayClose) {
                 ScheduleTab.refreshCanvas();
                 new EditLessonsPopup().show();
                 close();
-            }else{
+            } else {
                 new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
             }
 

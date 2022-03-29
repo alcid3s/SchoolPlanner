@@ -1,7 +1,6 @@
 package gui.popups;
 
 import data.persons.Person;
-import data.persons.Teacher;
 import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
@@ -15,14 +14,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class EditTeacherAttributesPopup extends Stage{
+public class EditTeacherAttributesPopup extends Stage {
 
     /**
      * Popup to edit a teachers attributes.
      *
      * @param teacher attributes to be edited
      */
-    public EditTeacherAttributesPopup(Teacher teacher){
+    public EditTeacherAttributesPopup(Person teacher) {
         Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         cancel.setOnAction(e -> {
@@ -38,14 +37,14 @@ public class EditTeacherAttributesPopup extends Stage{
         gridPane.add(nameField, 1, 0);
 
         edit.setOnAction(e -> {
-            if(nameField.getText().length() < 3){
+            if (nameField.getText().length() < 3) {
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
-            }else if(Validation.teacherIsUnique(nameField.getText())){
+            } else if (Validation.teacherIsUnique(nameField.getText())) {
                 teacher.setName(nameField.getText());
                 ScheduleTab.refreshCanvas();
                 new EditTeachersPopup().show();
                 close();
-            }else{
+            } else {
                 new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
             }
         });

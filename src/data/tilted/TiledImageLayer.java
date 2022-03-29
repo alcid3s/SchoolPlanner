@@ -4,12 +4,9 @@ import org.jfree.fx.FXGraphics2D;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TiledImageLayer {
     private int width;
@@ -23,7 +20,7 @@ public class TiledImageLayer {
         this.height = layerObject.getInt("height");
         this.width = layerObject.getInt("width");
         this.name = layerObject.getString("name");
-        if(layerObject.containsKey("offsetx")) {
+        if (layerObject.containsKey("offsetx")) {
             this.offsetX = layerObject.getInt("offsetx");
             this.offsetY = layerObject.getInt("offsety");
         } else {
@@ -41,7 +38,7 @@ public class TiledImageLayer {
     }
 
     public boolean addValue(int data, int width, int height) {
-        if(values.length > width && values[width].length > height) {
+        if (values.length > width && values[width].length > height) {
             values[width][height] = data;
             return true;
         }
@@ -51,12 +48,12 @@ public class TiledImageLayer {
     @Override
     public String toString() {
         ArrayList<String> valuesAsString = new ArrayList<>();
-        for(int i = 0; i < values.length; i++) {
-            for(int j = 0; j < values[i].length; j++) {
-                    if(values[i][j] != 0) {
-                        valuesAsString.add("(" + i + "," + j + ") " + values[i][j]);
-                    }
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[i].length; j++) {
+                if (values[i][j] != 0) {
+                    valuesAsString.add("(" + i + "," + j + ") " + values[i][j]);
                 }
+            }
         }
         return "TiltedLayer: " + name + "\n" +
                 "Width: " + width + "\n" +
@@ -65,16 +62,16 @@ public class TiledImageLayer {
     }
 
     public void draw(FXGraphics2D graphics) {
-        for(int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
                 int data = values[i][j];
-                if(data == 0) {
+                if (data == 0) {
                     continue;
                 }
                 BufferedImage image = TiledSetManager.getInstance().getImageFromID(data);
                 AffineTransform transformImage = graphics.getTransform();
                 transformImage.translate(i * 32 + offsetX, j * 32 + offsetY);
-                graphics.drawImage(image,transformImage, null);
+                graphics.drawImage(image, transformImage, null);
             }
         }
     }
