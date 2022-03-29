@@ -28,8 +28,10 @@ public class FireAlarm {
     private double currentTime = time;
     private int currentSprite = 0;
     private TiledMap map;
+    private AlarmSound sound;
 
     public FireAlarm(SimulationTab tab) {
+        sound = new AlarmSound();
         this.tab = tab;
         this.sprites = getImages();
         this.objects = new ArrayList<>();
@@ -87,6 +89,7 @@ public class FireAlarm {
         if(this.isOn()) {
             this.on = false;
             this.starting = false;
+            this.sound.stop();
             stop();
         } else {
             this.starting = true;
@@ -97,6 +100,7 @@ public class FireAlarm {
     public void setOn(boolean on) {
         if(on) {
             this.on = true;
+            this.sound.play();
         } else {
             this.on = false;
         }
