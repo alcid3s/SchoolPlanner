@@ -3,6 +3,7 @@ package gui.tabs;
 import data.*;
 import data.persons.Person;
 import data.tilted.TiledMap;
+import simulation.firealarm.FireAlarm;
 import gui.GUI;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -12,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
-import tasks.LeaveTask;
 import tasks.LessonTask;
 
 import java.awt.*;
@@ -31,6 +31,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private final Pane pane;
     private double timer = 0.5;
     private final List<Updatable> timers;
+    private FireAlarm fireAlarm;
 
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
@@ -43,6 +44,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         this.timers = new ArrayList<>();
         this.timers.add(clockTime = new Clock(this));
         map = TiledMap.getInstance();
+        this.fireAlarm = new FireAlarm(this);
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
 
@@ -67,14 +69,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             if (GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)) {
                 switch (event.getCode()) {
                     case B:
-                        List<Person> people = new ArrayList<>(Schedule.getInstance().getTeacherList());
-                        for (Group group : Schedule.getInstance().getGroupList()) {
-                            people.addAll(group.getStudents());
-                        }
-
-                        for (Person person : people) {
-                            person.setTask(new LeaveTask(person));
-                        }
+                        fireAlarm.toggle();
                 }
             }
         });
@@ -99,29 +94,17 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             timer -= deltaTime;
         }
         //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
-        for (Group group : groupList) {
-            for (Person student : group.getStudents()) {
-                if (!student.isSpawned()) {
-                    if (timer <= 0) {
-                        student.spawn(map.getStudentSpawn());
-                        timer = 0.5;
-                    }
-                } else {
-                    student.update(deltaTime);
-                }
-            }
-        }
-
-        for (Person teacher : Schedule.getInstance().getTeacherList()) {
-            if (!teacher.isSpawned()) {
+        for (Person p : Schedule.getInstance().getAllPersons()) {
+            if (!p.isSpawned() && !fireAlarm.isOn()) {
                 if (timer <= 0) {
-                    teacher.spawn(map.getTeacherSpawn());
+                    p.spawn(map.getStudentSpawn());
                     timer = 0.5;
                 }
             } else {
-                teacher.update(deltaTime);
+                p.update(deltaTime);
             }
         }
+        
         Schedule.getInstance().getRoomList().forEach(room -> room.update(deltaTime));
 
         Schedule.getInstance().getLessonList().forEach(lesson -> {
@@ -135,7 +118,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 //            }
             if (hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !lesson.getHasTask()) {
                 lesson.setHasTask(true);
-                System.out.println("lesson");
                 timers.add(new Timer(lesson, this));
                 //if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
                 lesson.getGroup().getStudents().forEach(s -> s.setTask(new LessonTask(s, lesson.getRoom())));
@@ -144,6 +126,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             }
         });
         this.timers.forEach(t -> t.update(deltaTime));
+        fireAlarm.update(deltaTime);
     }
 
     private void drawBackground(FXGraphics2D g) {
@@ -192,6 +175,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         for (Person teacher : Schedule.getInstance().getTeacherList()) {
             teacher.draw(g2d);
         }
+        fireAlarm.draw(g2d);
 
         g2d.setColor(Color.BLUE);
         //SEE WHERE STUDENT 0 GOES TO

@@ -4,6 +4,7 @@ import data.persons.Person;
 import data.tilted.TiledImageLayer;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class Target {
     public int tileXLocation;
@@ -81,5 +82,9 @@ public abstract class Target {
 
     public int getTotalTileYLocation() {
         return tileXLocation;
+    }
+
+    public int getSteps(Point2D position) {
+        return reached[(int) (position.getY()/32)][(int) (position.getX()/32)];
     }
 }

@@ -1,4 +1,4 @@
-package data;
+package simulation;
 
 import data.persons.Facing;
 

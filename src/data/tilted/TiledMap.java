@@ -24,6 +24,7 @@ public class TiledMap {
     private int height;
     private int width;
     private static TiledMap map;
+    private TiledImageLayer fireAlarmLayer;
 
     public TiledMap(String filename) {
         map = this;
@@ -40,6 +41,9 @@ public class TiledMap {
                     System.out.println(collisionLayer);
                 } else {
                     TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
+                    if(tiledLayer.getName().equalsIgnoreCase("firealarm")) {
+                        fireAlarmLayer = tiledLayer;
+                    }
                     imageLayers.add(tiledLayer);
                     System.out.println(tiledLayer);
                 }
@@ -183,5 +187,9 @@ public class TiledMap {
 
     public int getWidth() {
         return width;
+    }
+
+    public TiledImageLayer getFireAlarmLayer() {
+        return fireAlarmLayer;
     }
 }
