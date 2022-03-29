@@ -20,7 +20,7 @@ public class AlternativeRoomPopup extends Stage {
     private static Lesson otherLesson = null;
     private static Room newRoom = null;
 
-    public AlternativeRoomPopup(Lesson lesson, boolean add){
+    public AlternativeRoomPopup(Lesson lesson, boolean add) {
         setTitle("Select different");
         Text txt = new Text(newOption);
 
@@ -31,17 +31,17 @@ public class AlternativeRoomPopup extends Stage {
         HBox box = new HBox(yes, no);
         pane.setBottom(box);
 
-        yes.setOnAction(e ->{
+        yes.setOnAction(e -> {
             newOption = "";
-            if(newRoom != null && otherLesson != null){
+            if (newRoom != null && otherLesson != null) {
                 otherLesson.setRoom(newRoom);
-            }else if(newRoom != null){
+            } else if (newRoom != null) {
                 lesson.setRoom(newRoom);
-            }else{
+            } else {
                 new Alert(Alert.AlertType.ERROR, "Could not change room").show();
             }
 
-            if(add){
+            if (add) {
                 Schedule.getInstance().addLesson(lesson);
             }
 
@@ -53,7 +53,7 @@ public class AlternativeRoomPopup extends Stage {
             close();
         });
 
-        no.setOnAction(e ->{
+        no.setOnAction(e -> {
             newOption = "";
             new EditLessonsPopup().show();
             close();
@@ -63,17 +63,17 @@ public class AlternativeRoomPopup extends Stage {
         setScene(scene);
     }
 
-    public static boolean checkForOptions(Lesson thisLesson){
-        for(Room room : Schedule.getInstance().getRoomList()){
-            if(Validation.isClassRoom(room) && Validation.sizeIsValid(room, thisLesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())){
+    public static boolean checkForOptions(Lesson thisLesson) {
+        for (Room room : Schedule.getInstance().getRoomList()) {
+            if (Validation.isClassRoom(room) && Validation.sizeIsValid(room, thisLesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())) {
                 newOption = "\n\tThis room is not available. However,\n\troom " + room + " is still available for this group.\t\n\tDo you want to use this room instead?\n";
                 newRoom = room;
                 return true;
             }
         }
-        for(Lesson lesson : Schedule.getInstance().getLessonList()){
-            for(Room room : Schedule.getInstance().getRoomList()){
-                if(thisLesson.getRoom().getName().equals(lesson.getRoom().getName()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())){
+        for (Lesson lesson : Schedule.getInstance().getLessonList()) {
+            for (Room room : Schedule.getInstance().getRoomList()) {
+                if (thisLesson.getRoom().getName().equals(lesson.getRoom().getName()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())) {
                     System.out.println("Test");
                     otherLesson = lesson;
                     newOption = "\n\tThis room is unavailable for this group. However,\n\troom " + room + " is still available for " + lesson.getGroup() + ".\t\n\tDo you want to use this room for this group?\n";

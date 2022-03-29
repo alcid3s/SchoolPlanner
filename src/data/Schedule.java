@@ -7,18 +7,18 @@ import gui.FileManager;
 import gui.Util;
 import gui.tabs.ScheduleTab;
 
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 
-public class Schedule implements Serializable{
+public class Schedule implements Serializable {
     private static Schedule schedule;
 
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
     private ArrayList<Person> teacherList;
-    private ArrayList<Room> roomList;
+    private final ArrayList<Room> roomList;
 
     public Schedule() {
         this.lessonList = new ArrayList<>();
@@ -34,8 +34,8 @@ public class Schedule implements Serializable{
      * @return the schedule.
      */
 
-    public static Schedule getInstance(){
-        if(schedule == null){
+    public static Schedule getInstance() {
+        if (schedule == null) {
             schedule = new Schedule();
         }
         return schedule;
@@ -46,7 +46,7 @@ public class Schedule implements Serializable{
      *
      * @param lesson to be added.
      */
-    public void addLesson(Lesson lesson){
+    public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
         sort();
     }
@@ -56,12 +56,12 @@ public class Schedule implements Serializable{
      *
      * @param group to be added.
      */
-    public void addGroup(Group group){
+    public void addGroup(Group group) {
         this.groupList.add(group);
         sort();
     }
 
-    public void addRoom(Room room){
+    public void addRoom(Room room) {
         this.roomList.add(room);
         sort();
     }
@@ -72,9 +72,9 @@ public class Schedule implements Serializable{
      * @param name of the lesson
      * @return the lesson with specific name or null if no lesson found.
      */
-    public Lesson getLesson(String name){
-        for(Lesson l : lessonList){
-            if(l.getName().equals(name)){
+    public Lesson getLesson(String name) {
+        for (Lesson l : lessonList) {
+            if (l.getName().equals(name)) {
                 return l;
             }
         }
@@ -87,9 +87,9 @@ public class Schedule implements Serializable{
      * @param name of the group
      * @return the group with specific name or null if no group found.
      */
-    public Group getGroup(String name){
-        for(Group g : groupList){
-            if(g.getName().equals(name) || g.getSystemName().equals(name))
+    public Group getGroup(String name) {
+        for (Group g : groupList) {
+            if (g.getName().equals(name) || g.getSystemName().equals(name))
                 return g;
         }
         return null;
@@ -101,9 +101,9 @@ public class Schedule implements Serializable{
      * @param name of the room
      * @return the room with specific name or null if no room found
      */
-    public Room getRoom(String name){
-        for(Room room : this.roomList){
-            if(room.getName().equals(name) || room.getSystemName().equals(name)){
+    public Room getRoom(String name) {
+        for (Room room : this.roomList) {
+            if (room.getName().equals(name) || room.getSystemName().equals(name)) {
                 return room;
             }
         }
@@ -116,55 +116,55 @@ public class Schedule implements Serializable{
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Person getTeacher(String name){
-        for(Person t : teacherList){
-            if(t.getName().equals(name))
+    public Person getTeacher(String name) {
+        for (Person t : teacherList) {
+            if (t.getName().equals(name))
                 return t;
         }
         return null;
     }
 
-    public ArrayList<Lesson> getLessonList(){
+    public ArrayList<Lesson> getLessonList() {
         return lessonList;
     }
 
-    public ArrayList<Group> getGroupList(){
+    public ArrayList<Group> getGroupList() {
         return groupList;
     }
 
-    public ArrayList<Person> getTeacherList(){
+    public ArrayList<Person> getTeacherList() {
         return teacherList;
     }
 
-    public ArrayList<Room> getRoomList(){
+    public ArrayList<Room> getRoomList() {
         return this.roomList;
     }
 
-    public void addTeacher(Teacher teacher){
+    public void addTeacher(Teacher teacher) {
         this.teacherList.add(teacher);
         sort();
     }
 
-    public boolean removeTeacher(Person teacher){
+    public boolean removeTeacher(Person teacher) {
         return this.teacherList.remove(teacher);
     }
 
-    public void removeLesson(Lesson lesson){
+    public void removeLesson(Lesson lesson) {
         this.lessonList.remove(lesson);
     }
 
-    public void removeGroup(Group group){
+    public void removeGroup(Group group) {
         groupList.remove(group);
     }
 
-    public void sort(){
+    public void sort() {
         Collections.sort(this.lessonList);
         Collections.sort(this.roomList);
         Collections.sort(this.groupList);
         Collections.sort(this.teacherList);
     }
 
-    public void setExample(){
+    public void setExample() {
         groupList.add(new Group("Proftaak B", 20));
         groupList.add(new Group("Proftaak A", 20));
         groupList.add(new Group("Proftaak C", 20));
@@ -180,15 +180,16 @@ public class Schedule implements Serializable{
 
     public boolean save(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
                 return FileManager.saveJson(file, this);
             case "rooster":
                 try {
-                    if(file.exists())
+                    if (file.exists()) {
                         file.delete();
+                    }
                     file.createNewFile();
 
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -206,7 +207,7 @@ public class Schedule implements Serializable{
 
     public boolean load(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
@@ -253,11 +254,7 @@ public class Schedule implements Serializable{
         this.teacherList = teacherList;
     }
 
-    public void setRoomList(ArrayList<Room> roomList) {
-        this.roomList = roomList;
-    }
-
-    public void clearAllLists(){
+    public void clearAllLists() {
         this.lessonList.clear();
         this.groupList.clear();
         this.teacherList.clear();

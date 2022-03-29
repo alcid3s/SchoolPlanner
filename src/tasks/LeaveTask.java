@@ -4,7 +4,7 @@ import data.persons.Person;
 import data.rooms.Exit;
 import data.tilted.TiledMap;
 
-public class LeaveTask extends Task{
+public class LeaveTask extends Task {
     public LeaveTask(Person p) {
         super(p, null, Exit.getInstance());
     }

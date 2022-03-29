@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class EasterEggPopup extends Stage{
+public class EasterEggPopup extends Stage {
 
-    public EasterEggPopup(String path){
+    public EasterEggPopup(String path) {
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setAutoPlay(true);

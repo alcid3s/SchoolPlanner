@@ -15,11 +15,9 @@ import java.util.Map;
 
 public class FileManager implements Serializable {
 
-    public static boolean saveJson(File file, Schedule schedule){
-        try{
-            if(file.exists()){
-                file.delete();
-            }
+    public static boolean saveJson(File file, Schedule schedule) {
+        try {
+            file.delete();
             file.createNewFile();
             JsonArrayBuilder teacherList = Json.createArrayBuilder();
             JsonArrayBuilder groupList = Json.createArrayBuilder();
@@ -41,27 +39,21 @@ public class FileManager implements Serializable {
             jsonWriter.writeObject(jsonObject);
             jsonWriter.close();
             return true;
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public static boolean loadJson(File file, Schedule schedule){
+    public static boolean loadJson(File file, Schedule schedule) {
         try {
             InputStream input = new FileInputStream(file);
             JsonReader jsonReader = Json.createReader(input);
             JsonObject jsonObject = jsonReader.readObject();
             schedule.clearAllLists();
-            jsonObject.getJsonArray("teachers").forEach(teacher -> {
-                schedule.addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
-            });
-            jsonObject.getJsonArray("groups").forEach(group -> {
-                schedule.addGroup(new Group(group.toString().replaceAll("\"", "")));
-            });
-            jsonObject.getJsonArray("lessons").forEach(lesson -> {
-                schedule.addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
-            });
+            jsonObject.getJsonArray("teachers").forEach(teacher -> schedule.addTeacher(new Teacher(teacher.toString().replaceAll("\"", ""))));
+            jsonObject.getJsonArray("groups").forEach(group -> schedule.addGroup(new Group(group.toString().replaceAll("\"", ""))));
+            jsonObject.getJsonArray("lessons").forEach(lesson -> schedule.addLesson(new Lesson(lesson.toString().replaceAll("\"", ""))));
             ScheduleTab.refreshCanvas();
             Clock.resetTime();
             return true;

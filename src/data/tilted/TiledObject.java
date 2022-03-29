@@ -2,7 +2,6 @@ package data.tilted;
 
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 
 public class TiledObject {
     public String name;
@@ -15,7 +14,7 @@ public class TiledObject {
     private String color;
     private String fontFamily;
     private int pixelSize;
-    private JsonObject jsonObject;
+    private final JsonObject jsonObject;
 
     public TiledObject(JsonObject object) {
         name = object.getString("name");
@@ -29,7 +28,7 @@ public class TiledObject {
         jsonObject = object;
 
         JsonObject textObject = object.getJsonObject("text");
-        if(textObject != null) {
+        if (textObject != null) {
             fontFamily = textObject.getString("fontfamily");
             pixelSize = textObject.getInt("pixelsize");
             text = textObject.getString("text");

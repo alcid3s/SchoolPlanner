@@ -6,8 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Animation {
-    private final double animationDelay = 0.300; // Animation delay in seconds
-    private HashMap<Facing, BufferedImage[]> images;
+    private final HashMap<Facing, BufferedImage[]> images;
     private Facing currentFacing;
     private int animationCount;
     private double currentAnimationDelay;
@@ -22,7 +21,7 @@ public class Animation {
     }
 
     public void setFacing(Facing facing, BufferedImage[] list) {
-        images.put(facing,list);
+        images.put(facing, list);
     }
 
     public BufferedImage getImage() {
@@ -30,14 +29,16 @@ public class Animation {
     }
 
     public void update(double deltaTime, Facing facing) {
-        if(currentFacing != facing && facing != null) {
+        if (currentFacing != facing && facing != null) {
             currentFacing = facing;
             animationCount = 0;
         } else {
             currentAnimationDelay += deltaTime;
-            if(currentAnimationDelay > animationDelay) {
+            // Animation delay in seconds
+            double animationDelay = 0.300;
+            if (currentAnimationDelay > animationDelay) {
                 currentAnimationDelay = 0;
-                if(animationPerState - 1 <= animationCount) {
+                if (animationPerState - 1 <= animationCount) {
                     animationCount = 0;
                 } else {
                     animationCount++;

@@ -3,14 +3,16 @@ package data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Names {
     private static Names namesInstance;
-    private ArrayList<String> names;
+    private final ArrayList<String> names;
 
     public static Names getInstance() {
-        if(namesInstance == null) {
+        if (namesInstance == null) {
             namesInstance = new Names();
         }
         return namesInstance;
@@ -32,6 +34,6 @@ public class Names {
 
 
     public String getRandomName() {
-        return names.get(new Random().nextInt(names.size()-1));
+        return names.get(new Random().nextInt(names.size() - 1));
     }
 }

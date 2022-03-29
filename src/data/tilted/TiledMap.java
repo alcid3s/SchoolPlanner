@@ -1,14 +1,15 @@
 package data.tilted;
 
 import data.Schedule;
-import data.tilted.pathfinding.target.MapTarget;
 import data.rooms.*;
-import data.tilted.pathfinding.target.Target;
+import data.tilted.pathfinding.target.MapTarget;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -33,8 +34,8 @@ public class TiledMap {
         this.height = object.getInt("height") * 32;
         this.width = object.getInt("width") * 32;
         object.getJsonArray("layers").forEach(layer -> {
-            if(layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
-                if(layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
+            if (layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
+                if (layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
                     collisionLayer = new TiledImageLayer(layer.asJsonObject());
                     System.out.println(collisionLayer);
                 } else {
@@ -44,7 +45,7 @@ public class TiledMap {
                 }
             } else {
                 TiledObjectLayer objectLayer = new TiledObjectLayer(layer.asJsonObject());
-                if(objectLayer.getName().equalsIgnoreCase("Rooms")) {
+                if (objectLayer.getName().equalsIgnoreCase("Rooms")) {
                     roomLayer = objectLayer;
                 } else {
                     objectLayers.add(new TiledObjectLayer(layer.asJsonObject()));
@@ -57,7 +58,7 @@ public class TiledMap {
             TiledSetManager.getInstance().addTiledImageSet(new TiledImageSet(tileSet.asJsonObject()));
         });
 
-        if(roomLayer != null) {
+        if (roomLayer != null) {
             roomLayer.getObjects().forEach(tiledObject -> {
                 Schedule.getInstance().addRoom(createNewRoom(tiledObject));
             });
@@ -66,8 +67,8 @@ public class TiledMap {
 
     }
 
-    public static TiledMap getInstance(){
-        if(map == null){
+    public static TiledMap getInstance() {
+        if (map == null) {
             map = new TiledMap("School_Map.json");
         }
         return map;
@@ -76,55 +77,55 @@ public class TiledMap {
     private Room createNewRoom(TiledObject objectLayer) {
         String name = objectLayer.getName();
         int size = 0;
-        Point location = new Point(0,0);
-        for(JsonValue ob : objectLayer.getJsonObject().getJsonArray("properties")) {
-            if(ob.asJsonObject().getString("name").equalsIgnoreCase("size"))
+        Point location = new Point(0, 0);
+        for (JsonValue ob : objectLayer.getJsonObject().getJsonArray("properties")) {
+            if (ob.asJsonObject().getString("name").equalsIgnoreCase("size"))
                 size = ob.asJsonObject().getInt("value");
-            if(ob.asJsonObject().getString("name").equalsIgnoreCase("centerLocation")) {
+            if (ob.asJsonObject().getString("name").equalsIgnoreCase("centerLocation")) {
                 String[] values = ob.asJsonObject().getString("value").split(",");
                 location = new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
             }
         }
         System.out.println(location);
         MapTarget t = new MapTarget(location, collisionLayer);
-        if(name.toLowerCase().contains("la") || name.toLowerCase().contains("college")) {
+        if (name.toLowerCase().contains("la") || name.toLowerCase().contains("college")) {
             return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        if(name.toLowerCase().contains("xplora")) {
+        if (name.toLowerCase().contains("xplora")) {
             return new Xplora(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        if(name.toLowerCase().contains("teacher")) {
+        if (name.toLowerCase().contains("teacher")) {
             return new TeacherRoom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        if(name.toLowerCase().contains("canteen")) {
+        if (name.toLowerCase().contains("canteen")) {
             return new Canteen(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        if(name.toLowerCase().contains("wc")) {
+        if (name.toLowerCase().contains("wc")) {
             return new Toilet(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
         }
-        return new Classroom(this, name,size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
+        return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
 
     }
 
     private void initSpawns() {
         studentSpawn = getCenterLocation(getObject("studentSpawn"));
         teacherSpawn = getCenterLocation(getObject("teacherSpawn"));
-        Point s = new Point((int)studentSpawn.getX() / 32, (int)studentSpawn.getY() / 32);
+        Point s = new Point((int) studentSpawn.getX() / 32, (int) studentSpawn.getY() / 32);
         exitTarget = new MapTarget(s, collisionLayer);
 
     }
 
     public Point getCenterLocation(Optional<TiledObject> objectOptional) {
-        if(objectOptional.isPresent()) {
+        if (objectOptional.isPresent()) {
             TiledObject object = objectOptional.get();
             return new Point(object.getX() + (object.getWidth() / 2), object.getY() + (object.getHeight() / 2));
         } else {
-            return new Point(0,0);
+            return new Point(0, 0);
         }
     }
 
     public void draw(FXGraphics2D graphics) {
-        for(TiledImageLayer layer : imageLayers) {
+        for (TiledImageLayer layer : imageLayers) {
             layer.draw(graphics);
         }
     }
@@ -168,7 +169,7 @@ public class TiledMap {
         return teacherSpawn;
     }
 
-    public MapTarget getExitTarget(){
+    public MapTarget getExitTarget() {
         return exitTarget;
     }
 
