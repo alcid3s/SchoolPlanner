@@ -36,7 +36,7 @@ public class Clock implements Updatable{
     }
 
     public static void resetTime(){
-        time = LocalTime.of(6, 30, 0);
+        time = LocalTime.of(6, 59, 0);
     }
 
     @Override
