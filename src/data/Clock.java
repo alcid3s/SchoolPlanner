@@ -35,8 +35,8 @@ public class Clock implements Updatable {
         g2d.setTransform(transform);
     }
 
-    public static void resetTime() {
-        time = LocalTime.of(6, 30, 0);
+    public static void resetTime(){
+        time = LocalTime.of(6, 59, 0);
     }
 
     @Override

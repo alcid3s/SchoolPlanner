@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Names {
     private static Names namesInstance;
-    private final ArrayList<String> names;
+    private List<String> names;
 
     public static Names getInstance() {
         if (namesInstance == null) {
@@ -19,7 +19,7 @@ public class Names {
     }
 
     public Names() {
-        names = new ArrayList<>();
+        names = new LinkedList<>();
         try {
             File file = new File(getClass().getResource("/Names.txt").toURI());
             Scanner scanner = new Scanner(file);

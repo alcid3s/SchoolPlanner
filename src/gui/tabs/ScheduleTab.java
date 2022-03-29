@@ -7,18 +7,24 @@ import gui.Util;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
 import gui.popups.EditTeachersPopup;
+import javafx.event.Event;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.Resizable;
+import org.jfree.fx.ResizableCanvas;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +33,33 @@ public class ScheduleTab extends Tab {
     private static ScheduleTab tab;
     private final int size = 114;
     private final int factor = 2;
-    private final Canvas canvas;
+    private BorderPane mainPane;
+    private ScrollPane pane;
+    private ResizableCanvas canvas;
 
     public ScheduleTab(Stage stage) {
         super("Schedule");
         setClosable(false);
         tab = this;
 
-        BorderPane mainPane = new BorderPane();
-        canvas = new Canvas();
+        mainPane = new BorderPane();
+        pane = new ScrollPane();
+        pane.setPannable(true);
+        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        if (mainPane.getHeight() == 0 || mainPane.getWidth() == 0) {
-            canvas.setWidth(1920);
-            canvas.setHeight(900);
-        } else {
-            canvas.setWidth(mainPane.getWidth());
-            canvas.setHeight(mainPane.getHeight());
-        }
-
-        mainPane.setTop(canvas);
+        canvas = new ResizableCanvas(g -> {
+            drawFrame(g);
+            Schedule.getInstance().getLessonList().forEach(l -> {
+                drawLesson(l, g);
+            });
+        }, mainPane);
+        pane.setContent(canvas);
+        mainPane.setCenter(pane);
 
 
         refreshCanvas();
 
-        int scale = (int) canvas.getWidth() / 6;
+        int scale = (int) canvas.getWidth();
 
         Button editTeachers = Util.getDefaultButton("Edit Teachers", 50, scale);
         editTeachers.setOnMouseClicked(e -> new EditTeachersPopup().show());
@@ -124,7 +133,7 @@ public class ScheduleTab extends Tab {
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
         final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
         final int xWidth = 100 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
-        final int yWidth = (yStart + height) / ((groupLocation + 1));
+        final int yWidth = 188;
 
         Rectangle rectangle = new Rectangle(xStart, yStart, xWidth, yWidth);
         graphics.draw(rectangle);
@@ -149,34 +158,36 @@ public class ScheduleTab extends Tab {
     /*
     Draws rectangles for time indication.
      */
-    private void drawFrame(FXGraphics2D graphics) {
-        List<String> array = new ArrayList<>();
-        for (Group group : Schedule.getInstance().getGroupList()) {
-            array.add(group.getName());
-        }
+    private void drawFrame(FXGraphics2D graphics){
+
 
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
-        java.awt.Font font = new Font("Verdana", Font.PLAIN, 20);
+        Font font = new Font("Verdana", 16, 20);
 
         graphics.draw(new Rectangle(0, 0, 100, 40));
         graphics.setFont(font);
 
         graphics.drawString("Groups", 0, 30);
 
-        for (int i = 0; i < temporaryTimeList.length; i++) {
+        int a = Schedule.getInstance().getGroupList().size();
+        if(a > 4){
+            pane.setMaxHeight(40 + 188*a);
+            this.canvas.setHeight(40 + 188*a);
+            pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        }else{
+            pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        }
 
-            // horizontal and vertical rectangles
+        for(int i = 0; i < temporaryTimeList.length; i++ ){
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
-            graphics.draw(new Rectangle(0, 40, 100, i * (this.size - 20) * this.factor));
-
-            // teacher list
-            if (i != 0 && i <= array.size()) {
-                graphics.drawString(array.get(i - 1), 0, i * 170);
-            }
-
-            // time list
             graphics.drawString(temporaryTimeList[i], 130 + (i * 230), 30);
+        }
+
+        for(int i = 0; i < Schedule.getInstance().getGroupList().size(); i++) {
+            Rectangle2D r = new Rectangle(0, 40 + i*188, 100, 188);
+            graphics.draw(r);
+            graphics.drawString(Schedule.getInstance().getGroupList().get(i).getName(), 0, (int)r.getY() + 188/ 2);
         }
     }
 
