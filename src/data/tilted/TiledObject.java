@@ -1,6 +1,8 @@
 package data.tilted;
 
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 
 public class TiledObject {
     public String name;
@@ -17,10 +19,13 @@ public class TiledObject {
 
     public TiledObject(JsonObject object) {
         name = object.getString("name");
-        height = object.getInt("height");
-        width = object.getInt("width");
-        x = object.getInt("x");
-        y = object.getInt("y");
+        x = (int) (((JsonNumber) object.get("x")).doubleValue());
+        y = (int) (((JsonNumber) object.get("y")).doubleValue());
+
+        height = (int) (((JsonNumber) object.get("height")).doubleValue());
+        width = (int) (((JsonNumber) object.get("width")).doubleValue());
+
+
         jsonObject = object;
 
         JsonObject textObject = object.getJsonObject("text");

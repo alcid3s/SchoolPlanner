@@ -1,5 +1,7 @@
 package data.rooms;
 
+import data.Schedule;
+import data.persons.Facing;
 import data.persons.Student;
 import data.persons.Teacher;
 import data.rooms.object.UsableObject;
@@ -7,7 +9,6 @@ import data.tilted.pathfinding.target.MapTarget;
 import data.persons.Person;
 import data.tilted.TiledImageLayer;
 import data.tilted.TiledMap;
-import data.tilted.TiledObject;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -40,7 +41,7 @@ public abstract class Room implements Comparable, Serializable {
         this.width = width;
         this.height = height;
         this.location = location;
-        System.out.println("\n\n\n\n\n----name " + name);
+        System.out.println("\n----name " + name);
 
         initChairs();
     }
@@ -67,7 +68,7 @@ public abstract class Room implements Comparable, Serializable {
                     }
                     if(isInRoom(i,j)) {
                         Point pTile = new Point(i - xTile,j - yTile);
-                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32);
+                        UsableObject object = new UsableObject(this,map.getCollisionLayer(),1,pTile,32,32, getFacingOfObject(layer.getValues()[i][j]));
                         studentsChairs.add(object);
                     }
                 }
@@ -146,5 +147,55 @@ public abstract class Room implements Comparable, Serializable {
 
     public int getHeight() {
         return height;
+    }
+
+    public void update(double deltaTime) {
+        studentsChairs.forEach(o -> {
+            o.update();
+        });
+        teacherChairs.forEach(o -> {
+            o.update();
+        });
+    }
+
+    public static Room getRandomRoom(Class<? extends Room> c) {
+        ArrayList<Room> rooms = new ArrayList<>(Schedule.getInstance().getRoomList());
+        Collections.shuffle(rooms);
+        for(Room room : rooms) {
+            if(c.isInstance(room)) {
+                return room;
+            }
+        }
+        return null;
+    }
+
+    private HashMap<Integer, Facing> hashMap = new HashMap<Integer, Facing>()
+    {{
+        put(286, Facing.NORTH);
+        put(287, Facing.SOUTH);
+        put(288, Facing.NORTH);
+        put(302, Facing.WEST);
+        put(303, Facing.EAST);
+        put(304, Facing.WEST);
+
+        put(271, Facing.EAST);
+        put(272, Facing.WEST);
+        put(270, Facing.WEST);
+        put(254, Facing.NORTH);
+        put(255, Facing.SOUTH);
+        put(256, Facing.NORTH);
+        put(1, Facing.SOUTH);
+        put(147, Facing.WEST);
+        put(149,Facing.EAST);
+        put(97,Facing.NORTH);
+        put(2707, Facing.SOUTH);
+    }};
+    public Facing getFacingOfObject(int id) {
+       // System.out.println("Getting id of " + id);
+        if(hashMap.containsKey(id)) {
+            return hashMap.get(id);
+        }
+        System.out.println("Could not find id: " + id);
+        return Facing.SOUTH;
     }
 }

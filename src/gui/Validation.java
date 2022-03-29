@@ -14,9 +14,8 @@ public class Validation {
     private static String message = "";
 
     public static boolean lessonIsValid(Lesson lesson) {
-        return sizeIsValid(lesson.getRoom(), lesson.getGroup())
-                && timeIsValid(lesson.getStartDate(), lesson.getEndDate())
-                && scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson.getTeacher(), lesson.getRoom(), lesson.getGroup())
+        return timeIsValid(lesson.getStartDate(), lesson.getEndDate())
+                && sizeIsValid(lesson.getRoom(), lesson.getGroup())
                 && isClassRoom(lesson.getRoom());
     }
 
@@ -69,8 +68,8 @@ public class Validation {
     }
 
     public static boolean nameIsValid(String name) {
-        try {
-            int i = Integer.parseInt(name);
+        try{
+            Integer.parseInt(name);
             message = "This name contains numbers";
             return false;
         } catch (Exception e) {
@@ -106,12 +105,10 @@ public class Validation {
 
         if ((startHour * 100) + startMinute >= (endHour * 100) + endMinute) {
             message = "Start time should be before end time";
-        } else if (startHour == 8 && startMinute < 45) {
-            message = "First class starts at 8:45";
-        } else if (endHour == 16 && endMinute > 0) {
+        } else if (startHour < 8) {
+            message = "First class starts at 8:00";
+        } else if ((endHour == 16 && endMinute > 0)||endHour > 16) {
             message = "Last class ends at 16:00";
-        } else if (endHour > 16 || startHour < 8) {
-            message = "Lesson out of bounds";
         } else {
             return true;
         }
@@ -119,11 +116,7 @@ public class Validation {
     }
 
     public static boolean isClassRoom(Room room) {
-        if (room instanceof Classroom) {
-            return true;
-        }
-        message = "Lesson must be given in a classroom";
-        return false;
+        return room instanceof Classroom;
     }
 
     public static boolean scheduleIsAvailable(LocalDateTime startTime, LocalDateTime endTime, Person teacher, Room room, Group group) {
@@ -181,13 +174,10 @@ public class Validation {
     }
 
     private static boolean timeChecker(Lesson lesson, LocalDateTime startTime, LocalDateTime endTime) {
-        if ((Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(startTime) <= Util.timeInInt(lesson.getEndDate()))
+        return (Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(startTime) <= Util.timeInInt(lesson.getEndDate()))
                 || (Util.timeInInt(endTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))
                 || (Util.timeInInt(startTime) <= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) >= Util.timeInInt(lesson.getEndDate()))
-                || (Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()))) {
-            return true;
-        }
-        return false;
+                || (Util.timeInInt(startTime) >= Util.timeInInt(lesson.getStartDate()) && Util.timeInInt(endTime) <= Util.timeInInt(lesson.getEndDate()));
     }
 
     public static String getMessage() {

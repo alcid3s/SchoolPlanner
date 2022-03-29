@@ -10,7 +10,6 @@ import gui.Util;
 import gui.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
