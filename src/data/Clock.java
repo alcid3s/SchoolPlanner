@@ -17,7 +17,7 @@ public class Clock implements Updatable {
 
     public Clock(ClockCallback callback) {
         check = false;
-        time = LocalTime.of(8, 30, 0);
+        resetTime();
         speed = 1;
         formatter = DateTimeFormatter.ofPattern("HH:mm");
         this.callback = callback;
@@ -36,7 +36,7 @@ public class Clock implements Updatable {
     }
 
     public static void resetTime(){
-        time = LocalTime.of(6, 59, 0);
+        time = LocalTime.of(6, 50, 0);
     }
 
     @Override

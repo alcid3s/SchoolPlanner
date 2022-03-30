@@ -31,16 +31,17 @@ public class GUI extends Application {
         tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
+
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
         primaryStage.show();
 
-        Schedule.getInstance().load(new File("resources/autosave.json"));
+        try{Schedule.getInstance().load(new File("resources/autosave.json"));}catch(Exception e){System.out.println(e.getMessage());}
 
         primaryStage.setOnCloseRequest(e -> {
-            Schedule.getInstance().save(new File("resources/autosave.json"));
+            try{Schedule.getInstance().save(new File("resources/autosave.json"));}catch(Exception f){System.out.println(f.getMessage());}
             Platform.exit();
         });
     }

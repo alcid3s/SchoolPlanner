@@ -1,5 +1,6 @@
 package simulation.firealarm;
 
+import data.Clock;
 import data.Schedule;
 import data.persons.Person;
 import data.persons.Student;
@@ -8,6 +9,7 @@ import data.tilted.TiledMap;
 import gui.tabs.SimulationTab;
 import org.jfree.fx.FXGraphics2D;
 import tasks.LeaveTask;
+import tasks.Task;
 import tasks.TriggerFireAlarmTask;
 
 import javax.imageio.ImageIO;
@@ -128,13 +130,20 @@ public class FireAlarm {
 
     public void execute() {
         List<Person> people = Schedule.getInstance().getAllPersons();
-        people.forEach(person -> {person.setTask(new LeaveTask(person));});
+        people.forEach(person -> {
+            person.leave();
+        });
 
     }
 
     public void stop() {
         List<Person> people = Schedule.getInstance().getAllPersons();
-        people.forEach(person -> {person.setTask(null);});
+        people.forEach(person -> {
+            if(Clock.getTime().getHour() < 16){
+                person.setDoSpawn(true);
+            }
+            person.setTask(null);
+        });
 
     }
 

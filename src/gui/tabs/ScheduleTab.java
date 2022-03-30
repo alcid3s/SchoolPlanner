@@ -3,6 +3,8 @@ package gui.tabs;
 import data.Group;
 import data.Lesson;
 import data.Schedule;
+import data.rooms.Classroom;
+import data.rooms.Room;
 import gui.Util;
 import gui.popups.EditGroupsPopup;
 import gui.popups.EditLessonsPopup;
@@ -29,6 +31,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+enum DrawState{
+    GROUP,
+    TEACHER,
+    ROOM;
+}
+
 public class ScheduleTab extends Tab {
     private static ScheduleTab tab;
     private final int size = 114;
@@ -36,11 +44,13 @@ public class ScheduleTab extends Tab {
     private BorderPane mainPane;
     private ScrollPane pane;
     private ResizableCanvas canvas;
+    private DrawState state;
 
     public ScheduleTab(Stage stage) {
         super("Schedule");
         setClosable(false);
         tab = this;
+        state = DrawState.GROUP;
 
         mainPane = new BorderPane();
         pane = new ScrollPane();
@@ -72,6 +82,19 @@ public class ScheduleTab extends Tab {
 
         Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
+
+        Button nextMode = Util.getDefaultButton("Change View", 50, scale);
+        nextMode.setOnAction(e -> {
+            System.out.println(state);
+            if(state == DrawState.GROUP){
+                state = DrawState.TEACHER;
+            }else if(state == DrawState.TEACHER){
+                state = DrawState.ROOM;
+            }else if(state == DrawState.ROOM){
+                state = DrawState.GROUP;
+            }
+            refreshCanvas();
+        });
 
         Button save = Util.getDefaultButton("Save Rooster", 50, scale);
         save.setOnAction(e -> {
@@ -106,20 +129,42 @@ public class ScheduleTab extends Tab {
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
         });
 
-        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh, save, load);
+        HBox hBox = new HBox(editTeachers, editGroups, editLessons, refresh, nextMode,save, load);
 
         mainPane.setBottom(hBox);
         setContent(mainPane);
     }
 
     private void drawLesson(Lesson lesson, FXGraphics2D graphics) {
-        List<Group> groups = Schedule.getInstance().getGroupList();
 
-        int groupLocation = 0;
-        for (int i = 0; i < groups.size(); i++) {
-            if (groups.get(i).getName().equals(lesson.getGroup().getName())) {
-                groupLocation = i;
-                break;
+
+        int location = 0;
+        if(state == DrawState.GROUP){
+            for (int i = 0; i < Schedule.getInstance().getGroupList().size(); i++) {
+                if (Schedule.getInstance().getGroupList().get(i).getName().equals(lesson.getGroup().getName())) {
+                    location = i;
+                    break;
+                }
+            }
+        }else if(state == DrawState.TEACHER){
+            for (int i = 0; i < Schedule.getInstance().getTeacherList().size(); i++) {
+                if (Schedule.getInstance().getTeacherList().get(i).getName().equals(lesson.getTeacher().getName())) {
+                    location = i;
+                    break;
+                }
+            }
+        }else if(state == DrawState.ROOM){
+            List<Room> classrooms = new ArrayList<>();
+            Schedule.getInstance().getRoomList().forEach(r -> {
+                if(r instanceof Classroom){
+                    classrooms.add(r);
+                }
+            });
+            for (int i = 0; i < classrooms.size(); i++) {
+                if (classrooms.get(i).getName().equals(lesson.getRoom().getName())) {
+                    location = i;
+                    break;
+                }
             }
         }
 
@@ -131,7 +176,7 @@ public class ScheduleTab extends Tab {
         final int height = 148;
         // Parameters for the class block.
         final int xStart = 100 + (((startHour - 8) * this.size) * factor) + (startMinute * (this.size / 28));
-        final int yStart = 40 + (height * (groupLocation)) + 40 * groupLocation;
+        final int yStart = 40 + (height * (location)) + 40 * location;
         final int xWidth = 100 + (((endHour - 8) * this.size) * factor) + (endMinute * (this.size / 28)) - xStart;
         final int yWidth = 188;
 
@@ -163,31 +208,54 @@ public class ScheduleTab extends Tab {
 
         String[] temporaryTimeList = {"08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00- 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"};
 
-        Font font = new Font("Verdana", 16, 20);
+        Font font = new Font("Verdana", 16, 17);
 
         graphics.draw(new Rectangle(0, 0, 100, 40));
         graphics.setFont(font);
 
-        graphics.drawString("Groups", 0, 30);
-
         int a = Schedule.getInstance().getGroupList().size();
-        if(a > 4){
-            pane.setMaxHeight(40 + 188*a);
-            this.canvas.setHeight(40 + 188*a);
-            pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        }else{
-            pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        }
 
         for(int i = 0; i < temporaryTimeList.length; i++ ){
             graphics.draw(new Rectangle((i * this.size * this.factor) + 100, 0, this.size * this.factor, 40));
             graphics.drawString(temporaryTimeList[i], 130 + (i * 230), 30);
         }
 
-        for(int i = 0; i < Schedule.getInstance().getGroupList().size(); i++) {
-            Rectangle2D r = new Rectangle(0, 40 + i*188, 100, 188);
-            graphics.draw(r);
-            graphics.drawString(Schedule.getInstance().getGroupList().get(i).getName(), 0, (int)r.getY() + 188/ 2);
+        if(state == DrawState.GROUP){
+            graphics.drawString("Groups", 0, 30);
+            a = Schedule.getInstance().getGroupList().size();
+            for(int i = 0; i < a; i++) {
+                Rectangle2D r = new Rectangle(0, 40 + i*188, 100, 188);
+                graphics.draw(r);
+                graphics.drawString(Schedule.getInstance().getGroupList().get(i).getName(), 0, (int)r.getY() + 188/ 2);
+            }
+        }else if(state == DrawState.TEACHER){
+            graphics.drawString("Teachers", 0, 30);
+            a = Schedule.getInstance().getGroupList().size();
+            for(int i = 0; i < a; i++) {
+                Rectangle2D r = new Rectangle(0, 40 + i*188, 100, 188);
+                graphics.draw(r);
+                graphics.drawString(Schedule.getInstance().getTeacherList().get(i).getName(), 0, (int)r.getY() + 188/ 2);
+            }
+        }else if(state == DrawState.ROOM){
+            graphics.drawString("Rooms", 0, 30);
+            List<Room> classrooms = new ArrayList<>();
+            for(Room r : Schedule.getInstance().getRoomList()){
+                if(r instanceof Classroom){
+                    classrooms.add(r);
+                }
+            }
+            a = classrooms.size();
+            for(int i = 0; i < a; i++) {
+                Rectangle2D r = new Rectangle(0, 40 + i*188, 100, 188);
+                graphics.draw(r);
+                graphics.drawString(classrooms.get(i).getName(), 0, (int)r.getY() + 188/ 2);
+            }
+        }
+
+        if(a > 4){
+            pane.setMaxHeight(40 + 188*a);
+            this.canvas.setHeight(40 + 188*a);
+            pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         }
     }
 
