@@ -1,9 +1,9 @@
-package gui.popups;
+package gui.popups.teacherpopups;
 
 import data.Schedule;
 import data.persons.Person;
-import gui.Util;
-import gui.Validation;
+import managers.Util;
+import managers.Validation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

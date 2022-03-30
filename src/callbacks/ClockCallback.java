@@ -1,4 +1,4 @@
-package data;
+package callbacks;
 
 public interface ClockCallback {
     void onBeginTime();

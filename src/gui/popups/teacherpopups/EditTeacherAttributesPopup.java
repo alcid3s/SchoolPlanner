@@ -1,9 +1,9 @@
-package gui.popups;
+package gui.popups.teacherpopups;
 
-import data.Schedule;
-import data.persons.Teacher;
-import gui.Util;
-import gui.Validation;
+import data.persons.Person;
+import managers.Util;
+import managers.Validation;
+import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,37 +14,35 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class CreateTeacherPopup extends Stage {
+public class EditTeacherAttributesPopup extends Stage {
 
     /**
-     * Popup for create Teacher
+     * Popup to edit a teachers attributes.
+     *
+     * @param teacher attributes to be edited
      */
-    public CreateTeacherPopup() {
-        Button create = Util.getDefaultButton("Create Teacher", 50, 134);
+    public EditTeacherAttributesPopup(Person teacher) {
+        Button edit = Util.getDefaultButton("Save", 50, 100);
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
-
         cancel.setOnAction(e -> {
             new EditTeachersPopup().show();
             close();
         });
-
         Label name = new Label("Name: ");
         TextField nameField = new TextField();
+        nameField.setText(teacher.getName());
 
         GridPane gridPane = new GridPane();
         gridPane.add(name, 0, 0);
         gridPane.add(nameField, 1, 0);
 
-        create.setOnAction(e -> {
+        edit.setOnAction(e -> {
             if (nameField.getText().length() < 3) {
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
-            } else if (Validation.nameIsValid(nameField.getText()) && Validation.teacherIsUnique(nameField.getText())) {
-                Schedule.getInstance().addTeacher(new Teacher(nameField.getText()));
-                if (nameField.getText().equalsIgnoreCase("Rick")) {
-                    new EasterEggPopup("src/gui/popups/song.mp4").show();
-                } else {
-                    new EditTeachersPopup().show();
-                }
+            } else if (Validation.teacherIsUnique(nameField.getText())) {
+                teacher.setName(nameField.getText());
+                ScheduleTab.refreshCanvas();
+                new EditTeachersPopup().show();
                 close();
             } else {
                 new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
@@ -53,11 +51,12 @@ public class CreateTeacherPopup extends Stage {
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(gridPane);
-        borderPane.setBottom(new HBox(create, cancel));
+        borderPane.setBottom(new HBox(edit, cancel));
 
         Scene scene = new Scene(borderPane);
-        setTitle("Create teacher");
+        setTitle("Edit teacher attributes");
         setScene(scene);
-
     }
+
+
 }

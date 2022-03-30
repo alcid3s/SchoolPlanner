@@ -33,7 +33,7 @@ public class FireAlarm {
     private AlarmSound sound;
 
     public FireAlarm(SimulationTab tab) {
-        sound = new AlarmSound();
+        sound = new AlarmSound("resources/alarm.wav", true);
         this.tab = tab;
         this.sprites = getImages();
         this.objects = new ArrayList<>();
@@ -123,6 +123,7 @@ public class FireAlarm {
                 }
             }
             p.setTask(new TriggerFireAlarmTask(p, trigger));
+
         } else {
             setOn(false);
         }
@@ -142,7 +143,7 @@ public class FireAlarm {
             if(Clock.getTime().getHour() < 16){
                 person.setDoSpawn(true);
             }
-            person.setTask(null);
+            person.setTask(person.getPreviousTask());
         });
 
     }

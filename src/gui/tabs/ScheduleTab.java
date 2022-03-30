@@ -1,27 +1,22 @@
 package gui.tabs;
 
-import data.Group;
 import data.Lesson;
 import data.Schedule;
 import data.rooms.Classroom;
 import data.rooms.Room;
-import gui.Util;
-import gui.popups.EditGroupsPopup;
-import gui.popups.EditLessonsPopup;
-import gui.popups.EditTeachersPopup;
-import javafx.event.Event;
+import managers.Util;
+import gui.popups.grouppopup.EditGroupsPopup;
+import gui.popups.lessonpopups.EditLessonsPopup;
+import gui.popups.teacherpopups.EditTeachersPopup;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;

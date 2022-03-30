@@ -1,4 +1,4 @@
-package gui;
+package managers;
 
 import data.Group;
 import data.Lesson;

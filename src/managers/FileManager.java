@@ -1,4 +1,4 @@
-package gui;
+package managers;
 
 import data.Clock;
 import data.Group;

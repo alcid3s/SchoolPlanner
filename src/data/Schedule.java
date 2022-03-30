@@ -3,8 +3,8 @@ package data;
 import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
-import gui.FileManager;
-import gui.Util;
+import managers.FileManager;
+import managers.Util;
 import gui.tabs.ScheduleTab;
 
 import java.io.*;

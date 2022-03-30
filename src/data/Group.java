@@ -2,6 +2,7 @@ package data;
 
 import data.persons.Person;
 import data.persons.Student;
+import managers.Names;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Group implements Comparable, Serializable {
         this.size = size;
 
         for (int i = 0; i < size; i++) {
-            this.students.add(new Student(Names.getInstance().getRandomName()));
+            this.students.add(new Student(Names.getRandomName()));
         }
     }
 
@@ -28,12 +29,15 @@ public class Group implements Comparable, Serializable {
         this.name = values[0];
         this.size = Integer.parseInt(values[1]);
         for (int i = 0; i < size; i++) {
-            this.students.add(new Student(Names.getInstance().getRandomName()));
+            this.students.add(new Student(Names.getRandomName()));
         }
     }
 
     public void addNewStudent() {
-        this.students.add(new Student(Names.getInstance().getRandomName()));
+        if(this.students.size() >= this.size){
+            this.size++;
+        }
+        this.students.add(new Student(Names.getRandomName()));
     }
 
     public void removeStudent() {

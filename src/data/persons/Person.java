@@ -7,6 +7,7 @@ import data.tilted.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 import tasks.LeaveTask;
 import tasks.Task;
+import tasks.TriggerFireAlarmTask;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -15,13 +16,14 @@ import java.io.Serializable;
 
 public abstract class Person implements Comparable, Serializable {
     private String name;
-    public Animation animation;
-    public final int size;
-    public Task task;
+    Animation animation;
+    final int size;
+    Task task;
+    private Task previousTask;
     public double angle;
     public double speed;
     private boolean isSpawned;
-    protected boolean doUpdate;
+    boolean doUpdate;
     private boolean doSpawn;
     private Point2D position;
     public Point direction;
@@ -82,7 +84,6 @@ public abstract class Person implements Comparable, Serializable {
         return name;
     }
 
-
     public boolean isSpawned() {
         return isSpawned;
     }
@@ -140,11 +141,17 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
-    public void setTask(Task task) {
+    public void setTask(Task task){
+        if(task instanceof TriggerFireAlarmTask){
+            this.previousTask = this.task;
+        }
         this.task = task;
     }
 
     public void leave() {
+        if(!(this.task instanceof TriggerFireAlarmTask)){
+            this.previousTask = this.task;
+        }
         this.task = new LeaveTask(this);
     }
 
@@ -177,5 +184,13 @@ public abstract class Person implements Comparable, Serializable {
 
     public Task getTask() {
         return task;
+    }
+
+    public Task getPreviousTask(){
+        return previousTask;
+    }
+
+    public void setPreviousTask(Task task){
+        this.previousTask = task;
     }
 }

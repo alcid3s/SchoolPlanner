@@ -1,9 +1,9 @@
-package gui.popups;
+package gui.popups.grouppopup;
 
 import data.Group;
 import data.Schedule;
-import gui.Util;
-import gui.Validation;
+import managers.Util;
+import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

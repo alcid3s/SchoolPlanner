@@ -1,5 +1,6 @@
-package gui.tabs;
+package managers;
 
+import gui.tabs.SimulationTab;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;

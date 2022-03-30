@@ -4,6 +4,7 @@ import data.persons.Person;
 import data.tilted.TiledImageLayer;
 import data.tilted.pathfinding.target.MapTarget;
 import data.tilted.pathfinding.target.Target;
+import callbacks.FireAlarmTriggerCallback;
 
 import java.awt.*;
 

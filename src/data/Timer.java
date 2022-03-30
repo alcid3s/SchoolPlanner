@@ -1,5 +1,8 @@
 package data;
 
+import callbacks.TimerCallback;
+import callbacks.Updatable;
+
 import java.time.LocalTime;
 
 public class Timer implements Updatable {

@@ -1,10 +1,16 @@
 package gui.tabs;
 
 import data.*;
+import callbacks.ClockCallback;
+import callbacks.TimerCallback;
+import callbacks.Updatable;
 import data.persons.Person;
 import data.tilted.TiledMap;
-import simulation.firealarm.FireAlarm;
 import gui.GUI;
+import javafx.scene.input.KeyCode;
+import managers.Camera;
+import simulation.firealarm.AlarmSound;
+import simulation.firealarm.FireAlarm;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
@@ -32,6 +38,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private double timer = 0.5;
     private final List<Updatable> timers;
     private FireAlarm fireAlarm;
+    private AlarmSound sound;
 
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
@@ -47,6 +54,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         this.fireAlarm = new FireAlarm(this);
         this.groupList = Schedule.getInstance().getGroupList();
         setClosable(false);
+        this.sound = new AlarmSound("resources/bell.wav", false);
 
         BorderPane mainPane = new BorderPane();
         this.canvas = new Canvas(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
@@ -67,9 +75,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
         GUI.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)) {
-                switch (event.getCode()) {
-                    case B:
-                        fireAlarm.toggle();
+                if (event.getCode() == KeyCode.B) {
+                    fireAlarm.toggle();
                 }
             }
         });
@@ -110,19 +117,21 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         Schedule.getInstance().getLessonList().forEach(lesson -> {
             int hour = lesson.getStartDate().getHour();
             int minute = lesson.getStartDate().getMinute();
-//            if(minute < 15){
-//                hour -= 1;
-//                minute = 45 + minute;
-//            }else{
-//                minute -= 15;
-//            }
             if (hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !lesson.getHasTask()) {
                 lesson.setHasTask(true);
                 timers.add(new Timer(lesson, this));
-                //if(!l.getTeacher().getName().equalsIgnoreCase("Jessica")){
-                lesson.getGroup().getStudents().forEach(s -> s.setTask(new LessonTask(s, lesson.getRoom())));
-                //}
-                lesson.getTeacher().setTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
+                lesson.getGroup().getStudents().forEach(s ->{
+                    if(fireAlarm.isOn()){
+                        s.setPreviousTask(new LessonTask(s, lesson.getRoom()));
+                    }else{
+                        s.setTask(new LessonTask(s, lesson.getRoom()));
+                    }
+                });
+                if(fireAlarm.isOn()){
+                    lesson.getTeacher().setPreviousTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
+                }else{
+                    lesson.getTeacher().setTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
+                }
             }
         });
         this.timers.forEach(t -> t.update(deltaTime));
@@ -232,6 +241,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
     @Override
     public void onBeginTime() {
+        this.sound.stop();
         Schedule.getInstance().getLessonList().forEach(System.out::println);
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             s.setDoUpdate(true);
@@ -245,6 +255,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
     @Override
     public void onEndTime() {
+        this.sound.play();
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             if (s.isSpawned()) {
                 s.leave();
@@ -262,7 +273,10 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     @Override
     public void onEndOfClass(Lesson lesson) {
         lesson.setHasTask(false);
-        lesson.getGroup().getStudents().forEach(s -> s.setTask(null));
+        lesson.getGroup().getStudents().forEach(s -> {
+            s.setTask(null);
+            s.setPreviousTask(null);
+        });
         lesson.getTeacher().setTask(null);
     }
 }

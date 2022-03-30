@@ -1,6 +1,6 @@
-package gui.popups;
+package gui.popups.teacherpopups;
 
-import gui.Util;
+import managers.Util;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

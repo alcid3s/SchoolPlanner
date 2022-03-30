@@ -1,4 +1,4 @@
-package simulation.firealarm;
+package callbacks;
 
 import data.persons.Person;
 
