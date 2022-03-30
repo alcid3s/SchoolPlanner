@@ -1,5 +1,7 @@
 package data;
 
+import callbacks.ClockCallback;
+import callbacks.Updatable;
 import javafx.scene.canvas.Canvas;
 import org.jfree.fx.FXGraphics2D;
 
@@ -36,7 +38,7 @@ public class Clock implements Updatable {
     }
 
     public static void resetTime(){
-        time = LocalTime.of(6, 50, 0);
+        time = LocalTime.of(6, 59, 0);
     }
 
     @Override

@@ -1,27 +1,22 @@
 package gui.tabs;
 
-import data.Group;
 import data.Lesson;
 import data.Schedule;
 import data.rooms.Classroom;
 import data.rooms.Room;
-import gui.Util;
-import gui.popups.EditGroupsPopup;
-import gui.popups.EditLessonsPopup;
-import gui.popups.EditTeachersPopup;
-import javafx.event.Event;
+import managers.Util;
+import gui.popups.grouppopup.EditGroupsPopup;
+import gui.popups.lessonpopups.EditLessonsPopup;
+import gui.popups.teacherpopups.EditTeachersPopup;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.Resizable;
-import org.jfree.fx.ResizableCanvas;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
@@ -31,20 +26,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-enum DrawState{
-    GROUP,
-    TEACHER,
-    ROOM;
-}
-
 public class ScheduleTab extends Tab {
     private static ScheduleTab tab;
     private final int size = 114;
     private final int factor = 2;
-    private BorderPane mainPane;
-    private ScrollPane pane;
-    private ResizableCanvas canvas;
-    private DrawState state;
+    private final ScrollPane pane;
+    private final ResizableCanvas canvas;
+    private static DrawState state;
 
     public ScheduleTab(Stage stage) {
         super("Schedule");
@@ -52,7 +40,7 @@ public class ScheduleTab extends Tab {
         tab = this;
         state = DrawState.GROUP;
 
-        mainPane = new BorderPane();
+        BorderPane mainPane = new BorderPane();
         pane = new ScrollPane();
         pane.setPannable(true);
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -85,7 +73,6 @@ public class ScheduleTab extends Tab {
 
         Button nextMode = Util.getDefaultButton("Change View", 50, scale);
         nextMode.setOnAction(e -> {
-            System.out.println(state);
             if(state == DrawState.GROUP){
                 state = DrawState.TEACHER;
             }else if(state == DrawState.TEACHER){
@@ -273,5 +260,9 @@ public class ScheduleTab extends Tab {
         for (Lesson lesson : Schedule.getInstance().getLessonList()) {
             tab.drawLesson(lesson, graphics);
         }
+    }
+
+    public static DrawState getState(){
+        return state;
     }
 }

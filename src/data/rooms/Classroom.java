@@ -1,10 +1,10 @@
 package data.rooms;
 
 import data.rooms.object.UsableObject;
-import data.tilted.TiledImageLayer;
-import data.tilted.TiledObject;
-import data.tilted.pathfinding.target.MapTarget;
-import data.tilted.TiledMap;
+import data.tiled.TiledImageLayer;
+import data.tiled.TiledObject;
+import data.tiled.pathfinding.target.MapTarget;
+import data.tiled.TiledMap;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,10 +24,8 @@ public class Classroom extends Room {
         Optional<TiledImageLayer> layerOptional = map.getLayer("Chairs");
         Optional<TiledObject> roomOptional = map.getObject("student" + name);
         if(roomOptional.isPresent() && layerOptional.isPresent()) {
-            System.out.println("Loading chairs...");
             TiledImageLayer layer = layerOptional.get();
             TiledObject room = roomOptional.get();
-            System.out.println("Room start point: " + name + " " + x/32 + " " + y/32 + " studentsRoom: " + roomOptional.get().getName());
 
             int xTile = (int) Math.floor(x/32);
             int yTile = (int) Math.floor(y/32);
@@ -35,7 +33,6 @@ public class Classroom extends Room {
             int heightTile = (int) Math.floor(height/32);
             for(int i = xTile; i <= xTile + widthTile; i++) {
                 for(int j = yTile; j <= yTile + heightTile; j++) {
-                    //System.out.println(room.getName() + " " + i + " " + j);
                     if(layer.getValues()[i][j] == 0) {
                         continue;
                     }
@@ -51,13 +48,6 @@ public class Classroom extends Room {
                     }
                 }
             }
-        } else {
-            System.out.println("Could not find Chairs layer or room with name: student" + name + " (" + name + ")");
-            return;
         }
-        System.out.println("Room: " + name);
-        System.out.println("\t(x,y) " + x + " , " + y + " (width,height) " + width + " , " + height + " <- Whole room");
-        System.out.println("\t(x,y) " + roomOptional.get().getX() + " , " + roomOptional.get().getY() + " (width,height) " + roomOptional.get().getWidth() + " , " + roomOptional.get().getHeight() + " <- Students room");
-        System.out.println("\tStudents: " + studentsChairs.size() + "\n\tTeachers: " + teacherChairs.size());
     }
 }

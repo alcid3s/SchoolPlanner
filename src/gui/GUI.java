@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import managers.Names;
 
 import java.awt.*;
 import java.io.File;
@@ -31,6 +32,7 @@ public class GUI extends Application {
         tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
+        Names.init();
 
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);

@@ -3,25 +3,28 @@ package data.persons;
 import simulation.Animation;
 import data.Clock;
 import data.Schedule;
-import data.tilted.pathfinding.target.Target;
+import data.tiled.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
+import tasks.IdleTask;
 import tasks.LeaveTask;
 import tasks.Task;
+import tasks.TriggerFireAlarmTask;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
-public abstract class Person implements Comparable, Serializable {
+public abstract class Person implements Comparable<Person>, Serializable {
     private String name;
-    public Animation animation;
-    public final int size;
-    public Task task;
+    private final Animation animation;
+    final int size;
+    private Task task;
+    private Task previousTask;
     public double angle;
     public double speed;
     private boolean isSpawned;
-    protected boolean doUpdate;
+    boolean doUpdate;
     private boolean doSpawn;
     private Point2D position;
     public Point direction;
@@ -59,7 +62,21 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
-    public abstract void update(double deltaTime);
+    public void update(double deltaTime) {
+        if (doUpdate) {
+            if (task == null) {
+                task = new IdleTask(this);
+            }
+            if (direction != null) {
+                if (task.isPlayerUsingObject()) {
+                    animation.update(0, Facing.getFacing(direction));
+                } else {
+                    animation.update(deltaTime, Facing.getFacing(direction));
+                }
+            }
+            task.update(deltaTime);
+        }
+    }
 
     public void spawn(Point2D position) {
         if (!isSpawned() && doSpawn) {
@@ -74,14 +91,13 @@ public abstract class Person implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.toString().compareTo(o.toString());
+    public int compareTo(Person p) {
+        return this.name.compareTo(p.getName());
     }
 
     public String getJsonString() {
         return name;
     }
-
 
     public boolean isSpawned() {
         return isSpawned;
@@ -140,11 +156,17 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
-    public void setTask(Task task) {
+    public void setTask(Task task){
+        if(task instanceof TriggerFireAlarmTask){
+            this.previousTask = this.task;
+        }
         this.task = task;
     }
 
     public void leave() {
+        if(!(this.task instanceof TriggerFireAlarmTask)){
+            this.previousTask = this.task;
+        }
         this.task = new LeaveTask(this);
     }
 
@@ -177,5 +199,13 @@ public abstract class Person implements Comparable, Serializable {
 
     public Task getTask() {
         return task;
+    }
+
+    public Task getPreviousTask(){
+        return previousTask;
+    }
+
+    public void setPreviousTask(Task task){
+        this.previousTask = task;
     }
 }

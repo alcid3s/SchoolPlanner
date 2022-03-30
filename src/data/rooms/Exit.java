@@ -1,9 +1,6 @@
 package data.rooms;
 
-import data.tilted.TiledMap;
-import data.tilted.pathfinding.target.MapTarget;
-
-import java.awt.*;
+import data.tiled.TiledMap;
 
 public class Exit extends Room{
     private static Room exit;

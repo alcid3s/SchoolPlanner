@@ -4,12 +4,11 @@ import data.Clock;
 import data.Schedule;
 import data.persons.Person;
 import data.persons.Student;
-import data.tilted.TiledImageLayer;
-import data.tilted.TiledMap;
+import data.tiled.TiledImageLayer;
+import data.tiled.TiledMap;
 import gui.tabs.SimulationTab;
 import org.jfree.fx.FXGraphics2D;
 import tasks.LeaveTask;
-import tasks.Task;
 import tasks.TriggerFireAlarmTask;
 
 import javax.imageio.ImageIO;
@@ -20,30 +19,25 @@ import java.util.*;
 import java.util.List;
 
 public class FireAlarm {
-    private SimulationTab tab;
-    private BufferedImage[] sprites;
+    private final BufferedImage[] sprites;
     private boolean on;
-    private boolean starting;
-    private ArrayList<FireAlarmObject> objects;
-    private ArrayList<FireAlarmTrigger> fireAlarmTriggers;
+    private final ArrayList<FireAlarmObject> objects;
+    private final ArrayList<FireAlarmTrigger> fireAlarmTriggers;
     private final double time = 0.1;
     private double currentTime = time;
     private int currentSprite = 0;
-    private TiledMap map;
-    private AlarmSound sound;
+    private final AlarmSound sound;
 
     public FireAlarm(SimulationTab tab) {
-        sound = new AlarmSound();
-        this.tab = tab;
+        sound = new AlarmSound("resources/alarm.wav", true);
         this.sprites = getImages();
         this.objects = new ArrayList<>();
-        this.map = tab.getMap();
+        TiledMap map = tab.getMap();
         TiledImageLayer imageLayer = map.getFireAlarmLayer();
         this.fireAlarmTriggers = new ArrayList<>();
         for (int i = 0; i < imageLayer.getValues().length; i++) {
             for (int j = 0; j < imageLayer.getValues()[i].length; j++) {
                 if(imageLayer.getValues()[i][j] == 2889) {
-                    System.out.println("added object");
                     objects.add(new FireAlarmObject(i,j));
                 } else if(imageLayer.getValues()[i][j] == 2890) {
                     fireAlarmTriggers.add(new FireAlarmTrigger(new Point(i, j), map.getCollisionLayer(), p -> {
@@ -54,7 +48,6 @@ public class FireAlarm {
             }
         }
         on = false;
-        starting = false;
     }
 
     private BufferedImage[] getImages() {
@@ -79,10 +72,6 @@ public class FireAlarm {
         return null;
     }
 
-    public BufferedImage[] getSprites() {
-        return sprites;
-    }
-
     public boolean isOn() {
         return on;
     }
@@ -90,11 +79,9 @@ public class FireAlarm {
     public void toggle() {
         if(this.isOn()) {
             this.on = false;
-            this.starting = false;
             this.sound.stop();
             stop();
         } else {
-            this.starting = true;
             start();
         }
     }
@@ -123,6 +110,7 @@ public class FireAlarm {
                 }
             }
             p.setTask(new TriggerFireAlarmTask(p, trigger));
+
         } else {
             setOn(false);
         }
@@ -130,9 +118,7 @@ public class FireAlarm {
 
     public void execute() {
         List<Person> people = Schedule.getInstance().getAllPersons();
-        people.forEach(person -> {
-            person.leave();
-        });
+        people.forEach(Person::leave);
 
     }
 
@@ -142,7 +128,7 @@ public class FireAlarm {
             if(Clock.getTime().getHour() < 16){
                 person.setDoSpawn(true);
             }
-            person.setTask(null);
+            person.setTask(person.getPreviousTask());
         });
 
     }
@@ -171,9 +157,7 @@ public class FireAlarm {
 
     public void draw(FXGraphics2D g2d) {
         if(this.on) {
-            objects.forEach(o -> {
-                o.draw(g2d);
-            });
+            objects.forEach(o -> o.draw(g2d));
         }
     }
 }

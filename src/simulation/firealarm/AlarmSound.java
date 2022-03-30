@@ -9,10 +9,14 @@ public class AlarmSound{
 
     private AudioInputStream ais;
     private Clip clip;
+    private final String path;
+    private final boolean loop;
 
-    public AlarmSound(){
+    public AlarmSound(String path, boolean loop){
+        this.path = path;
+        this.loop = loop;
         try{
-            this.ais = AudioSystem.getAudioInputStream(new File("resources/alarm.wav").getAbsoluteFile());
+            this.ais = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             this.clip = AudioSystem.getClip();
         }catch (Exception e){
             e.printStackTrace();
@@ -22,7 +26,11 @@ public class AlarmSound{
     public void play(){
         try{
             this.clip.open(ais);
-            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            if(this.loop){
+                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }else{
+                this.clip.loop(0);
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -32,7 +40,7 @@ public class AlarmSound{
         this.clip.stop();
         try{
             ais = AudioSystem.getAudioInputStream(
-                    new File("resources/alarm.wav").getAbsoluteFile());
+                    new File(this.path).getAbsoluteFile());
             clip = AudioSystem.getClip();
         }catch (Exception e){
             e.printStackTrace();

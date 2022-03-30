@@ -1,19 +1,19 @@
 package simulation.firealarm;
 
-import data.persons.Person;
-import data.tilted.TiledImageLayer;
-import data.tilted.pathfinding.target.MapTarget;
-import data.tilted.pathfinding.target.Target;
+import data.tiled.TiledImageLayer;
+import data.tiled.pathfinding.target.MapTarget;
+import data.tiled.pathfinding.target.Target;
+import callbacks.FireAlarmTriggerCallback;
 
 import java.awt.*;
 
 public class FireAlarmTrigger {
-    private Target target;
-    private int width = 32;
-    private int height = 32;
-    private int x;
-    private int y;
-    private FireAlarmTriggerCallback triggerCallback;
+    private final Target target;
+    private final int width = 32;
+    private final int height = 32;
+    private final int x;
+    private final int y;
+    private final FireAlarmTriggerCallback triggerCallback;
 
 
     public FireAlarmTrigger(Point p, TiledImageLayer collisionLayer, FireAlarmTriggerCallback triggerCallback) {
@@ -26,12 +26,6 @@ public class FireAlarmTrigger {
         int realX = this.x * 32;
         int realY = this.y * 32;
         return (x >= realX && y >= realY && x <= realX + width && y <= realY + height);
-    }
-
-    public void check(Person p) {
-        if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY())) {
-            triggerCallback.callback(p);
-        }
     }
 
     public Target getTarget() {

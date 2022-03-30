@@ -3,8 +3,8 @@ package data;
 import data.persons.Person;
 import data.persons.Teacher;
 import data.rooms.Room;
-import gui.FileManager;
-import gui.Util;
+import managers.FileManager;
+import managers.Util;
 import gui.tabs.ScheduleTab;
 
 import java.io.*;
@@ -65,21 +65,6 @@ public class Schedule implements Serializable {
     public void addRoom(Room room) {
         this.roomList.add(room);
         sort();
-    }
-
-    /**
-     * Returns the lesson with specific name.
-     *
-     * @param name of the lesson
-     * @return the lesson with specific name or null if no lesson found.
-     */
-    public Lesson getLesson(String name) {
-        for (Lesson l : lessonList) {
-            if (l.getName().equals(name)) {
-                return l;
-            }
-        }
-        return null;
     }
 
     /**
@@ -146,8 +131,8 @@ public class Schedule implements Serializable {
         sort();
     }
 
-    public boolean removeTeacher(Person teacher) {
-        return this.teacherList.remove(teacher);
+    public void removeTeacher(Person teacher) {
+        this.teacherList.remove(teacher);
     }
 
     public void removeLesson(Lesson lesson) {
@@ -163,20 +148,6 @@ public class Schedule implements Serializable {
         Collections.sort(this.roomList);
         Collections.sort(this.groupList);
         Collections.sort(this.teacherList);
-    }
-
-    public void setExample() {
-        groupList.add(new Group("Proftaak B", 20));
-        groupList.add(new Group("Proftaak A", 20));
-        groupList.add(new Group("Proftaak C", 20));
-        groupList.add(new Group("Proftaak D", 20));
-        groupList.add(new Group("Proftaak E", 20));
-        teacherList.add(new Teacher("Pieter"));
-        teacherList.add(new Teacher("Edwin"));
-        teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LA134"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
-        lessonList.add(new Lesson("OGP", getRoom("CollegeHall"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
-        lessonList.add(new Lesson("OGP1", getRoom("LA124"), getTeacher("Etienne"), getGroup("Proftaak A"), Util.makeTime("12", "05"), Util.makeTime("16", "00")));
     }
 
     public boolean save(File file) {
@@ -198,7 +169,7 @@ public class Schedule implements Serializable {
                     objectOutputStream.writeObject(this);
                     objectOutputStream.close();
                     return true;
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     return false;
                 }
@@ -224,9 +195,9 @@ public class Schedule implements Serializable {
                     FileInputStream f = new FileInputStream(file);
                     ObjectInputStream s = new ObjectInputStream(f);
                     Schedule newSchedule = (Schedule) s.readObject();
-                    this.schedule.setLessonList(newSchedule.getLessonList());
-                    this.schedule.setTeacherList(newSchedule.getTeacherList());
-                    this.schedule.setGroupList(newSchedule.getGroupList());
+                    schedule.setLessonList(newSchedule.getLessonList());
+                    schedule.setTeacherList(newSchedule.getTeacherList());
+                    schedule.setGroupList(newSchedule.getGroupList());
                     Clock.resetTime();
                     ScheduleTab.refreshCanvas();
                     return true;

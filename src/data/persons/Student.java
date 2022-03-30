@@ -1,7 +1,6 @@
 package data.persons;
 
 import simulation.Animation;
-import tasks.IdleTask;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Student extends Person {
-    private static Random random = new Random();
+    private final static Random random = new Random();
     private static ArrayList<HashMap<Facing, BufferedImage[]>> images;
 
     public Student(String name) {
@@ -49,23 +48,6 @@ public class Student extends Person {
         }
         images.get(random.nextInt(images.size())).forEach(animation::setFacing);
         return animation;
-    }
-
-    @Override
-    public void update(double deltaTime) {
-        if (doUpdate) {
-            if (task == null) {
-                task = new IdleTask(this);
-            }
-            if (direction != null) {
-                if (task.isPlayerUsingObject()) {
-                    animation.update(0, Facing.getFacing(direction));
-                } else {
-                    animation.update(deltaTime, Facing.getFacing(direction));
-                }
-            }
-            task.update(deltaTime);
-        }
     }
 
 }

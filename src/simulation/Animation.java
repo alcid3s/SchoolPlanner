@@ -34,7 +34,6 @@ public class Animation {
             animationCount = 0;
         } else {
             currentAnimationDelay += deltaTime;
-            // Animation delay in seconds
             double animationDelay = 0.300;
             if (currentAnimationDelay > animationDelay) {
                 currentAnimationDelay = 0;
