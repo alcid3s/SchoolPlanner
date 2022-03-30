@@ -7,7 +7,7 @@ import managers.Names;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group implements Comparable, Serializable {
+public class Group implements Comparable<Group>, Serializable {
 
     private final ArrayList<Person> students;
     private String name;
@@ -84,8 +84,8 @@ public class Group implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.toString().compareTo(o.toString());
+    public int compareTo(Group g) {
+        return this.name.compareTo(g.getName());
     }
 
     public String getJsonString() {

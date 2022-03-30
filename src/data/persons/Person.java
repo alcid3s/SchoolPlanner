@@ -3,8 +3,9 @@ package data.persons;
 import simulation.Animation;
 import data.Clock;
 import data.Schedule;
-import data.tilted.pathfinding.target.Target;
+import data.tiled.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
+import tasks.IdleTask;
 import tasks.LeaveTask;
 import tasks.Task;
 import tasks.TriggerFireAlarmTask;
@@ -14,11 +15,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
-public abstract class Person implements Comparable, Serializable {
+public abstract class Person implements Comparable<Person>, Serializable {
     private String name;
-    Animation animation;
+    private final Animation animation;
     final int size;
-    Task task;
+    private Task task;
     private Task previousTask;
     public double angle;
     public double speed;
@@ -61,7 +62,21 @@ public abstract class Person implements Comparable, Serializable {
         }
     }
 
-    public abstract void update(double deltaTime);
+    public void update(double deltaTime) {
+        if (doUpdate) {
+            if (task == null) {
+                task = new IdleTask(this);
+            }
+            if (direction != null) {
+                if (task.isPlayerUsingObject()) {
+                    animation.update(0, Facing.getFacing(direction));
+                } else {
+                    animation.update(deltaTime, Facing.getFacing(direction));
+                }
+            }
+            task.update(deltaTime);
+        }
+    }
 
     public void spawn(Point2D position) {
         if (!isSpawned() && doSpawn) {
@@ -76,8 +91,8 @@ public abstract class Person implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.toString().compareTo(o.toString());
+    public int compareTo(Person p) {
+        return this.name.compareTo(p.getName());
     }
 
     public String getJsonString() {

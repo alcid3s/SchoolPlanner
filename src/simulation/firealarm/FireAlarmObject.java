@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 public class FireAlarmObject {
     private BufferedImage currentSprite;
-    private int tileX;
-    private int tileY;
+    private final int tileX;
+    private final int tileY;
 
     public FireAlarmObject(int tileX,int tileY) {
         this.tileX = tileX;

@@ -2,25 +2,24 @@ package data.rooms.object;
 
 import data.persons.Facing;
 import data.rooms.Room;
-import data.tilted.TiledImageLayer;
+import data.tiled.TiledImageLayer;
 import data.persons.Person;
-import data.tilted.pathfinding.target.RoomObjectTarget;
-import data.tilted.pathfinding.target.Target;
-import tasks.LessonTask;
+import data.tiled.pathfinding.target.RoomObjectTarget;
+import data.tiled.pathfinding.target.Target;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class UsableObject {
-    private ArrayList<Person> users;
-    private Target target;
-    private int maxUsers;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-    private Room r;
-    private Facing facingWhenUsing;
+    private final ArrayList<Person> users;
+    private final Target target;
+    private final int maxUsers;
+    private final int x;
+    private final int y;
+    private final int width;
+    private final int height;
+    private final Room r;
+    private final Facing facingWhenUsing;
 
     public UsableObject(Room r, TiledImageLayer collisionLayer, int maxUsers, Point loc, int width, int height, Facing facingWhenUsing) {
         this.users = new ArrayList<>();
@@ -34,18 +33,6 @@ public class UsableObject {
         target = new RoomObjectTarget(r, loc, collisionLayer);
     }
 
-    public boolean startUsingEvent(Person p) {
-        if (maxUsers > users.size()) {
-            users.add(p);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean stopUsingEvent(Person p) {
-        return users.remove(p);
-    }
-
     public boolean isInsideUsableRange(int x, int y) {
         int realX = this.x * 32 + r.getX();
         int realY = this.y * 32 + r.getY();
@@ -56,16 +43,8 @@ public class UsableObject {
         return maxUsers > users.size();
     }
 
-    public ArrayList<Person> getUsers() {
-        return users;
-    }
-
     public Target getTarget() {
         return target;
-    }
-
-    public int getMaxUsers() {
-        return maxUsers;
     }
 
     public int getX() {
@@ -108,10 +87,6 @@ public class UsableObject {
                 ", width=" + width +
                 ", height=" + height +
                 '}';
-    }
-
-    public Room getR() {
-        return r;
     }
 
     public Facing getFacingWhenUsing() {

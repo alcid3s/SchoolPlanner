@@ -1,8 +1,8 @@
-package data.tilted.pathfinding.target;
+package data.tiled.pathfinding.target;
 
 import data.persons.Person;
 import data.rooms.Room;
-import data.tilted.TiledImageLayer;
+import data.tiled.TiledImageLayer;
 import javafx.util.Pair;
 
 import java.awt.*;
@@ -12,11 +12,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class RoomObjectTarget extends Target {
-    private Room room;
-    private int tileRoomWidth;
-    private int tileRoomHeight;
-    private int tileRoomX;
-    private int tileRoomY;
+    private final Room room;
+    private final int tileRoomWidth;
+    private final int tileRoomHeight;
+    private final int tileRoomX;
+    private final int tileRoomY;
 
     public RoomObjectTarget(Room room, Point location, TiledImageLayer collisionLayer) {
         super(printL(location, room), collisionLayer, room.getWidth()/32, room.getHeight()/32);
@@ -26,10 +26,7 @@ public class RoomObjectTarget extends Target {
         this.tileRoomX = room.getX()/32;
         this.tileRoomY = room.getY()/32;
 
-        //System.out.println("Created 2d map with [" + reached.length + "] [" + reached[0].length + "]");
-
         Pair<Integer, Integer> start = new Pair<>(tileXLocation, tileYLocation);
-        //System.out.println("Start position: " + start.getKey() + " " + start.getValue());
 
         Queue<Pair<Integer,Integer>> frontier = new LinkedList<>();
         frontier.offer(start);
@@ -54,11 +51,9 @@ public class RoomObjectTarget extends Target {
                 }
             }
         }
-        //print();
     }
 
     private static Point printL(Point location, Room r) {
-        System.out.println("Created object target with x, y: " + location.x + " " + location.y + " " + r.getX() + " " + r.getY() + " " + r.getName());
         return location;
     }
 
@@ -89,22 +84,6 @@ public class RoomObjectTarget extends Target {
 
     public Room getRoom() {
         return room;
-    }
-
-    public int getTileRoomWidth() {
-        return tileRoomWidth;
-    }
-
-    public int getTileRoomHeight() {
-        return tileRoomHeight;
-    }
-
-    public int getTileRoomX() {
-        return tileRoomX;
-    }
-
-    public int getTileRoomY() {
-        return tileRoomY;
     }
 
     public int[][] getReached() {

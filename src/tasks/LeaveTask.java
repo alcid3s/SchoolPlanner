@@ -2,7 +2,7 @@ package tasks;
 
 import data.persons.Person;
 import data.rooms.Exit;
-import data.tilted.TiledMap;
+import data.tiled.TiledMap;
 
 public class LeaveTask extends Task {
     public LeaveTask(Person p) {

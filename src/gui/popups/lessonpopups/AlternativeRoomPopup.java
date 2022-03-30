@@ -74,7 +74,6 @@ public class AlternativeRoomPopup extends Stage {
         for (Lesson lesson : Schedule.getInstance().getLessonList()) {
             for (Room room : Schedule.getInstance().getRoomList()) {
                 if (thisLesson.getRoom().getName().equals(lesson.getRoom().getName()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())) {
-                    System.out.println("Test");
                     otherLesson = lesson;
                     newOption = "\n\tThis room is unavailable for this group. However,\n\troom " + room + " is still available for " + lesson.getGroup() + ".\t\n\tDo you want to use this room for this group?\n";
                     newRoom = room;

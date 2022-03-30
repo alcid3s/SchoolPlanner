@@ -2,8 +2,6 @@ package data.persons;
 
 import simulation.Animation;
 
-import tasks.IdleTask;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -23,7 +21,6 @@ public class Teacher extends Person {
         ArrayList<Facing> faces = new ArrayList<>(Arrays.asList(Facing.SOUTH, Facing.WEST, Facing.EAST, Facing.NORTH));
         try {
             BufferedImage totalImage = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("NPCs.png")));
-            //BufferedImage[] sprites = new BufferedImage[size * 3];
             for (int y = 4; y < 8; y++) {
                 BufferedImage[] sprites = new BufferedImage[3];
                 for (int x = 6; x < 9; x++) {
@@ -38,32 +35,6 @@ public class Teacher extends Person {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-//    @Override
-//    public void draw(FXGraphics2D graphics) {
-//        if (isSpawned()) {
-//            AffineTransform tx = graphics.getTransform();
-//            tx.translate(getPosition().getX() - (size / 2), getPosition().getY() - (size / 2));
-//            graphics.drawImage(getAnimation().getImage(), tx, null);
-//        }
-//    }
-
-    @Override
-    public void update(double deltaTime) {
-        if(doUpdate){
-            if(task == null) {
-                task = new IdleTask(this);
-            }
-            if(direction != null) {
-                if(task.isPlayerUsingObject()) {
-                    animation.update(0, Facing.getFacing(direction));
-                } else {
-                    animation.update(deltaTime, Facing.getFacing(direction));
-                }
-            }
-            task.update(deltaTime);
         }
     }
 }

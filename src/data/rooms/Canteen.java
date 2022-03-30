@@ -1,7 +1,7 @@
 package data.rooms;
 
-import data.tilted.pathfinding.target.MapTarget;
-import data.tilted.TiledMap;
+import data.tiled.pathfinding.target.MapTarget;
+import data.tiled.TiledMap;
 
 import java.awt.*;
 

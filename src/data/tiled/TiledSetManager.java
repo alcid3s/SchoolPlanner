@@ -1,4 +1,4 @@
-package data.tilted;
+package data.tiled;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

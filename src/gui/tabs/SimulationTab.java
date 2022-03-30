@@ -5,7 +5,7 @@ import callbacks.ClockCallback;
 import callbacks.TimerCallback;
 import callbacks.Updatable;
 import data.persons.Person;
-import data.tilted.TiledMap;
+import data.tiled.TiledMap;
 import gui.GUI;
 import javafx.scene.input.KeyCode;
 import managers.Camera;
@@ -37,8 +37,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private final Pane pane;
     private double timer = 0.5;
     private final List<Updatable> timers;
-    private FireAlarm fireAlarm;
-    private AlarmSound sound;
+    private final FireAlarm fireAlarm;
+    private final AlarmSound sound;
 
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
@@ -100,7 +100,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         if (timer > -0.1) {
             timer -= deltaTime;
         }
-        //groupList.get(0).getStudents().get(0).spawn(map.getStudentSpawn());
+
         for (Person p : Schedule.getInstance().getAllPersons()) {
             if (!p.isSpawned() && !fireAlarm.isOn()) {
                 if (timer <= 0) {
@@ -139,7 +139,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     private void drawBackground(FXGraphics2D g) {
-        long millis = System.nanoTime();
         g.setTransform(new AffineTransform());
         g.setBackground(Color.BLACK);
         g.setClip(null);
@@ -147,19 +146,13 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
         g.setTransform(camera.getTransform());
 
-
         map.draw(g);
 
         updateBackground = false;
-        millis = System.nanoTime() - millis;
-        if (millis / 1000000.0 > 6.0)
-            System.out.println("Total time to draw background " + millis / 1000000.0 + " ms");
-
     }
 
     @Override
     public void draw(FXGraphics2D g2d) {
-        //FPS COUNTER
         totalFrames++;
         if (System.nanoTime() > lastFPSCheck + 1000000000) {
             lastFPSCheck = System.nanoTime();
@@ -187,31 +180,13 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         fireAlarm.draw(g2d);
 
         g2d.setColor(Color.BLUE);
-        //SEE WHERE STUDENT 0 GOES TO
-        /*try {
-            UsableObject t = groupList.get(0).getStudents().get(0).getTask().getUsableObject();
-            if (t != null) {
 
-                AffineTransform tx = g2d.getTransform();
-                tx.translate(t.getX() * 32 + t.getR().getX() - (32 / 2.0), t.getY() * 32 + t.getR().getY() - (32 / 2.0));
-                g2d.drawImage(ImageIO.read(getClass().getClassLoader().getResource("student.png")), tx, null);
-            }
-        } catch (IndexOutOfBoundsException | IOException e) {
-            e.printStackTrace();
-        }*/
-        //Schedule.getInstance().getRoom("LA134").getTarget().draw(g2d);
-
-        //DRAW FPS COUNTER
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.GREEN);
         g2d.setFont(new Font("Arial", Font.PLAIN, 25));
         g2d.drawString(currentFPS + "", 2, 25);
 
         clockTime.draw(g2d, canvas);
-
-        millis = System.nanoTime() - millis;
-        if (millis / 1000000.0 > 6)
-            System.out.println("Total to draw front canvas " + millis / 1000000.0 + " ms");
     }
 
     private Canvas createNewCanvas() {
@@ -242,7 +217,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     @Override
     public void onBeginTime() {
         this.sound.stop();
-        Schedule.getInstance().getLessonList().forEach(System.out::println);
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             s.setDoUpdate(true);
             s.setDoSpawn(true);
@@ -278,5 +252,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             s.setPreviousTask(null);
         });
         lesson.getTeacher().setTask(null);
+        lesson.getTeacher().setPreviousTask(null);
     }
 }

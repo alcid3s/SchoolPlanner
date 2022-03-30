@@ -1,8 +1,8 @@
-package data.tilted;
+package data.tiled;
 
 import data.Schedule;
 import data.rooms.*;
-import data.tilted.pathfinding.target.MapTarget;
+import data.tiled.pathfinding.target.MapTarget;
 import org.jfree.fx.FXGraphics2D;
 
 import javax.json.Json;
@@ -14,15 +14,14 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class TiledMap {
-    private ArrayList<TiledImageLayer> imageLayers;
-    private ArrayList<TiledObjectLayer> objectLayers;
+    private final ArrayList<TiledImageLayer> imageLayers;
+    private final ArrayList<TiledObjectLayer> objectLayers;
     private TiledImageLayer collisionLayer;
     private TiledObjectLayer roomLayer;
     private Point studentSpawn;
-    private Point teacherSpawn;
     private MapTarget exitTarget;
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
     private static TiledMap map;
     private TiledImageLayer fireAlarmLayer;
 
@@ -38,14 +37,12 @@ public class TiledMap {
             if (layer.asJsonObject().getString("type").equalsIgnoreCase("tilelayer")) {
                 if (layer.asJsonObject().getString("name").equalsIgnoreCase("Barrier")) {
                     collisionLayer = new TiledImageLayer(layer.asJsonObject());
-                    System.out.println(collisionLayer);
                 } else {
                     TiledImageLayer tiledLayer = new TiledImageLayer(layer.asJsonObject());
                     if(tiledLayer.getName().equalsIgnoreCase("firealarm")) {
                         fireAlarmLayer = tiledLayer;
                     }
                     imageLayers.add(tiledLayer);
-                    System.out.println(tiledLayer);
                 }
             } else {
                 TiledObjectLayer objectLayer = new TiledObjectLayer(layer.asJsonObject());
@@ -57,7 +54,6 @@ public class TiledMap {
             }
         });
 
-        System.out.println("Loading tileSets");
         object.getJsonArray("tilesets").forEach(tileSet -> {
             TiledSetManager.getInstance().addTiledImageSet(new TiledImageSet(tileSet.asJsonObject()));
         });
@@ -90,7 +86,6 @@ public class TiledMap {
                 location = new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
             }
         }
-        System.out.println(location);
         MapTarget t = new MapTarget(location, collisionLayer);
         if (name.toLowerCase().contains("la") || name.toLowerCase().contains("college")) {
             return new Classroom(this, name, size, location, t, objectLayer.getX(), objectLayer.getY(), objectLayer.getWidth(), objectLayer.getHeight());
@@ -113,7 +108,6 @@ public class TiledMap {
 
     private void initSpawns() {
         studentSpawn = getCenterLocation(getObject("studentSpawn"));
-        teacherSpawn = getCenterLocation(getObject("teacherSpawn"));
         Point s = new Point((int) studentSpawn.getX() / 32, (int) studentSpawn.getY() / 32);
         exitTarget = new MapTarget(s, collisionLayer);
 
@@ -153,14 +147,6 @@ public class TiledMap {
         return Optional.empty();
     }
 
-    public ArrayList<TiledImageLayer> getImageLayers() {
-        return imageLayers;
-    }
-
-    public ArrayList<TiledObjectLayer> getObjectLayers() {
-        return objectLayers;
-    }
-
     public TiledImageLayer getCollisionLayer() {
         return collisionLayer;
     }
@@ -169,16 +155,8 @@ public class TiledMap {
         return studentSpawn;
     }
 
-    public Point getTeacherSpawn() {
-        return teacherSpawn;
-    }
-
     public MapTarget getExitTarget() {
         return exitTarget;
-    }
-
-    public TiledObjectLayer getRoomLayer() {
-        return roomLayer;
     }
 
     public int getHeight() {

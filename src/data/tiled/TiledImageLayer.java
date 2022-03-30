@@ -1,4 +1,4 @@
-package data.tilted;
+package data.tiled;
 
 import org.jfree.fx.FXGraphics2D;
 
@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class TiledImageLayer {
-    private int width;
-    private int height;
-    private int offsetX;
-    private int offsetY;
-    private int[][] values;
-    private String name;
+    private final int width;
+    private final int height;
+    private final int offsetX;
+    private final int offsetY;
+    private final int[][] values;
+    private final String name;
 
     public TiledImageLayer(JsonObject layerObject) {
         this.height = layerObject.getInt("height");
@@ -37,12 +37,10 @@ public class TiledImageLayer {
         }
     }
 
-    public boolean addValue(int data, int width, int height) {
+    public void addValue(int data, int width, int height) {
         if (values.length > width && values[width].length > height) {
             values[width][height] = data;
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -58,7 +56,7 @@ public class TiledImageLayer {
         return "TiltedLayer: " + name + "\n" +
                 "Width: " + width + "\n" +
                 "Height: " + height + "\n" +
-                "Values: " + valuesAsString.toString();
+                "Values: " + valuesAsString;
     }
 
     public void draw(FXGraphics2D graphics) {
@@ -84,14 +82,6 @@ public class TiledImageLayer {
         return width;
     }
 
-    public int getOffsetX() {
-        return offsetX;
-    }
-
-    public int getOffsetY() {
-        return offsetY;
-    }
-
     public int[][] getValues() {
         return values;
     }
@@ -100,7 +90,4 @@ public class TiledImageLayer {
         return name;
     }
 
-    public void print2DMapValues() {
-        System.out.println("2d map with [" + getWidth() + "] [" + getHeight() + "]");
-    }
 }

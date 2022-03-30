@@ -9,8 +9,8 @@ public class AlarmSound{
 
     private AudioInputStream ais;
     private Clip clip;
-    private String path;
-    private boolean loop;
+    private final String path;
+    private final boolean loop;
 
     public AlarmSound(String path, boolean loop){
         this.path = path;

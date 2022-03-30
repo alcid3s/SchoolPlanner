@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class CreateLessonPopup extends Stage {
 
     public CreateLessonPopup() {
-        //String name, Room room, Teacher teacher, Group group, LocalDateTime startDate, LocalDateTime endDate
         TextField nameField = new TextField();
         ArrayList<Room> roomList = new ArrayList<>();
         for (Room r : Schedule.getInstance().getRoomList()) {

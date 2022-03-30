@@ -2,11 +2,13 @@ package data;
 
 import data.persons.Person;
 import data.rooms.Room;
+import gui.tabs.DrawState;
+import gui.tabs.ScheduleTab;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Lesson implements Comparable, Serializable {
+public class Lesson implements Comparable<Lesson>, Serializable {
 
     private Room room;
     private Person teacher;
@@ -118,8 +120,14 @@ public class Lesson implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.toString().compareTo(o.toString());
+    public int compareTo(Lesson l) {
+        if(ScheduleTab.getState() == DrawState.GROUP){
+            return this.group.getName().compareTo(l.getGroup().getName());
+        }else if(ScheduleTab.getState() == DrawState.TEACHER){
+            return this.teacher.getName().compareTo(l.getTeacher().getName());
+        }else{
+            return this.room.getName().compareTo(l.getRoom().getName());
+        }
     }
 
     public String getJsonString() {
