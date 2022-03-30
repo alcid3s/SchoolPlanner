@@ -12,6 +12,8 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/resources/autosave.json
+.idea/**/discord.xml
 
 # AWS User-specific
 .idea/**/aws.xml

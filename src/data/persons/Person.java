@@ -133,7 +133,7 @@ public abstract class Person implements Comparable, Serializable {
                     isSpawned = false;
                     doUpdate = true;
                     task = null;
-                    doSpawn = true;
+                    doSpawn = false;
                 }
                 this.direction = null;
             }
