@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
 import tasks.LessonTask;
+import tasks.TeachTask;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -128,9 +129,9 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
                     }
                 });
                 if(fireAlarm.isOn()){
-                    lesson.getTeacher().setPreviousTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
+                    lesson.getTeacher().setPreviousTask(new TeachTask(lesson.getTeacher(), lesson.getRoom()));
                 }else{
-                    lesson.getTeacher().setTask(new LessonTask(lesson.getTeacher(), lesson.getRoom()));
+                    lesson.getTeacher().setTask(new TeachTask(lesson.getTeacher(), lesson.getRoom()));
                 }
             }
         });

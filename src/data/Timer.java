@@ -1,5 +1,6 @@
 package data;
 
+import data.*;
 import callbacks.TimerCallback;
 import callbacks.Updatable;
 
