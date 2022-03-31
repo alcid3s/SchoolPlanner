@@ -26,7 +26,6 @@ public class Schedule implements Serializable {
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
         this.roomList = new ArrayList<>();
-        sort();
     }
 
     /**
@@ -49,7 +48,6 @@ public class Schedule implements Serializable {
      */
     public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
-        sort();
     }
 
     /**
@@ -59,12 +57,10 @@ public class Schedule implements Serializable {
      */
     public void addGroup(Group group) {
         this.groupList.add(group);
-        sort();
     }
 
     public void addRoom(Room room) {
         this.roomList.add(room);
-        sort();
     }
 
     /**
@@ -128,7 +124,6 @@ public class Schedule implements Serializable {
 
     public void addTeacher(Teacher teacher) {
         this.teacherList.add(teacher);
-        sort();
     }
 
     public void removeTeacher(Person teacher) {

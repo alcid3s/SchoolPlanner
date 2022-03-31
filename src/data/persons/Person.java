@@ -51,7 +51,6 @@ public abstract class Person implements Comparable<Person>, Serializable {
 
     public void setName(String name) {
         this.name = name;
-        Schedule.getInstance().sort();
     }
 
     public void draw(FXGraphics2D graphics) {

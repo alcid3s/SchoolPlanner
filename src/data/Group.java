@@ -54,7 +54,6 @@ public class Group implements Comparable<Group>, Serializable {
 
     public void setName(String name) {
         this.name = name;
-        Schedule.getInstance().sort();
     }
 
     public String getSystemName() {

@@ -83,7 +83,6 @@ public class Lesson implements Comparable<Lesson>, Serializable {
 
     public void setName(String name) {
         this.name = name;
-        Schedule.getInstance().sort();
     }
 
     public void setHasTask(boolean set) {
