@@ -55,70 +55,106 @@
          "name":"Teachers",
          "objects":[
                 {
-                 "height":124.833333333333,
+                 "height":89,
                  "id":18,
                  "name":"teacherLA134",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":63.1666666666665,
-                 "x":1473.14,
-                 "y":1409.5
-                }, 
-                {
-                 "height":93.75,
-                 "id":19,
-                 "name":"teacherLA135",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64.25,
-                 "x":1471,
-                 "y":609.25
-                }, 
-                {
-                 "height":96,
-                 "id":20,
-                 "name":"teacherCollegeHall",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"EAST"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":1472.001875,
-                 "y":160
+                 "x":1504,
+                 "y":1312
+                }, 
+                {
+                 "height":128,
+                 "id":19,
+                 "name":"teacherLA135",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"EAST"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":96,
+                 "x":1472,
+                 "y":704
+                }, 
+                {
+                 "height":128.0038705776,
+                 "id":20,
+                 "name":"teacherCollegeHall",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"EAST"
+                        }],
+                 "rotation":360,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1504,
+                 "y":256
                 }, 
                 {
                  "height":128,
                  "id":22,
                  "name":"teacherLA124",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"WEST"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":94,
-                 "x":770.5,
-                 "y":159
+                 "width":96,
+                 "x":768,
+                 "y":288
                 }, 
                 {
-                 "height":95.7954545454547,
+                 "height":128,
                  "id":23,
                  "name":"teacherLA137",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"EAST"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":63.25,
-                 "x":2048.25,
-                 "y":608.204545454545
+                 "width":95.8695652173915,
+                 "x":2048,
+                 "y":704
                 }, 
                 {
-                 "height":126.833333333333,
+                 "height":96,
                  "id":27,
                  "name":"teacherLA136",
+                 "properties":[
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"EAST"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":66.0833333333335,
-                 "x":2046.5,
-                 "y":1408.75
+                 "width":64,
+                 "x":2080,
+                 "y":1312
                 }, 
                 {
                  "height":382.5,
@@ -132,15 +168,15 @@
                  "y":160.5
                 }, 
                 {
-                 "height":63.5,
+                 "height":64,
                  "id":48,
                  "name":"teacherSpawn",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":94.25,
-                 "x":1312.5,
-                 "y":1503
+                 "width":96,
+                 "x":1312,
+                 "y":1504
                 }, 
                 {
                  "height":79,
@@ -392,7 +428,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -831,7 +867,7 @@
  "nextobjectid":67,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.8.1",
+ "tiledversion":"1.8.2",
  "tileheight":32,
  "tilesets":[
         {

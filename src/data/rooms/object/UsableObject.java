@@ -67,10 +67,11 @@ public class UsableObject {
         return users.contains(p);
     }
 
-    public void check(Person p) {
+    public boolean check(Person p) {
         if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()) && !users.contains(p)) {
-            users.add(p);
+            return users.add(p);
         }
+        return false;
     }
 
     public void update() {
@@ -87,6 +88,10 @@ public class UsableObject {
                 ", width=" + width +
                 ", height=" + height +
                 '}';
+    }
+
+    public ArrayList<Person> getUsers() {
+        return users;
     }
 
     public Facing getFacingWhenUsing() {

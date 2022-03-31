@@ -1,8 +1,7 @@
 package data.persons;
 
 import simulation.Animation;
-import data.Clock;
-import data.Schedule;
+import data.*;
 import data.tiled.pathfinding.target.Target;
 import org.jfree.fx.FXGraphics2D;
 import tasks.IdleTask;

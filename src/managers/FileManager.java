@@ -1,10 +1,7 @@
 package managers;
 
-import data.Clock;
-import data.Group;
-import data.Lesson;
 import data.Schedule;
-import data.persons.Teacher;
+import data.*;
 import gui.tabs.ScheduleTab;
 
 import javax.json.*;
