@@ -1,8 +1,8 @@
 package data;
 
-import data.*;
 import callbacks.TimerCallback;
 import callbacks.Updatable;
+import data.Lesson;
 
 import java.time.LocalTime;
 

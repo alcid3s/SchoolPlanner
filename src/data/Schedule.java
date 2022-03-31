@@ -1,10 +1,10 @@
 package data;
 
 import data.persons.Person;
-import data.persons.Teacher;
+import data.persons.*;
+import data.Lesson;
 import data.rooms.Room;
 import managers.FileManager;
-import managers.Util;
 import gui.tabs.ScheduleTab;
 
 import java.io.*;
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 public class Schedule implements Serializable {
     private static Schedule schedule;
-
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
     private ArrayList<Person> teacherList;

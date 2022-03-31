@@ -58,7 +58,6 @@ public class Classroom extends Room {
         teacherStandLocations = new ArrayList<>();
         if(roomTeacherOptional.isPresent()) {
             TiledObject teachers = roomTeacherOptional.get();
-            System.out.println(teachers.getName());
             int xTile = (int) Math.floor(x/32);
             int yTile = (int) Math.floor(y/32);
             int widthTile = (int) Math.floor(width/32);
