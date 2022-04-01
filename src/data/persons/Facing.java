@@ -1,6 +1,10 @@
 package data.persons;
-
 import java.awt.*;
+
+/**
+ * Enum Facing
+ * Creates facings for objects that inherits abstract class Person
+ */
 
 public enum Facing {
     NORTH(0,-1),
@@ -15,9 +19,20 @@ public enum Facing {
         direction = new Point(x,y);
     }
 
+    /**
+     * Method GetDirection
+     * @return private attribute direction
+     */
+
     public Point getDirection() {
         return direction;
     }
+
+    /**
+     * Static method getFacing
+     * @param dir current facing direction of object that inherits abstract class Person
+     * @return new facing direction of object that inherits abstract class Person
+     */
 
     public static Facing getFacing(Point dir) {
         for(Facing f : facing) {

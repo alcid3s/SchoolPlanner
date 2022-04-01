@@ -71,19 +71,22 @@ public class ScheduleTab extends Tab {
         Button refresh = Util.getDefaultButton("Refresh", 50, scale);
         refresh.setOnAction(e -> refreshCanvas());
 
-        Button nextMode = Util.getDefaultButton("Change View", 50, scale);
+        Button nextMode = Util.getDefaultButton("See Teachers", 50, scale);
         nextMode.setOnAction(e -> {
             if(state == DrawState.GROUP){
+                nextMode.setText("See Rooms");
                 state = DrawState.TEACHER;
             }else if(state == DrawState.TEACHER){
+                nextMode.setText("See Groups");
                 state = DrawState.ROOM;
             }else if(state == DrawState.ROOM){
+                nextMode.setText("See Teachers");
                 state = DrawState.GROUP;
             }
             refreshCanvas();
         });
 
-        Button save = Util.getDefaultButton("Save Rooster", 50, scale);
+        Button save = Util.getDefaultButton("Save Schedule", 50, scale);
         save.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Location to save");
@@ -99,7 +102,7 @@ public class ScheduleTab extends Tab {
                 new Alert(Alert.AlertType.ERROR, "Could not find file.").show();
         });
 
-        Button load = Util.getDefaultButton("Load Rooster", 50, scale);
+        Button load = Util.getDefaultButton("Load Schedule", 50, scale);
         load.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select File to load");

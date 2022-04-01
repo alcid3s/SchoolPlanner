@@ -14,6 +14,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+/**
+ * Abstract class Person
+ * Creates objects that inherit this class with various methods
+ */
+
 public abstract class Person implements Comparable<Person>, Serializable {
     private String name;
     private final Animation animation;
@@ -28,6 +33,13 @@ public abstract class Person implements Comparable<Person>, Serializable {
     private Point2D position;
     public Point direction;
 
+    /**
+     * Constructor Person
+     * Creates an object Person
+     * @param name for the object
+     * @param animation for the object
+     */
+
     public Person(String name, Animation animation) {
         this.name = name;
         this.animation = animation;
@@ -35,6 +47,9 @@ public abstract class Person implements Comparable<Person>, Serializable {
         this.speed = 200;
         this.size = this.animation.getImage().getWidth();
 
+        /*
+         * Check if school is open and students are allowed to spawn
+         */
         if (Clock.getTime().getHour() < 8 || Clock.getTime().getHour() > 16) {
             this.doUpdate = false;
             this.doSpawn = false;
@@ -44,21 +59,46 @@ public abstract class Person implements Comparable<Person>, Serializable {
         }
     }
 
+    /**
+     * Method getName
+     * @return name
+     */
+
     public String getName() {
         return name;
     }
+
+    /**
+     * Method setName
+     * @param name to set to
+     */
 
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method draw
+     * Draws image for the object on the canvas
+     * @param graphics of the canvas
+     */
+
     public void draw(FXGraphics2D graphics) {
         if (isSpawned() && doUpdate) {
+            /*
+             * Creates new AffineTransform for object
+             */
             AffineTransform tx = graphics.getTransform();
             tx.translate(getPosition().getX() - (size / 2.0), getPosition().getY() - (size / 2.0));
             graphics.drawImage(animation.getImage(), tx, null);
         }
     }
+
+    /**
+     * Method update
+     * Updates position of object on the canvas
+     * @param deltaTime to do update
+     */
 
     public void update(double deltaTime) {
         if (doUpdate) {
@@ -76,6 +116,11 @@ public abstract class Person implements Comparable<Person>, Serializable {
         }
     }
 
+    /**
+     * Method spawn
+     * @param position to spawn object
+     */
+
     public void spawn(Point2D position) {
         if (!isSpawned() && doSpawn) {
             setSpawned(true);
@@ -83,19 +128,41 @@ public abstract class Person implements Comparable<Person>, Serializable {
         }
     }
 
+    /**
+     * Inherited method toString
+     * @return String of object
+     */
+
     @Override
     public String toString() {
         return this.name;
     }
 
+    /**
+     * Implemented method compareTo
+     * Compares names of two objects of type person
+     * @param person to compare with
+     * @return compared value as integer
+     */
+
     @Override
-    public int compareTo(Person p) {
-        return this.name.compareTo(p.getName());
+    public int compareTo(Person person) {
+        return this.name.compareTo(person.getName());
     }
+
+    /**
+     * Method getJsonString
+     * @return String intended for JSON files
+     */
 
     public String getJsonString() {
         return name;
     }
+
+    /**
+     * Method isSpawned
+     * @return
+     */
 
     public boolean isSpawned() {
         return isSpawned;
