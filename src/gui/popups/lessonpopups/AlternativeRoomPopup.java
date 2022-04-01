@@ -28,8 +28,9 @@ public class AlternativeRoomPopup extends Stage{
      * Constructor AlternativeRoomPopup
      * Popup to change room
      * @param lesson lesson to be changed
-     * @param add    boolean to check if lesson needs to be added
+     * @param add boolean to check if lesson needs to be added
      */
+
     public AlternativeRoomPopup(Lesson lesson, boolean add){
         setTitle("Select different");
         Text txt = new Text(newOption);
@@ -79,6 +80,7 @@ public class AlternativeRoomPopup extends Stage{
      * @param thisLesson lesson to be checked for
      * @return boolean to indicate whether option is possible
      */
+
     public static boolean checkForOptions(Lesson thisLesson){
         for(Room room : Schedule.getInstance().getRoomList()){
             if(Validation.isClassRoom(room) && Validation.sizeIsValid(room, thisLesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())){

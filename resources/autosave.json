@@ -15,16 +15,16 @@
         "Groep E;44"
     ],
     "lessons": [
-        "Rollen met Rick;LA124;Rick;Groep A;2022-03-27T10:30;2022-03-27T12:20",
         "wesa;LA135;Jan;Groep A;2022-03-27T13:25;2022-03-27T15:50",
+        "OOSD;LA136;Jan;Groep D;2022-03-27T09:30;2022-03-27T11:40",
         "Ook les;LA137;Jessica;Groep A;2022-03-27T08:45;2022-03-27T10:00",
+        "Kutlessen;LA137;Jessica;Groep C;2022-03-26T12:00;2022-03-26T14:30",
+        "OGP3;LA134;Joost;Groep C;2022-03-27T09:10;2022-03-27T11:30",
+        "Les;CollegeHall;Joost;Groep E;2022-03-27T12:40;2022-03-27T14:30",
         "Les;CollegeHall;Pieter;Groep B;2022-03-27T09:00;2022-03-27T11:30",
         "Ja ;LA124;Pieter;Groep B;2022-03-27T13:00;2022-03-27T15:32",
-        "OGP3;LA134;Joost;Groep C;2022-03-27T09:10;2022-03-27T11:30",
-        "Kutlessen;LA137;Jessica;Groep C;2022-03-26T12:00;2022-03-26T14:30",
+        "Rollen met Rick;LA124;Rick;Groep A;2022-03-27T10:30;2022-03-27T12:20",
         "Anders geaard;LA134;Rick;Groep D;2022-03-27T12:40;2022-03-27T14:45",
-        "OOSD;LA136;Jan;Groep D;2022-03-27T09:30;2022-03-27T11:40",
-        "Les;CollegeHall;Joost;Groep E;2022-03-27T12:40;2022-03-27T14:30",
         "OGP;LA124;Rick;Groep E;2022-03-27T09:15;2022-03-27T10:15"
     ]
 }

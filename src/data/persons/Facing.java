@@ -7,6 +7,7 @@ import java.awt.*;
  */
 
 public enum Facing {
+
     NORTH(0,-1),
     EAST(1,0),
     SOUTH(0,1),
@@ -15,8 +16,9 @@ public enum Facing {
 
     private final Point direction;
     private static final Facing[] facing = values();
+
     Facing(int x, int y) {
-        direction = new Point(x,y);
+        this.direction = new Point(x,y);
     }
 
     /**
@@ -25,7 +27,7 @@ public enum Facing {
      */
 
     public Point getDirection() {
-        return direction;
+        return this.direction;
     }
 
     /**

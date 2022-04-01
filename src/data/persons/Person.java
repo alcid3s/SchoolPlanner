@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 /**
  * Abstract class Person
- * Creates objects that inherit this class with various methods
+ * Class to create objects that inherit this class with various methods
  */
 
 public abstract class Person implements Comparable<Person>, Serializable {
@@ -65,7 +65,7 @@ public abstract class Person implements Comparable<Person>, Serializable {
      */
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -84,13 +84,13 @@ public abstract class Person implements Comparable<Person>, Serializable {
      */
 
     public void draw(FXGraphics2D graphics) {
-        if (isSpawned() && doUpdate) {
+        if (isSpawned() && this.doUpdate) {
             /*
              * Creates new AffineTransform for object
              */
             AffineTransform tx = graphics.getTransform();
-            tx.translate(getPosition().getX() - (size / 2.0), getPosition().getY() - (size / 2.0));
-            graphics.drawImage(animation.getImage(), tx, null);
+            tx.translate(getPosition().getX() - (this.size / 2.0), getPosition().getY() - (this.size / 2.0));
+            graphics.drawImage(this.animation.getImage(), tx, null);
         }
     }
 
@@ -101,18 +101,18 @@ public abstract class Person implements Comparable<Person>, Serializable {
      */
 
     public void update(double deltaTime) {
-        if (doUpdate) {
-            if (task == null) {
-                task = new IdleTask(this);
+        if (this.doUpdate) {
+            if (this.task == null) {
+                this.task = new IdleTask(this);
             }
-            if (direction != null) {
-                if (task.isPlayerUsingObject()) {
-                    animation.update(0, Facing.getFacing(direction));
+            if (this.direction != null) {
+                if (this.task.isPlayerUsingObject()) {
+                    this.animation.update(0, Facing.getFacing(this.direction));
                 } else {
-                    animation.update(deltaTime, Facing.getFacing(direction));
+                    this.animation.update(deltaTime, Facing.getFacing(this.direction));
                 }
             }
-            task.update(deltaTime);
+            this.task.update(deltaTime);
         }
     }
 
@@ -122,7 +122,7 @@ public abstract class Person implements Comparable<Person>, Serializable {
      */
 
     public void spawn(Point2D position) {
-        if (!isSpawned() && doSpawn) {
+        if (!isSpawned() && this.doSpawn) {
             setSpawned(true);
             setPosition(new Point2D.Double(position.getX() - size / 2, position.getY() - size / 2));
         }
@@ -156,33 +156,58 @@ public abstract class Person implements Comparable<Person>, Serializable {
      */
 
     public String getJsonString() {
-        return name;
+        return this.name;
     }
 
     /**
      * Method isSpawned
-     * @return
+     * @return check if object is spawned
      */
 
     public boolean isSpawned() {
-        return isSpawned;
+        return this.isSpawned;
     }
 
-    public void setSpawned(boolean spawned) {
-        isSpawned = spawned;
+    /**
+     * Method setSpawned
+     * @param set to private attribute isSpawned
+     */
+
+    public void setSpawned(boolean set) {
+        this.isSpawned = set;
     }
+
+    /**
+     * Method setDoSpawn
+     * @param set to private attribute doSpawn
+     */
 
     public void setDoSpawn(boolean set) {
-        doSpawn = set;
+        this.doSpawn = set;
     }
 
+    /**
+     * Method setDoUpdate
+     * @param set to private attribute doUpdate
+     */
+
     public void setDoUpdate(boolean set) {
-        doUpdate = set;
+        this.doUpdate = set;
     }
+
+    /**
+     * Method getPosition
+     * @return position of object
+     */
 
     public Point2D getPosition() {
         return position;
     }
+
+    /**
+     *
+     * @param position
+     */
 
     public void setPosition(Point2D position) {
         this.position = position;
