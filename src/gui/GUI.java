@@ -13,6 +13,10 @@ import managers.Names;
 import java.awt.*;
 import java.io.File;
 
+/**
+ * Class GUI
+ * Starts GUI and builds all necessary tabs
+ */
 public class GUI extends Application{
     private static Scene scene;
     private static TabPane tabs;
@@ -22,8 +26,8 @@ public class GUI extends Application{
     }
 
     /**
+     * Method getTabPane
      * Gets tabpanes
-     *
      * @return tabs
      */
     public static TabPane getTabPane(){
@@ -31,8 +35,8 @@ public class GUI extends Application{
     }
 
     /**
+     * Method getScene
      * Gets scene
-     *
      * @return scene
      */
     public static Scene getScene(){
@@ -40,8 +44,8 @@ public class GUI extends Application{
     }
 
     /**
+     * method Start
      * Starts primary stage and builds the GUI
-     *
      * @param primaryStage Stage on which everything is built
      */
     @Override

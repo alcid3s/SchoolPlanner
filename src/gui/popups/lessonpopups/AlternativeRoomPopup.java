@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class AlternativeRoomPopup
+ * Class to create popup for when lesson needs to be moved to another room
+ */
 public class AlternativeRoomPopup extends Stage{
 
     private static String newOption = "";
@@ -21,8 +25,8 @@ public class AlternativeRoomPopup extends Stage{
     private static Room newRoom = null;
 
     /**
+     * Constructor AlternativeRoomPopup
      * Popup to change room
-     *
      * @param lesson lesson to be changed
      * @param add    boolean to check if lesson needs to be added
      */
@@ -70,10 +74,10 @@ public class AlternativeRoomPopup extends Stage{
     }
 
     /**
+     * Method checkForOptions
      * Method to check for all available options
-     *
-     * @param thisLesson
-     * @return
+     * @param thisLesson lesson to be checked for
+     * @return boolean to indicate whether option is possible
      */
     public static boolean checkForOptions(Lesson thisLesson){
         for(Room room : Schedule.getInstance().getRoomList()){

@@ -15,9 +15,14 @@ import managers.Validation;
 
 import java.util.ArrayList;
 
+/**
+ * Class EditTeachersPopup
+ * Class to create popup for when user wants to edit teachers
+ */
 public class EditTeachersPopup extends Stage{
 
     /**
+     * Constructor EditTeachersPopup
      * Popup to edit teachers
      */
     public EditTeachersPopup(){
@@ -79,5 +84,4 @@ public class EditTeachersPopup extends Stage{
         Scene scene = new Scene(borderPane);
         setScene(scene);
     }
-
 }

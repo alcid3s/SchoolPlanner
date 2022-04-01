@@ -14,9 +14,14 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class CreateTeacherPopup
+ * Class to create popup for when user wants to create a teacher
+ */
 public class CreateTeacherPopup extends Stage{
 
     /**
+     * Constructor CreateTeacherPopup
      * Popup to create Teacher
      */
     public CreateTeacherPopup(){

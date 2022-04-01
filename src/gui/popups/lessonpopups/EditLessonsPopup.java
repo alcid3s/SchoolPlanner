@@ -13,9 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import managers.Util;
 
+/**
+ * Class EditLessonsPopup
+ * Class to create popup for when user wants to edit lessons
+ */
 public class EditLessonsPopup extends Stage{
 
     /**
+     * Constructor EditLessonsPopup
      * Popup to edit lessons
      */
     public EditLessonsPopup(){

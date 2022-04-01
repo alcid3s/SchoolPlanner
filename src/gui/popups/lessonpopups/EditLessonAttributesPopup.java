@@ -20,11 +20,15 @@ import managers.Validation;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * Class EditLessonAttributesPopup
+ * Class to create popup for when user wants to edit the attributes of a lesson
+ */
 public class EditLessonAttributesPopup extends Stage{
 
     /**
+     * Constructor EditLessonAttributesPopup
      * Popup to edit lesson attributes
-     *
      * @param lesson lesson to edit attributes of
      */
     public EditLessonAttributesPopup(Lesson lesson){
