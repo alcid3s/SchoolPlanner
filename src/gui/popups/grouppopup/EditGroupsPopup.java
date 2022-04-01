@@ -14,9 +14,14 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class EditGroupsPopup
+ * Class to create popup for when user wants to edit groups
+ */
 public class EditGroupsPopup extends Stage{
 
     /**
+     * Constructor EditGroupsPopup
      * Popup to editing group
      */
     public EditGroupsPopup(){
@@ -77,6 +82,4 @@ public class EditGroupsPopup extends Stage{
         Scene scene = new Scene(borderPane);
         setScene(scene);
     }
-
-
 }

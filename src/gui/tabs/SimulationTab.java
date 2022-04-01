@@ -27,6 +27,10 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class SimulationTab
+ * Builds the simulation tab and all included functions for the GUI
+ */
 public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback{
     private final FXGraphics2D gBackground;
     private final TiledMap map;
@@ -46,6 +50,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private int totalFrames = 0;
 
     /**
+     * Constructor SimulationTab
      * Builds simulation
      */
     public SimulationTab(){
@@ -99,8 +104,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method update
      * Updates simulation
-     *
      * @param deltaTime increase in time
      */
     private void update(double deltaTime){
@@ -146,8 +151,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method drawBackground
      * Draws background
-     *
      * @param graphics graphics on which to draw
      */
     private void drawBackground(FXGraphics2D graphics){
@@ -164,8 +169,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method draw
      * Draws actual graphics
-     *
      * @param graphics graphics on which to draw
      */
     @Override
@@ -207,8 +212,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method createNewCanvas
      * Creates new canvas
-     *
      * @return canvas
      */
     private Canvas createNewCanvas(){
@@ -221,8 +226,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method getCanvas
      * Gets canvas
-     *
      * @return canvas
      */
     public Canvas getCanvas(){
@@ -230,8 +235,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method getMap
      * Gets map
-     *
      * @return map
      */
     public TiledMap getMap(){
@@ -239,8 +244,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
-     * Update background to new background
-     *
+     * Method setUpdateBackground
+     * Set whether to update background
      * @param updateBackground boolean to check if background needs to be updated
      */
     public void setUpdateBackground(boolean updateBackground){
@@ -248,8 +253,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method getPane
      * Gets pane
-     *
      * @return pane
      */
     public Pane getPane(){
@@ -257,6 +262,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method onBeginTime
      * Starts all objects
      */
     @Override
@@ -273,6 +279,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method onEndTime
      * Stops all objects
      */
     @Override
@@ -293,8 +300,8 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     }
 
     /**
+     * Method onEndOfClass
      * Ends a lesson
-     *
      * @param lesson lesson to end
      */
     @Override

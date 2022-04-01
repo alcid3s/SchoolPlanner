@@ -13,11 +13,15 @@ import managers.Util;
 
 import java.io.File;
 
+/**
+ * Class EasterEggPopup
+ * Class to create popup for when easter egg gets triggered
+ */
 public class EasterEggPopup extends Stage{
 
     /**
+     * Constructor EasterEggPopup
      * Popup for easter egg
-     *
      * @param path path to the file
      */
     public EasterEggPopup(String path){

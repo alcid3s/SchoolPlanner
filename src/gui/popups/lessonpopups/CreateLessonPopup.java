@@ -17,10 +17,14 @@ import managers.Validation;
 
 import java.util.ArrayList;
 
-
+/**
+ * Class CreateLessonPopup
+ * Class to create popup for when user wants to edit a lesson
+ */
 public class CreateLessonPopup extends Stage{
 
     /**
+     * Constructor CreateLessonPopup
      * Popup to create lesson
      */
     public CreateLessonPopup(){

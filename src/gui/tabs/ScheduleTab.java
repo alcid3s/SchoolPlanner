@@ -27,6 +27,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class ScheduleTab
+ * Builds the schedule tab and all included functions for the GUI
+ */
 public class ScheduleTab extends Tab{
     private static ScheduleTab tab;
     private static DrawState state;
@@ -36,8 +40,8 @@ public class ScheduleTab extends Tab{
     private final ResizableCanvas canvas;
 
     /**
+     * Constructor ScheduleTab
      * Builds schedule with all buttons
-     *
      * @param stage stage on which everything is built
      */
     public ScheduleTab(Stage stage){
@@ -129,6 +133,7 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method refreshCanvas
      * Refreshes canvas
      */
     public static void refreshCanvas(){
@@ -144,8 +149,8 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method getState
      * Gets state
-     *
      * @return state
      */
     public static DrawState getState(){
@@ -153,8 +158,8 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method drawLesson
      * Draws lessonbox with all information
-     *
      * @param lesson   lesson to be get information from
      * @param graphics graphics on which to draw
      */
@@ -218,8 +223,8 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method leadingZero
      * Removes leading zero of numbers
-     *
      * @param num number to remove leading zeroes from
      * @return canvas
      */
@@ -228,8 +233,8 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method drawFrame
      * Draws rectangle for time indication
-     *
      * @param graphics graphics on which to draw
      */
     private void drawFrame(FXGraphics2D graphics){
@@ -289,8 +294,8 @@ public class ScheduleTab extends Tab{
     }
 
     /**
+     * Method getCanvas
      * Gets canvas
-     *
      * @return canvas
      */
     private Canvas getCanvas(){

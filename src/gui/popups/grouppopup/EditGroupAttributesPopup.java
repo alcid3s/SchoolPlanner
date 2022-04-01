@@ -14,11 +14,15 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class EditGroupAttributesPopup
+ * Class to create popup for when user wants to edit the attributes of a group
+ */
 public class EditGroupAttributesPopup extends Stage{
 
     /**
+     * Constructor EditGroupAttributesPopup
      * Popup to edit group attributes
-     *
      * @param group group to edit attributes of
      */
     public EditGroupAttributesPopup(Group group){

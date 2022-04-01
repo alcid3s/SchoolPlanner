@@ -15,9 +15,14 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class CreateGroupPopup
+ * Class to create popup for when user wants to create a group
+ */
 public class CreateGroupPopup extends Stage{
 
     /**
+     * Constructor CreateGroupPopup
      * Popup to create group
      */
     public CreateGroupPopup(){

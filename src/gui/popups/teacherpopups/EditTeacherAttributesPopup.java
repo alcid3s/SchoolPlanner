@@ -14,11 +14,15 @@ import javafx.stage.Stage;
 import managers.Util;
 import managers.Validation;
 
+/**
+ * Class EditTeacherAttributesPopup
+ * Class to create popup for when user wants to edit the attributes of a teacher
+ */
 public class EditTeacherAttributesPopup extends Stage{
 
     /**
+     * Constructor EditTeacherAttributesPopup
      * Popup to edit teacher attributes
-     *
      * @param teacher teacher to edit attributes of
      */
     public EditTeacherAttributesPopup(Person teacher){
@@ -57,6 +61,4 @@ public class EditTeacherAttributesPopup extends Stage{
         setTitle("Edit teacher attributes");
         setScene(scene);
     }
-
-
 }
