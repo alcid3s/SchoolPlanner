@@ -2,8 +2,6 @@ package gui.popups.grouppopup;
 
 import data.Group;
 import data.Schedule;
-import managers.Util;
-import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,13 +12,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import managers.Util;
+import managers.Validation;
 
-public class CreateGroupPopup extends Stage {
+public class CreateGroupPopup extends Stage{
 
     /**
-     * Popup for CreateGroup
+     * Popup to create group
      */
-    public CreateGroupPopup() {
+    public CreateGroupPopup(){
         setTitle("Create Group");
         Label name = new Label("Name: ");
         Label size = new Label("Group Size: ");
@@ -40,22 +40,22 @@ public class CreateGroupPopup extends Stage {
         Button cancel = Util.getDefaultButton("Cancel", 50, 100);
         borderPane.setBottom(new HBox(create, cancel));
         create.setOnAction(e -> {
-            if (nameField.getText().length() > 0) {
+            if(nameField.getText().length() > 0){
                 try {
                     int intSize = Integer.parseInt(sizeField.getText());
                     Group group = new Group(nameField.getText(), intSize);
-                    if (Validation.groupIsUnique(group.getName()) && Validation.numberIsPositive(intSize)) {
+                    if(Validation.groupIsUnique(group.getName()) && Validation.numberIsPositive(intSize)){
                         Schedule.getInstance().addGroup(group);
                         ScheduleTab.refreshCanvas();
                         new EditGroupsPopup().show();
                         close();
-                    } else {
+                    }else{
                         new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                     }
-                } catch (NumberFormatException ex) {
+                } catch(NumberFormatException ex) {
                     new Alert(Alert.AlertType.ERROR, "Could not convert integer.").show();
                 }
-            } else {
+            }else{
                 new Alert(Alert.AlertType.ERROR, "Name is too short.").show();
             }
         });
