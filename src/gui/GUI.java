@@ -13,17 +13,39 @@ import managers.Names;
 import java.awt.*;
 import java.io.File;
 
-public class GUI extends Application {
+public class GUI extends Application{
     private static Scene scene;
     private static TabPane tabs;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         launch(GUI.class);
     }
 
+    /**
+     * Gets tabpanes
+     *
+     * @return tabs
+     */
+    public static TabPane getTabPane(){
+        return tabs;
+    }
 
+    /**
+     * Gets scene
+     *
+     * @return scene
+     */
+    public static Scene getScene(){
+        return scene;
+    }
+
+    /**
+     * Starts primary stage and builds the GUI
+     *
+     * @param primaryStage Stage on which everything is built
+     */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage){
         tabs = new TabPane();
         scene = new Scene(tabs);
         SimulationTab simulationTab = new SimulationTab();
@@ -40,19 +62,19 @@ public class GUI extends Application {
 
         primaryStage.show();
 
-        try{Schedule.getInstance().load(new File("resources/autosave.json"));}catch(Exception e){System.out.println(e.getMessage());}
+        try {
+            Schedule.getInstance().load(new File("resources/autosave.json"));
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         primaryStage.setOnCloseRequest(e -> {
-            try{Schedule.getInstance().save(new File("resources/autosave.json"));}catch(Exception f){System.out.println(f.getMessage());}
+            try {
+                Schedule.getInstance().save(new File("resources/autosave.json"));
+            } catch(Exception f) {
+                System.out.println(f.getMessage());
+            }
             Platform.exit();
         });
-    }
-
-    public static TabPane getTabPane() {
-        return tabs;
-    }
-
-    public static Scene getScene() {
-        return scene;
     }
 }

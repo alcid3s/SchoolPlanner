@@ -1,8 +1,6 @@
 package gui.popups.grouppopup;
 
 import data.Group;
-import managers.Util;
-import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,15 +11,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import managers.Util;
+import managers.Validation;
 
-public class EditGroupAttributesPopup extends Stage {
+public class EditGroupAttributesPopup extends Stage{
 
     /**
-     * Popup to edit a groups, attributes
+     * Popup to edit group attributes
      *
-     * @param group to be edited
+     * @param group group to edit attributes of
      */
-    public EditGroupAttributesPopup(Group group) {
+    public EditGroupAttributesPopup(Group group){
         setTitle("Edit Group");
         Label name = new Label(" Name: ");
         Label size = new Label("Group Size: ");
@@ -50,30 +50,30 @@ public class EditGroupAttributesPopup extends Stage {
         edit.setOnAction(e -> {
             boolean mayClose = true;
             try {
-                if (!nameField.getText().isEmpty()) {
-                    if (Validation.groupIsUnique(nameField.getText()) || nameField.getText().equals(group.getName())){
+                if(!nameField.getText().isEmpty()){
+                    if(Validation.groupIsUnique(nameField.getText()) || nameField.getText().equals(group.getName())){
                         group.setName(nameField.getText());
-                    } else {
+                    }else{
                         mayClose = false;
                         new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                     }
                 }
-                if (!sizeField.getText().isEmpty()) {
+                if(!sizeField.getText().isEmpty()){
                     int newSize = Integer.parseInt(sizeField.getText());
-                    if (Validation.sizeIsValid(group, newSize) && Validation.numberIsPositive(newSize)) {
+                    if(Validation.sizeIsValid(group, newSize) && Validation.numberIsPositive(newSize)){
                         group.setSize(newSize);
-                    } else {
+                    }else{
                         mayClose = false;
                         new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                     }
                 }
 
-                if (mayClose) {
+                if(mayClose){
                     ScheduleTab.refreshCanvas();
                     new EditGroupsPopup().show();
                     close();
                 }
-            } catch (NumberFormatException ex) {
+            } catch(NumberFormatException ex) {
                 new Alert(Alert.AlertType.ERROR, "Enter a valid number.").show();
             }
         });

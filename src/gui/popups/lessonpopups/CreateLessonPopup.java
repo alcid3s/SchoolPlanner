@@ -4,8 +4,6 @@ import data.Lesson;
 import data.Schedule;
 import data.rooms.Classroom;
 import data.rooms.Room;
-import managers.Util;
-import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -14,17 +12,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import managers.Util;
+import managers.Validation;
 
 import java.util.ArrayList;
 
 
-public class CreateLessonPopup extends Stage {
+public class CreateLessonPopup extends Stage{
 
-    public CreateLessonPopup() {
+    /**
+     * Popup to create lesson
+     */
+    public CreateLessonPopup(){
         TextField nameField = new TextField();
         ArrayList<Room> roomList = new ArrayList<>();
-        for (Room r : Schedule.getInstance().getRoomList()) {
-            if (r instanceof Classroom)
+        for(Room r : Schedule.getInstance().getRoomList()){
+            if(r instanceof Classroom)
                 roomList.add(r);
         }
         ComboBox roomBox = new ComboBox(FXCollections.observableArrayList(roomList));
@@ -62,36 +65,36 @@ public class CreateLessonPopup extends Stage {
 
         Button create = Util.getDefaultButton("Create lesson", 50, 140);
         create.setOnAction(e -> {
-            if (nameField.getText().isEmpty()) {
+            if(nameField.getText().isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Fill in a name").show();
-            } else if (roomBox.getValue() == null) {
+            }else if(roomBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in a room").show();
-            } else if (teacherBox.getValue() == null) {
+            }else if(teacherBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in a teacher").show();
-            } else if (groupBox.getValue() == null) {
+            }else if(groupBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in a group").show();
-            } else if (startHourBox.getValue() == null || startMinuteBox.getValue() == null) {
+            }else if(startHourBox.getValue() == null || startMinuteBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in a start time").show();
-            } else if (endHourBox.getValue() == null || endMinuteBox.getValue() == null) {
+            }else if(endHourBox.getValue() == null || endMinuteBox.getValue() == null){
                 new Alert(Alert.AlertType.ERROR, "Fill in an end time").show();
-            } else {
+            }else{
                 Lesson lesson = new Lesson(nameField.getText(), Schedule.getInstance().getRoom(roomBox.getValue().toString()), Schedule.getInstance().getTeacher(teacherBox.getValue().toString()), Schedule.getInstance().getGroup(groupBox.getValue().toString()), Util.makeTime(startHourBox.getValue().toString(), startMinuteBox.getValue().toString()), Util.makeTime(endHourBox.getValue().toString(), endMinuteBox.getValue().toString()));
-                if (Validation.lessonIsValid(lesson)) {
-                    if (Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson)) {
+                if(Validation.lessonIsValid(lesson)){
+                    if(Validation.scheduleIsAvailable(lesson.getStartDate(), lesson.getEndDate(), lesson)){
                         Schedule.getInstance().addLesson(lesson);
                         ScheduleTab.refreshCanvas();
                         new EditLessonsPopup().show();
                         close();
-                    } else {
+                    }else{
                         String message = Validation.getMessage();
-                        if (AlternativeRoomPopup.checkForOptions(lesson)) {
+                        if(AlternativeRoomPopup.checkForOptions(lesson)){
                             new AlternativeRoomPopup(lesson, true).show();
                             close();
-                        } else {
+                        }else{
                             new Alert(Alert.AlertType.ERROR, message).show();
                         }
                     }
-                } else {
+                }else{
                     new Alert(Alert.AlertType.ERROR, Validation.getMessage()).show();
                 }
             }

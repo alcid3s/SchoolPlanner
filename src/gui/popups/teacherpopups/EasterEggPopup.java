@@ -1,6 +1,5 @@
 package gui.popups.teacherpopups;
 
-import managers.Util;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,12 +9,18 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import managers.Util;
 
 import java.io.File;
 
-public class EasterEggPopup extends Stage {
+public class EasterEggPopup extends Stage{
 
-    public EasterEggPopup(String path) {
+    /**
+     * Popup for easter egg
+     *
+     * @param path path to the file
+     */
+    public EasterEggPopup(String path){
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setAutoPlay(true);

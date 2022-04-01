@@ -3,8 +3,6 @@ package gui.popups.lessonpopups;
 import data.Lesson;
 import data.Schedule;
 import data.rooms.Room;
-import managers.Util;
-import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,14 +11,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import managers.Util;
+import managers.Validation;
 
-public class AlternativeRoomPopup extends Stage {
+public class AlternativeRoomPopup extends Stage{
 
     private static String newOption = "";
     private static Lesson otherLesson = null;
     private static Room newRoom = null;
 
-    public AlternativeRoomPopup(Lesson lesson, boolean add) {
+    /**
+     * Popup to change room
+     *
+     * @param lesson lesson to be changed
+     * @param add    boolean to check if lesson needs to be added
+     */
+    public AlternativeRoomPopup(Lesson lesson, boolean add){
         setTitle("Select different");
         Text txt = new Text(newOption);
 
@@ -33,15 +39,15 @@ public class AlternativeRoomPopup extends Stage {
 
         yes.setOnAction(e -> {
             newOption = "";
-            if (newRoom != null && otherLesson != null) {
+            if(newRoom != null && otherLesson != null){
                 otherLesson.setRoom(newRoom);
-            } else if (newRoom != null) {
+            }else if(newRoom != null){
                 lesson.setRoom(newRoom);
-            } else {
+            }else{
                 new Alert(Alert.AlertType.ERROR, "Could not change room").show();
             }
 
-            if (add) {
+            if(add){
                 Schedule.getInstance().addLesson(lesson);
             }
 
@@ -63,17 +69,23 @@ public class AlternativeRoomPopup extends Stage {
         setScene(scene);
     }
 
-    public static boolean checkForOptions(Lesson thisLesson) {
-        for (Room room : Schedule.getInstance().getRoomList()) {
-            if (Validation.isClassRoom(room) && Validation.sizeIsValid(room, thisLesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())) {
+    /**
+     * Method to check for all available options
+     *
+     * @param thisLesson
+     * @return
+     */
+    public static boolean checkForOptions(Lesson thisLesson){
+        for(Room room : Schedule.getInstance().getRoomList()){
+            if(Validation.isClassRoom(room) && Validation.sizeIsValid(room, thisLesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())){
                 newOption = "\n\tThis room is not available. However,\n\troom " + room + " is still available for this group.\t\n\tDo you want to use this room instead?\n";
                 newRoom = room;
                 return true;
             }
         }
-        for (Lesson lesson : Schedule.getInstance().getLessonList()) {
-            for (Room room : Schedule.getInstance().getRoomList()) {
-                if (thisLesson.getRoom().getName().equals(lesson.getRoom().getName()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())) {
+        for(Lesson lesson : Schedule.getInstance().getLessonList()){
+            for(Room room : Schedule.getInstance().getRoomList()){
+                if(thisLesson.getRoom().getName().equals(lesson.getRoom().getName()) && Validation.isClassRoom(room) && Validation.sizeIsValid(room, lesson.getGroup()) && Validation.scheduleIsAvailable(thisLesson.getStartDate(), thisLesson.getEndDate(), thisLesson.getTeacher(), room, thisLesson.getGroup())){
                     otherLesson = lesson;
                     newOption = "\n\tThis room is unavailable for this group. However,\n\troom " + room + " is still available for " + lesson.getGroup() + ".\t\n\tDo you want to use this room for this group?\n";
                     newRoom = room;
