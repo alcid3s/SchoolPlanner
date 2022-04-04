@@ -24,6 +24,7 @@ import tasks.TeachTask;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         if (timer > -0.1) {
             timer -= deltaTime;
         }
+        //Schedule.getInstance().getGroupList().get(0).getStudents().get(0).spawn(map.getStudentSpawn());
 
         for (Person p : Schedule.getInstance().getAllPersons()) {
             if (!p.isSpawned() && !fireAlarm.isOn()) {
@@ -179,8 +181,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
             teacher.draw(g2d);
         }
         fireAlarm.draw(g2d);
-
-        g2d.setColor(Color.BLUE);
 
         g2d.setTransform(new AffineTransform());
         g2d.setColor(Color.GREEN);

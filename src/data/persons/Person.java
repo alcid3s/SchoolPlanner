@@ -206,4 +206,8 @@ public abstract class Person implements Comparable<Person>, Serializable {
     public void setPreviousTask(Task task){
         this.previousTask = task;
     }
+
+    public boolean isLocationIsBounds(double x, double y) {
+        return x >= this.position.getX() && x <= this.position.getX() + 32 && y >= this.position.getY() && y <= this.position.getY() + 32;
+    }
 }

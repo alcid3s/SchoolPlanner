@@ -1,5 +1,7 @@
 package managers;
 
+import data.Schedule;
+import data.persons.Person;
 import gui.tabs.SimulationTab;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -7,7 +9,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 public class Camera {
     private Point2D centerPoint;
@@ -19,7 +23,9 @@ public class Camera {
         Node clickEvents = tab.getPane();
         this.tab = tab;
         centerPoint = new Point2D.Double(-tab.getCanvas().getWidth() / 2, -tab.getCanvas().getHeight() / 2);
-        clickEvents.setOnMousePressed(e -> this.lastMousePos = new Point2D.Double(e.getX(), e.getY()));
+        clickEvents.setOnMousePressed(e -> {
+            this.lastMousePos = new Point2D.Double(e.getX(), e.getY());
+        });
         clickEvents.setOnMouseDragged(this::mouseDragged);
         clickEvents.setOnScroll(this::mouseScroll);
     }
