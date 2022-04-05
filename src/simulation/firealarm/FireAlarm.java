@@ -20,6 +20,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class FireAlarm
+ * Creates a fire alarm system.
+ */
 public class FireAlarm {
     private final BufferedImage[] sprites;
     private boolean on;
@@ -30,6 +34,10 @@ public class FireAlarm {
     private int currentSprite = 0;
     private final AlarmSound sound;
 
+    /**
+     * Constructor FireAlarm
+     * @param tab of the simulation.
+     */
     public FireAlarm(SimulationTab tab) {
         sound = new AlarmSound("resources/alarm.wav", true);
         this.sprites = getImages();
@@ -52,6 +60,11 @@ public class FireAlarm {
         on = false;
     }
 
+    /**
+     * Method to receive the images of the fire alarm.
+     * The images contains the animation for the fire alarm.
+     * @return the images of the fire alarm.
+     */
     private BufferedImage[] getImages() {
         try {
             BufferedImage image = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("firealarmanimation.png")));
