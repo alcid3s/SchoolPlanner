@@ -13,12 +13,37 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Class Classroom
+ * Extends interface Room and creates classroom object with various methods
+ */
+
 public class Classroom extends Room {
     private ArrayList<UsableObject> teacherStandLocations;
+
+    /**
+     * Constructor Classroom
+     * Creates an object Classroom
+     * @param m (=tilesmap) for the object
+     * @param name for the object
+     * @param capacity for the object
+     * @param location for the object
+     * @param target for the object
+     * @param x for the object
+     * @param y for the object
+     * @param width for the object
+     * @param height for the object
+     */
 
     public Classroom(TiledMap m, String name, int capacity, Point location, MapTarget target, int x, int y, int width, int height) {
         super(m,name, capacity, target,location, x, y, width, height);
     }
+
+    /**
+     * Method initChairs
+     * Add chairs for students
+     * Add chairs and standLocations for teachers
+     */
 
     @Override
     public void initChairs() {
@@ -40,6 +65,11 @@ public class Classroom extends Room {
                     if(layer.getValues()[i][j] == 0) {
                         continue;
                     }
+
+                    /*
+                     * Adds chair to correct ArrayList
+                     */
+
                     if(isInRoom(i,j)) {
                         Point p = new Point(i,j);
                         Point pTile = new Point(i - xTile,j - yTile);
@@ -53,6 +83,10 @@ public class Classroom extends Room {
                 }
             }
         }
+
+        /*
+         * Creates ArrayList with places for teacher to stand
+         */
 
         Optional<TiledObject> roomTeacherOptional = map.getObject("teacher" + name);
         teacherStandLocations = new ArrayList<>();
@@ -83,6 +117,11 @@ public class Classroom extends Room {
             }
         }
     }
+
+    /**
+     * Method getFreeSpot
+     * @return shuffled teacherStandLocations
+     */
 
     public UsableObject getFreeSpot() {
         Collections.shuffle(teacherStandLocations);
