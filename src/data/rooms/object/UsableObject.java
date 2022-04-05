@@ -29,10 +29,10 @@ public class UsableObject {
     /**
      * Constructor UsableObject
      * Creates an object UsableObject
-     * @param r (=room) for the object
+     * @param r room for the object
      * @param collisionLayer for the object
      * @param maxUsers for the object
-     * @param loc (=location) for the object
+     * @param loc location for the object
      * @param width for the object
      * @param height for the object
      * @param facingWhenUsing for the object
@@ -130,16 +130,12 @@ public class UsableObject {
 
     /**
      * Method check
+     * Checks if Person p is in range of UsableObject
      * @param p to get person
      * @return person added to users
      */
 
     public boolean check(Person p) {
-
-        /*
-         * Check if person is in range of object
-         */
-
         if(isInsideUsableRange((int) p.getPosition().getX(), (int) p.getPosition().getY()) && !users.contains(p)) {
             return users.add(p);
         }

@@ -1,12 +1,11 @@
 package data;
 
 import callbacks.TimerCallback;
-import callbacks.Updatable;
-import data.Lesson;
+import callbacks.Timeable;
 
 import java.time.LocalTime;
 
-public class Timer implements Updatable {
+public class Timer implements Timeable {
 
     @Override
     public void update(double deltaTime) {

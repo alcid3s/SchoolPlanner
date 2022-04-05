@@ -7,13 +7,30 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Class Student
+ * Creates an object Student that inherits Person
+ */
+
 public class Student extends Person {
+
     private final static Random random = new Random();
     private static ArrayList<HashMap<Facing, BufferedImage[]>> images;
+
+    /**
+     * Constructor
+     * @param name to give to the object
+     */
 
     public Student(String name) {
         super(name, getAnimation());
     }
+
+    /**
+     * Private static method getAnimation
+     * Auto generates the animation for a Person of type Student
+     * @return the animation
+     */
 
     private static Animation getAnimation() {
         Animation animation = new Animation(3);
@@ -49,5 +66,4 @@ public class Student extends Person {
         images.get(random.nextInt(images.size())).forEach(animation::setFacing);
         return animation;
     }
-
 }

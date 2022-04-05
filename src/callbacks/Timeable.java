@@ -5,6 +5,6 @@ package callbacks;
  * Handles time oriented objects in class SimulationTab
  */
 
-public interface Updatable {
+public interface Timeable {
     void update(double deltaTime);
 }

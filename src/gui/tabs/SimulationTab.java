@@ -2,7 +2,7 @@ package gui.tabs;
 
 import callbacks.ClockCallback;
 import callbacks.TimerCallback;
-import callbacks.Updatable;
+import callbacks.Timeable;
 import data.*;
 import data.persons.Person;
 import data.tiled.TiledMap;
@@ -37,7 +37,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private final Camera camera;
     private final List<Group> groupList;
     private final Pane pane;
-    private final List<Updatable> timers;
+    private final List<Timeable> timers;
     private final FireAlarm fireAlarm;
     private final AlarmSound sound;
     private final Clock clockTime;

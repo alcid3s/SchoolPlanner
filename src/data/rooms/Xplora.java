@@ -7,14 +7,14 @@ import java.awt.*;
 
 /**
  * Class Xplora
- * Extends interface Room and creates Xplora object
+ * Creates objects that inherit Room
  */
 
 public class Xplora extends Room {
 
     /**
      * Constructor Xplora
-     * @param m (=TiledMap) for the object
+     * @param m tiled map for the object
      * @param name for the object
      * @param capacity for the object
      * @param location for the object

@@ -1,7 +1,7 @@
 package data;
 
 import callbacks.ClockCallback;
-import callbacks.Updatable;
+import callbacks.Timeable;
 import javafx.scene.canvas.Canvas;
 import org.jfree.fx.FXGraphics2D;
 
@@ -10,12 +10,22 @@ import java.awt.geom.AffineTransform;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Clock implements Updatable {
+/**
+ * Class Clock
+ * Creates a clock that keeps track of the time
+ */
+
+public class Clock implements Timeable {
     private int speed;
     private boolean check;
     private static LocalTime time;
     private final DateTimeFormatter formatter;
     private final ClockCallback callback;
+
+    /**
+     * Constructor
+     * @param callback
+     */
 
     public Clock(ClockCallback callback) {
         check = false;

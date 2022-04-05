@@ -9,11 +9,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Class Teacher
+ * Creates an object Teacher that inherits Person
+ */
+
 public class Teacher extends Person {
+
+    /**
+     * Constructor
+     * @param name to give to the object
+     */
 
     public Teacher(String name) {
         super(name, getAnimation());
     }
+
+    /**
+     * Private static method getAnimation
+     * Auto generates the animation for a Person of type Student
+     * @return the animation
+     */
 
     private static Animation getAnimation() {
         final int size = 32;

@@ -11,14 +11,14 @@ import java.util.Optional;
 
 /**
  * Class TeacherRoom
- * Extends interface Room  and creates TeacherRoom object
+ * Creates objects that inherit Room
  */
 
 public class TeacherRoom extends Room {
 
     /**
      * Constructor TeacherRoom
-     * @param m (=TiledMap) for the object
+     * @param m tiled map for the object
      * @param name for the object
      * @param capacity for the object
      * @param location for the object

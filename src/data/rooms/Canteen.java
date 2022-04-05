@@ -7,7 +7,7 @@ import java.awt.*;
 
 /**
  * Class Canteen
- * Extends interface Room and creates canteen object
+ * Creates objects that inherit Room
  */
 
 public class Canteen extends Room {
@@ -15,7 +15,7 @@ public class Canteen extends Room {
     /**
      * Constructor Canteen
      * Creates an object Canteen
-     * @param m (= tiledmap) for the object
+     * @param m tiled map for the object
      * @param name for the object
      * @param capacity for the object
      * @param location for the object

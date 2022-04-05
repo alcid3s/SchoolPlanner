@@ -15,7 +15,7 @@ import java.util.Optional;
 
 /**
  * Class Classroom
- * Extends interface Room and creates classroom object with various methods
+ * Creates objects that inherit Room
  */
 
 public class Classroom extends Room {
@@ -24,7 +24,7 @@ public class Classroom extends Room {
     /**
      * Constructor Classroom
      * Creates an object Classroom
-     * @param m (=tilesmap) for the object
+     * @param m tiled map for the object
      * @param name for the object
      * @param capacity for the object
      * @param location for the object

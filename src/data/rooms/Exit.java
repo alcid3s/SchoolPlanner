@@ -4,7 +4,7 @@ import data.tiled.TiledMap;
 
 /**
  * Class Exit
- * Extends interface Room and creates Exit object with various methods
+ * Creates objects that inherit Room
  */
 
 public class Exit extends Room{

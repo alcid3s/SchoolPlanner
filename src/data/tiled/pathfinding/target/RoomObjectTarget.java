@@ -11,12 +11,24 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Class MapTarget
+ * Creates objects on the tiled map that inherit Target
+ */
+
 public class RoomObjectTarget extends Target {
     private final Room room;
     private final int tileRoomWidth;
     private final int tileRoomHeight;
     private final int tileRoomX;
     private final int tileRoomY;
+
+    /**
+     * Constructor
+     * @param room the object is in
+     * @param location of the object in the room
+     * @param collisionLayer layer that defines unusable points
+     */
 
     public RoomObjectTarget(Room room, Point location, TiledImageLayer collisionLayer) {
         super(printL(location, room), collisionLayer, room.getWidth()/32, room.getHeight()/32);

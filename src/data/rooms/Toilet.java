@@ -11,14 +11,14 @@ import java.util.Optional;
 
 /**
  * Class Toilet
- * Extends interface Room and creates Toilet object
+ * Creates objects that inherit Room
  */
 
 public class Toilet extends Room {
 
     /**
      * Constructor Toilet
-     * @param m (=TiledMap) for the object
+     * @param m tiled map for the object
      * @param name for the object
      * @param capacity for the object
      * @param location for the object

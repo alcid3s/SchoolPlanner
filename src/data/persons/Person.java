@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 /**
  * Abstract class Person
- * Class to create objects that inherit this class with various methods
+ * Superclass to create objects that inherit this class
  */
 
 public abstract class Person implements Comparable<Person>, Serializable {
@@ -85,9 +85,6 @@ public abstract class Person implements Comparable<Person>, Serializable {
 
     public void draw(FXGraphics2D graphics) {
         if (isSpawned() && this.doUpdate) {
-            /*
-             * Creates new AffineTransform for object
-             */
             AffineTransform tx = graphics.getTransform();
             tx.translate(getPosition().getX() - (this.size / 2.0), getPosition().getY() - (this.size / 2.0));
             graphics.drawImage(this.animation.getImage(), tx, null);
@@ -205,13 +202,21 @@ public abstract class Person implements Comparable<Person>, Serializable {
     }
 
     /**
-     *
-     * @param position
+     * Method setPostition
+     * @param position to set the object to
      */
 
     public void setPosition(Point2D position) {
         this.position = position;
     }
+
+    /**
+     * Method calculateMovement
+     * @param direction the object must face
+     * @param tileX the x-position of the tile the object is standing on
+     * @param tileY the y-position of the tile the object is standing on
+     * @return new point the object needs to move to
+     */
 
     public Point2D calculateMovement(Point direction, int tileX, int tileY) {
         Point2D goTo = new Point2D.Double(32 * (tileX + direction.x) + 16, 32 * (tileY + direction.y) + 16);
@@ -220,9 +225,22 @@ public abstract class Person implements Comparable<Person>, Serializable {
         return neededToMove;
     }
 
+    /**
+     * Method move
+     * moves object to new Point
+     * @param neededToMove point to move to
+     * @param deltaTime to take to move
+     */
+
     public void move(Point2D neededToMove, double deltaTime) {
         setPosition(new Point2D.Double(getPosition().getX() + (neededToMove.getX() * deltaTime), getPosition().getY() + (neededToMove.getY() * deltaTime)));
     }
+
+    /**
+     * Method goCloserToTarget
+     * @param target the object needs to move to
+     * @param deltaTime to take to move
+     */
 
     public void goCloserToTarget(Target target, double deltaTime) {
         if (isSpawned && doUpdate) {
@@ -246,6 +264,11 @@ public abstract class Person implements Comparable<Person>, Serializable {
         }
     }
 
+    /**
+     * Method setTask
+     * @param task to set to the object
+     */
+
     public void setTask(Task task){
         if(task instanceof TriggerFireAlarmTask){
             this.previousTask = this.task;
@@ -253,12 +276,23 @@ public abstract class Person implements Comparable<Person>, Serializable {
         this.task = task;
     }
 
+    /**
+     * Method leave
+     * Sets task for object to leave
+     */
+
     public void leave() {
         if(!(this.task instanceof TriggerFireAlarmTask)){
             this.previousTask = this.task;
         }
         this.task = new LeaveTask(this);
     }
+
+    /**
+     * Method moveToExactLocation
+     * @param target to move to
+     * @param deltaTime to take to move
+     */
 
     public void moveToExactLocation(Target target, double deltaTime) {
         int neededX = target.getTotalTileXLocation() * 32 + 16;
@@ -275,6 +309,14 @@ public abstract class Person implements Comparable<Person>, Serializable {
         }
     }
 
+    /**
+     * Method calculateExactMovement
+     * @param direction to move to
+     * @param x position of new move
+     * @param y position of new move
+     * @return point to move to
+     */
+
     public Point2D calculateExactMovement(Point2D direction, double x, double y) {
         Point2D goTo = new Point2D.Double(direction.getX() + x, direction.getY() + y);
         Point2D neededToMove = new Point2D.Double(goTo.getX() - x, goTo.getY() - y);
@@ -282,18 +324,37 @@ public abstract class Person implements Comparable<Person>, Serializable {
         return neededToMove;
     }
 
+    /**
+     * Method getSize
+     * @return size of the image of the object
+     */
 
     public int getSize() {
         return size;
     }
 
+    /**
+     * Method getTask
+     * @return private attribute task
+     */
+
     public Task getTask() {
         return task;
     }
 
+    /**
+     * Method getPreviousTask
+     * @return private attribute previousTask
+     */
+
     public Task getPreviousTask(){
         return previousTask;
     }
+
+    /**
+     * Method setPreviousTask
+     * @param task to set to
+     */
 
     public void setPreviousTask(Task task){
         this.previousTask = task;
