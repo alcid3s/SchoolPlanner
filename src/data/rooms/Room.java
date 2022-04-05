@@ -22,7 +22,7 @@ import java.util.Optional;
  * Creates objects that inherit this class with various methods
  */
 
-public abstract class Room implements Comparable<Room>, Serializable {
+public abstract class Room implements Comparable<Room> {
     TiledMap map;
     String name;
     int capacity;

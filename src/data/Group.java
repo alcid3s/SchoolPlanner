@@ -7,7 +7,7 @@ import managers.Names;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group implements Comparable<Group>, Serializable {
+public class Group implements Comparable<Group> {
 
     private final ArrayList<Person> students;
     private String name;

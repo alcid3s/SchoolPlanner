@@ -100,7 +100,7 @@ public class ScheduleTab extends Tab{
         save.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Location to save");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster", "*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
             File saveLocation = fileChooser.showSaveDialog(stage);
             if(saveLocation != null){
                 if(Schedule.getInstance().save(saveLocation)){
@@ -116,7 +116,7 @@ public class ScheduleTab extends Tab{
         load.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select File to load");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Rooster", "*.rooster"), new FileChooser.ExtensionFilter("JSON", "*.json"));
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JSON", "*.json"));
             File loadLocation = fileChooser.showOpenDialog(stage);
             if(loadLocation != null){
                 if(Schedule.getInstance().load(loadLocation)){

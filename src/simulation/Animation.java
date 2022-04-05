@@ -3,9 +3,10 @@ package simulation;
 import data.persons.Facing;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Animation {
+public class Animation implements Serializable {
     private final HashMap<Facing, BufferedImage[]> images;
     private Facing currentFacing;
     private int animationCount;
