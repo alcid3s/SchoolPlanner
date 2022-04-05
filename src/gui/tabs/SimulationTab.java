@@ -113,7 +113,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         if(timer > -0.1){
             timer -= deltaTime;
         }
-        //Schedule.getInstance().getGroupList().get(0).getStudents().get(0).spawn(map.getStudentSpawn());
 
         for(Person p : Schedule.getInstance().getAllPersons()){
             if(!p.isSpawned() && !fireAlarm.isOn()){
@@ -186,7 +185,6 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         if(updateBackground){
             drawBackground(gBackground);
         }
-        long millis = System.nanoTime();
 
         canvas = createNewCanvas();
         graphics = g;

@@ -56,7 +56,7 @@ public class EditGroupAttributesPopup extends Stage{
         edit.setOnAction(e -> {
             boolean mayClose = true;
             try {
-                if(!nameField.getText().isEmpty() || nameField.getText().equals(oldName)){
+                if(!nameField.getText().isEmpty() && !nameField.getText().equals(oldName)){
                     if(Validation.groupIsUnique(nameField.getText()) || nameField.getText().equals(group.getName())){
                         group.setName(nameField.getText());
                     }else{
