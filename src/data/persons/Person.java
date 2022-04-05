@@ -93,10 +93,17 @@ public abstract class Person implements Comparable<Person> {
     /**
      * Method update
      * Updates position of object on the canvas
-     * @param deltaTime to do update
+     * @param realDeltaTime to do update
      */
 
-    public void update(double deltaTime) {
+    public void update(double realDeltaTime) {
+        while (realDeltaTime > 0.5) {
+            updateTask(0.5);
+            realDeltaTime -= 0.5;
+        }
+        updateTask(realDeltaTime);
+    }
+    private void updateTask(double deltaTime) {
         if (this.doUpdate) {
             if (this.task == null) {
                 this.task = new IdleTask(this);
@@ -111,6 +118,7 @@ public abstract class Person implements Comparable<Person> {
             this.task.update(deltaTime);
         }
     }
+
 
     /**
      * Method spawn
