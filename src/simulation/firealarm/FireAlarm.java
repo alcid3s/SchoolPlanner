@@ -8,6 +8,7 @@ import data.tiled.TiledImageLayer;
 import data.tiled.TiledMap;
 import gui.tabs.SimulationTab;
 import org.jfree.fx.FXGraphics2D;
+import tasks.IdleTask;
 import tasks.LeaveTask;
 import tasks.TriggerFireAlarmTask;
 
@@ -27,6 +28,7 @@ import java.util.Objects;
 public class FireAlarm {
     private final BufferedImage[] sprites;
     private boolean on;
+    private boolean starting;
     private final ArrayList<FireAlarmObject> objects;
     private final ArrayList<FireAlarmTrigger> fireAlarmTriggers;
     private final double time = 0.1;
@@ -104,8 +106,9 @@ public class FireAlarm {
      */
 
     public void toggle() {
-        if(this.isOn()) {
+        if(this.isOn() || this.starting) {
             this.on = false;
+            this.starting = false;
             this.sound.stop();
             stop();
         } else {
@@ -133,6 +136,7 @@ public class FireAlarm {
      */
 
     public void start() {
+        this.starting = true;
         List<Person> people = Schedule.getInstance().getAllPersons();
         people.removeIf(person -> !person.isSpawned());
         Collections.shuffle(people);
@@ -149,6 +153,7 @@ public class FireAlarm {
             p.setTask(new TriggerFireAlarmTask(p, trigger));
 
         } else {
+            this.starting = false;
             setOn(false);
         }
     }
@@ -172,10 +177,13 @@ public class FireAlarm {
     public void stop() {
         List<Person> people = Schedule.getInstance().getAllPersons();
         people.forEach(person -> {
-            if(Clock.getTime().getHour() < 16){
+            if(Clock.getTime().getHour() < 16) {
                 person.setDoSpawn(true);
             }
             person.setTask(person.getPreviousTask());
+            if(person.getTask() instanceof TriggerFireAlarmTask) {
+                person.setTask(new IdleTask(person));
+            }
         });
 
     }
