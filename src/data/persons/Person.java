@@ -97,9 +97,9 @@ public abstract class Person implements Comparable<Person> {
      */
 
     public void update(double realDeltaTime) {
-        while (realDeltaTime > 0.5) {
-            updateTask(0.5);
-            realDeltaTime -= 0.5;
+        while (realDeltaTime > 0.2) {
+            updateTask(0.2);
+            realDeltaTime -= 0.2;
         }
         updateTask(realDeltaTime);
     }
