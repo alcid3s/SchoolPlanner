@@ -1,109 +1,101 @@
 package data;
 
 import data.persons.Person;
-import data.persons.Teacher;
+import data.persons.*;
 import data.rooms.Room;
-import gui.Util;
-import gui.tabs.ScheduleTab;
+import managers.FileManager;
 
-import javax.json.*;
-import javax.json.stream.JsonGenerator;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-public class Schedule implements Serializable{
+/**
+ * Class Schedule
+ * Creates object that combines all attributes in the application
+ */
+
+public class Schedule {
     private static Schedule schedule;
-
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
-    private ArrayList<Teacher> teacherList;
-    private ArrayList<Room> roomList;
+    private ArrayList<Person> teacherList;
+    private final ArrayList<Room> roomList;
 
-    public Schedule(){
+    /**
+     * Constructor
+     */
+
+    public Schedule() {
         this.lessonList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.teacherList = new ArrayList<>();
-        this.roomList = AllRooms.AllRooms();
-        setExample();
-        sort();
+        this.roomList = new ArrayList<>();
     }
 
     /**
+     * Static method getInstance
      * Gives the instance of schedule. Don't create a new schedule!
-     *
-     * @return the schedule.
+     * @return the schedule
      */
 
-    public static Schedule getInstance(){
-        if(schedule == null){
+    public static Schedule getInstance() {
+        if (schedule == null) {
             schedule = new Schedule();
         }
         return schedule;
     }
 
     /**
+     * Method addLesson
      * can add a lesson
-     *
-     * @param lesson to be added.
+     * @param lesson to be added
      */
-    public void addLesson(Lesson lesson){
+
+    public void addLesson(Lesson lesson) {
         lessonList.add(lesson);
-        sort();
     }
 
     /**
+     * Method addGroup
      * Can add a group
-     *
      * @param group to be added.
      */
-    public void addGroup(Group group){
+
+    public void addGroup(Group group) {
         this.groupList.add(group);
-        sort();
     }
 
-    public void addRoom(Room room){
+    public void addRoom(Room room) {
         this.roomList.add(room);
-        sort();
     }
 
     /**
-     * Returns the lesson with specific name.
-     *
-     * @param name of the lesson
-     * @return the lesson with specific name or null if no lesson found.
-     */
-    public Lesson getLesson(String name){
-        for(Lesson l : lessonList){
-            if(l.getName().equals(name)){
-                return l;
-            }
-        }
-        return null;
-    }
-
-    /**
+     * Method getGroup
      * returns the group with specific name.
-     *
      * @param name of the group
      * @return the group with specific name or null if no group found.
      */
-    public Group getGroup(String name){
-        for(Group g : groupList){
-            if(g.getName().equals(name) || g.getSystemName().equals(name))
+
+    public Group getGroup(String name) {
+        for (Group g : groupList) {
+            if (g.getName().equals(name) || g.getSystemName().equals(name))
                 return g;
         }
         return null;
     }
 
     /**
+     * Method getRoom
      * returns the room with specific name.
-     *
      * @param name of the room
      * @return the room with specific name or null if no room found
      */
-    public Room getRoom(String name){
-        for(Room room : this.roomList){
-            if(room.getName().equals(name) || room.getSystemName().equals(name)){
+
+    public Room getRoom(String name) {
+        for (Room room : this.roomList) {
+            if (room.getName().equals(name) || room.getSystemName().equals(name)) {
                 return room;
             }
         }
@@ -111,166 +103,154 @@ public class Schedule implements Serializable{
     }
 
     /**
+     * Method getTeacher
      * returns the teacher with specific name.
-     *
      * @param name of the teacher
      * @return the teacher with specific name or null if no group found.
      */
-    public Teacher getTeacher(String name){
-        for(Teacher t : teacherList){
-            if(t.getName().equals(name))
+
+    public Person getTeacher(String name) {
+        for (Person t : teacherList) {
+            if (t.getName().equals(name))
                 return t;
         }
         return null;
     }
 
-    public ArrayList<Lesson> getLessonList(){
+    /**
+     * Method getLessonList
+     * @return list with lessons
+     */
+
+    public ArrayList<Lesson> getLessonList() {
         return lessonList;
     }
 
-    public ArrayList<Group> getGroupList(){
+    /**
+     * Method getGroupList
+     * @return list with groups
+     */
+
+    public ArrayList<Group> getGroupList() {
         return groupList;
     }
 
-    public ArrayList<Teacher> getTeacherList(){
+    /**
+     * Method getTeacher
+     * @return list with teachers
+     */
+
+    public ArrayList<Person> getTeacherList() {
         return teacherList;
     }
 
-    public ArrayList<Room> getRoomList(){
+    /**
+     * Method getRoomList
+     * @return list with rooms
+     */
+
+    public ArrayList<Room> getRoomList() {
         return this.roomList;
     }
 
-    public void addTeacher(Teacher teacher){
+    /**
+     * Method addTeacher
+     * @param teacher to be added to list with teachers
+     */
+
+    public void addTeacher(Teacher teacher) {
         this.teacherList.add(teacher);
-        sort();
     }
 
-    public boolean removeTeacher(Person teacher){
-        return this.teacherList.remove(teacher);
+    /**
+     * Method removeTeacher
+     * @param teacher to be removed from list with teachers
+     */
+
+    public void removeTeacher(Person teacher) {
+        this.teacherList.remove(teacher);
     }
 
-    public void removeLesson(Lesson lesson){
+    /**
+     * Method removeLesson
+     * @param lesson to be removed from list with lessons
+     */
+
+    public void removeLesson(Lesson lesson) {
         this.lessonList.remove(lesson);
     }
 
-    public void removeGroup(Group group){
+    /**
+     * Method removeGroup
+     * @param group to be removed from list with groups
+     */
+
+    public void removeGroup(Group group) {
         groupList.remove(group);
     }
 
-    public void sort(){
+    /**
+     * Method sort
+     * sorts all lists on natural order
+     */
+
+    public void sort() {
         Collections.sort(this.lessonList);
         Collections.sort(this.roomList);
         Collections.sort(this.groupList);
         Collections.sort(this.teacherList);
     }
 
-    private void setExample(){
-        groupList.add(new Group("Proftaak B", 30));
-        groupList.add(new Group("Proftaak A", 25));
-        teacherList.add(new Teacher("Pieter"));
-        teacherList.add(new Teacher("Edwin"));
-        teacherList.add(new Teacher("Etienne"));
-        lessonList.add(new Lesson("WIS", getRoom("LD111"), getTeacher("Pieter"), getGroup("Proftaak B"), Util.makeTime("9", "00"), Util.makeTime("15", "30")));
-        lessonList.add(new Lesson("OGP", getRoom("LA134"), getTeacher("Edwin"), getGroup("Proftaak A"), Util.makeTime("10", "00"), Util.makeTime("12", "00")));
-        lessonList.add(new Lesson("OGP1", getRoom("LA134"), getTeacher("Pieter"), getGroup("Proftaak A"), Util.makeTime("15", "05"), Util.makeTime("16", "00")));
-    }
+    /**
+     * Method save
+     * @param file that needs to be saved
+     * @return boolean that checks if saving was successful
+     */
 
     public boolean save(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    if(file.exists())
-                        file.delete();
-                    file.createNewFile();
-                    JsonArrayBuilder teacherList = Json.createArrayBuilder();
-                    JsonArrayBuilder groupList = Json.createArrayBuilder();
-                    JsonArrayBuilder lessonList = Json.createArrayBuilder();
-                    this.teacherList.forEach(e -> teacherList.add(e.getJsonString()));
-                    this.groupList.forEach(e -> groupList.add(e.getJsonString()));
-                    this.lessonList.forEach(e -> lessonList.add(e.getJsonString()));
-
-                    Map<String, Object> properties = new HashMap<>(1);
-                    properties.put(JsonGenerator.PRETTY_PRINTING, true);
-                    JsonWriterFactory jf = Json.createWriterFactory(properties);
-                    JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("teachers", teacherList)
-                            .add("groups", groupList)
-                            .add("lessons", lessonList)
-                            .build();
-                    FileWriter fileWriter = new FileWriter(file);
-                    JsonWriter jsonWriter = jf.createWriter(fileWriter);
-                    jsonWriter.writeObject(jsonObject);
-                    jsonWriter.close();
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            case "rooster":
-                try {
-                    if(file.exists())
-                        file.delete();
-                    file.createNewFile();
-
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    objectOutputStream.writeObject(this);
-                    objectOutputStream.close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.saveJson(file, this);
         }
         return false;
     }
+
+    /**
+     * Method getAllPersons
+     * @return list with all persons
+     */
+
+    public List<Person> getAllPersons() {
+        List<Person> people = new ArrayList<>(Schedule.getInstance().getTeacherList());
+        Schedule.getInstance().getGroupList().forEach(g -> {people.addAll(g.getStudents());});
+        return people;
+    }
+
+    /**
+     * Method load
+     * @param file to load in
+     * @return boolean that checks if loading was successful
+     */
 
     public boolean load(File file) {
         Optional<String> optionalExtension = getExtensionByStringHandling(file.getName());
-        if(!optionalExtension.isPresent())
+        if (!optionalExtension.isPresent())
             return false;
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
-                try {
-                    InputStream input = new FileInputStream(file);
-                    JsonReader jsonReader = Json.createReader(input);
-                    JsonObject jsonObject = jsonReader.readObject();
-                    clearAllLists();
-                    jsonObject.getJsonArray("teachers").forEach(teacher -> {
-                        addTeacher(new Teacher(teacher.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("groups").forEach(group -> {
-                        addGroup(new Group(group.toString().replaceAll("\"", "")));
-                    });
-                    jsonObject.getJsonArray("lessons").forEach(lesson -> {
-                        addLesson(new Lesson(lesson.toString().replaceAll("\"", "")));
-                    });
-                    ScheduleTab.refreshCanvas();
-                    return true;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            case "rooster":
-                try {
-                    FileInputStream f = new FileInputStream(file);
-                    ObjectInputStream s = new ObjectInputStream(f);
-                    Schedule newSchedule = (Schedule) s.readObject();
-                    this.schedule.setLessonList(newSchedule.getLessonList());
-                    this.schedule.setTeacherList(newSchedule.getTeacherList());
-                    this.schedule.setGroupList(newSchedule.getGroupList());
-                    ScheduleTab.refreshCanvas();
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
+                return FileManager.loadJson(file, this);
         }
         return false;
     }
+
+    /**
+     * Method getExtensionByStringHandling
+     * @param filename
+     * @return
+     */
 
     public Optional<String> getExtensionByStringHandling(String filename) {
         return Optional.ofNullable(filename)
@@ -278,28 +258,49 @@ public class Schedule implements Serializable{
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 
+    /**
+     * Inherited method toString
+     * @return string of object
+     */
+
     @Override
     public String toString() {
         return lessonList.toString() + "\n" + teacherList.toString() + " \n" + groupList.toString() + "\n" + roomList.toString();
     }
 
+    /**
+     * Method setLessonList
+     * @param lessonList to set all lessons to
+     */
+
     public void setLessonList(ArrayList<Lesson> lessonList) {
         this.lessonList = lessonList;
     }
+
+    /**
+     * Method setGroupList
+     * @param groupList to set all groups to
+     */
 
     public void setGroupList(ArrayList<Group> groupList) {
         this.groupList = groupList;
     }
 
-    public void setTeacherList(ArrayList<Teacher> teacherList) {
+    /**
+     * Method setTeacherList
+     * @param teacherList to set all teachers to
+     */
+
+    public void setTeacherList(ArrayList<Person> teacherList) {
         this.teacherList = teacherList;
     }
 
-    public void setRoomList(ArrayList<Room> roomList) {
-        this.roomList = roomList;
-    }
+    /**
+     * Method clearAllLists
+     * clears all lists in the object
+     */
 
-    private void clearAllLists(){
+    public void clearAllLists() {
         this.lessonList.clear();
         this.groupList.clear();
         this.teacherList.clear();
