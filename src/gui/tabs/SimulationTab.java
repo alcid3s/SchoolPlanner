@@ -203,10 +203,10 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         }
         fireAlarm.draw(graphics);
 
-        g2d.setTransform(new AffineTransform());
-        g2d.setColor(Color.GREEN);
-        g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2d.drawString(currentFPS + "", 2, 25);
+        graphics.setTransform(new AffineTransform());
+        graphics.setColor(Color.GREEN);
+        graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+        graphics.drawString(currentFPS + "", 2, 25);
 
         clockTime.draw(graphics, canvas);
     }
