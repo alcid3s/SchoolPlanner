@@ -11,7 +11,6 @@ import data.tiled.TiledImageLayer;
 import data.tiled.TiledMap;
 
 import java.awt.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

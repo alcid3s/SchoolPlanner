@@ -4,7 +4,6 @@ import data.persons.Person;
 import data.persons.Student;
 import managers.Names;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**

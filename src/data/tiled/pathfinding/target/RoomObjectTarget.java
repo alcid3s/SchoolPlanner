@@ -31,7 +31,7 @@ public class RoomObjectTarget extends Target {
      */
 
     public RoomObjectTarget(Room room, Point location, TiledImageLayer collisionLayer) {
-        super(printL(location, room), collisionLayer, room.getWidth()/32, room.getHeight()/32);
+        super(location, collisionLayer, room.getWidth()/32, room.getHeight()/32);
         this.room = room;
         this.tileRoomWidth = room.getWidth()/32;
         this.tileRoomHeight = room.getHeight()/32;
@@ -54,7 +54,6 @@ public class RoomObjectTarget extends Target {
                 if(reached.length <= pointToCheck.getValue() || reached[pointToCheck.getValue()].length <= pointToCheck.getKey()) {
                     continue;
                 }
-               // System.out.println("Checking... " + pointToCheck.getKey() + " " + pointToCheck.getValue());
                 if(reached[pointToCheck.getValue()][pointToCheck.getKey()] == Integer.MAX_VALUE) {
                     if(collisionLayer.getValues()[pointToCheck.getKey() + tileRoomX][pointToCheck.getValue() + tileRoomY] != 2585) {
                         reached[pointToCheck.getValue()][pointToCheck.getKey()] = reached[current.getValue()][current.getKey()] + 1;
@@ -65,10 +64,12 @@ public class RoomObjectTarget extends Target {
         }
     }
 
-    private static Point printL(Point location, Room r) {
-        return location;
-    }
-
+    /**
+     * Method getDirection
+     * @param tileX x-position of the target
+     * @param tileY y-position of the target
+     * @return direction of the target
+     */
 
     public Point getDirection(int tileX, int tileY) {
         if(room.isInRoom(tileX,tileY)) {
@@ -94,23 +95,45 @@ public class RoomObjectTarget extends Target {
         return room.getTarget().getDirection(tileX,tileY);
     }
 
+    /**
+     * Method getRoom
+     * @return room where target is in
+     */
+
     public Room getRoom() {
         return room;
     }
 
-    public int[][] getReached() {
-        return reached;
-    }
+    /**
+     * Inherited method isAtTarget
+     * Checks if coordinates are at the same tile as the coordinates of this object
+     * @param tileX x-position of Person
+     * @param tileY y-position of Person
+     * @return check as boolean
+     */
 
     @Override
     public boolean isAtTarget(int tileX, int tileY) {
         return super.isAtTarget(tileX-tileRoomX, tileY-tileRoomY);
     }
 
+    /**
+     * Inherited method isExactAtTarget
+     * @param x position of Person
+     * @param y position of Person
+     * @return check as boolean
+     */
+
     @Override
     public boolean isExactAtTarget(double x, double y) {
         return super.isExactAtTarget(x-tileRoomX*32, y-tileRoomY*32);
     }
+
+    /**
+     * Inherited method isAtTarget
+     * @param p Person to check location from
+     * @return check as boolean
+     */
 
     @Override
     public boolean isAtTarget(Person p) {
@@ -121,6 +144,12 @@ public class RoomObjectTarget extends Target {
         return x >= tX && y >= tY && x <= tX + 32 && y <= tY + 32;
     }
 
+    /**
+     * Inherited method isExactAtTarget
+     * @param p Person to check location from
+     * @return check as boolean
+     */
+
     @Override
     public boolean isExactAtTarget(Person p) {
         int realX = (tileRoomX + tileRoomX) * 32 + 16;
@@ -130,10 +159,20 @@ public class RoomObjectTarget extends Target {
         return x == realX && y == realY;
     }
 
+    /**
+     * Inherited method getTotalTileXLocation
+     * @return location of x-position
+     */
+
     @Override
     public int getTotalTileXLocation() {
         return tileXLocation + tileRoomX;
     }
+
+    /**
+     * Inherited method getTotalTileYLocation
+     * @return location of y-position
+     */
 
     @Override
     public int getTotalTileYLocation() {

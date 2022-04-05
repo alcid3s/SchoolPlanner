@@ -5,7 +5,6 @@ import data.rooms.Room;
 import gui.tabs.DrawState;
 import gui.tabs.ScheduleTab;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**

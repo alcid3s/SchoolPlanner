@@ -154,7 +154,8 @@ public class FireAlarm {
     }
 
     /**
-     * 
+     * Method execute
+     * Makes all objects of type Person leave the school
      */
 
     public void execute() {
@@ -179,6 +180,11 @@ public class FireAlarm {
 
     }
 
+    /**
+     * Method update
+     * @param deltaTime to take to update
+     */
+
     public void update(double deltaTime) {
         if(this.on) {
             Schedule.getInstance().getAllPersons().forEach(p -> {
@@ -200,6 +206,12 @@ public class FireAlarm {
             }
         }
     }
+
+    /**
+     * Method draw
+     * Draws all objects related to FireAlarm
+     * @param g2d graphical context that needs to draw
+     */
 
     public void draw(FXGraphics2D g2d) {
         if(this.on) {
