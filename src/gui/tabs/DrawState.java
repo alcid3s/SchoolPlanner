@@ -1,6 +1,6 @@
 package gui.tabs;
 
-public enum DrawState{
+public enum DrawState {
     GROUP,
     TEACHER,
     ROOM
