@@ -6,15 +6,31 @@ import javafx.util.Pair;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * Class MapTarget
+ * Creates objects on the tiled map that inherit Target
+ */
+
 public class MapTarget extends Target {
 
     public static final HashMap<RenderingHints.Key, Object> RenderingProperties = new HashMap<>();
+
+    /**
+     * Static
+     * Initialises all debug renderings for the map
+     */
 
     static {
         RenderingProperties.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         RenderingProperties.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         RenderingProperties.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
+
+    /**
+     * Constructor
+     * @param location of the object
+     * @param collisionLayer layer that defines unusable points
+     */
 
     public MapTarget(Point location, TiledImageLayer collisionLayer) {
         super(location, collisionLayer,collisionLayer.getWidth(), collisionLayer.getHeight());
@@ -41,6 +57,13 @@ public class MapTarget extends Target {
         }
     }
 
+    /**
+     * Methid getDirection
+     * @param tileX x-direction of overall direction
+     * @param tileY y-direction of overall direction
+     * @return point of direction
+     */
+
     public Point getDirection(int tileX, int tileY) {
         ArrayList<Point> directions = new ArrayList<>(Arrays.asList(new Point(1,0), new Point(-1,0), new Point(0,1), new Point(0,-1)));
 
@@ -58,17 +81,5 @@ public class MapTarget extends Target {
             }
         }
         return pointToReturn;
-    }
-
-    public int getTileXLocation() {
-        return tileXLocation;
-    }
-
-    public int getTileYLocation() {
-        return tileYLocation;
-    }
-
-    public int[][] getReached() {
-        return reached;
     }
 }

@@ -2,8 +2,6 @@ package gui.popups.grouppopup;
 
 import data.Group;
 import data.Schedule;
-import managers.Util;
-import managers.Validation;
 import gui.tabs.ScheduleTab;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,19 +11,26 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import managers.Util;
+import managers.Validation;
 
-public class EditGroupsPopup extends Stage {
+/**
+ * Class EditGroupsPopup
+ * Class to create popup for when user wants to edit groups
+ */
+public class EditGroupsPopup extends Stage{
 
     /**
-     * This is the main popup to edit groups, remove a group, create a new group or edit a group
+     * Constructor EditGroupsPopup
+     * Popup to editing group
      */
-    public EditGroupsPopup() {
+    public EditGroupsPopup(){
         setTitle("Edit groups");
         Schedule schedule = Schedule.getInstance();
         ListView<Group> listView = new ListView<Group>();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        for (Group group : schedule.getGroupList()) {
+        for(Group group : schedule.getGroupList()){
             listView.getItems().add(group);
         }
         BorderPane borderPane = new BorderPane();
@@ -45,31 +50,31 @@ public class EditGroupsPopup extends Stage {
         });
 
         remove.setOnAction(e -> {
-            if (listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Group selectedGroup = listView.getItems().get(selected);
-                if (selectedGroup != null) {
-                    if (Validation.groupIsFee(selectedGroup)) {
+                if(selectedGroup != null){
+                    if(Validation.groupIsFee(selectedGroup)){
                         listView.getItems().remove(selected);
                         schedule.removeGroup(selectedGroup);
                         ScheduleTab.refreshCanvas();
-                    } else {
+                    }else{
                         new Alert(Alert.AlertType.ERROR, "Could not delete group because it is in use. (" + selectedGroup + ")").show();
                     }
-                } else {
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find group").show();
                 }
             }
         });
 
         edit.setOnAction(e -> {
-            if (listView.getSelectionModel().getSelectedItems().size() > 0) {
+            if(listView.getSelectionModel().getSelectedItems().size() > 0){
                 int selected = listView.getSelectionModel().getSelectedIndex();
                 Group selectedGroup = listView.getItems().get(selected);
-                if (selectedGroup != null) {
+                if(selectedGroup != null){
                     new EditGroupAttributesPopup(selectedGroup).show();
                     close();
-                } else {
+                }else{
                     new Alert(Alert.AlertType.ERROR, "Could not find group.").show();
                 }
             }
@@ -77,6 +82,4 @@ public class EditGroupsPopup extends Stage {
         Scene scene = new Scene(borderPane);
         setScene(scene);
     }
-
-
 }

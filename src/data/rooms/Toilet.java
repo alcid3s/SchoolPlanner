@@ -9,11 +9,34 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Class Toilet
+ * Creates objects that inherit Room
+ */
+
 public class Toilet extends Room {
+
+    /**
+     * Constructor Toilet
+     * @param m tiled map for the object
+     * @param name for the object
+     * @param capacity for the object
+     * @param location for the object
+     * @param target for the object
+     * @param x for the object
+     * @param y for the object
+     * @param width for the object
+     * @param height for the object
+     */
 
     public Toilet(TiledMap m, String name, int capacity, Point location, MapTarget target, int x, int y, int width, int height){
         super(m,name, capacity, target,location, x, y, width, height);
     }
+
+    /**
+     * Method initChairs
+     * Adds chairs to new ArrayList for teachers and students
+     */
 
     @Override
     public void initChairs() {

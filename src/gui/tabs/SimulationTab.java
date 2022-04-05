@@ -1,24 +1,24 @@
 package gui.tabs;
 
-import data.*;
 import callbacks.ClockCallback;
 import callbacks.TimerCallback;
-import callbacks.Updatable;
+import callbacks.Timeable;
+import data.*;
 import data.persons.Person;
 import data.tiled.TiledMap;
 import gui.GUI;
-import javafx.scene.input.KeyCode;
-import managers.Camera;
-import simulation.firealarm.AlarmSound;
-import simulation.firealarm.FireAlarm;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Tab;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import managers.Camera;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import simulation.firealarm.AlarmSound;
+import simulation.firealarm.FireAlarm;
 import tasks.LessonTask;
 import tasks.TeachTask;
 
@@ -27,27 +27,33 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback {
-    private Canvas canvas;
+/**
+ * Class SimulationTab
+ * Builds the simulation tab and all included functions for the GUI
+ */
+public class SimulationTab extends Tab implements Resizable, ClockCallback, TimerCallback{
     private final FXGraphics2D gBackground;
-    private FXGraphics2D g;
-    private boolean updateBackground;
     private final TiledMap map;
     private final Camera camera;
     private final List<Group> groupList;
     private final Pane pane;
-    private double timer = 0.5;
-    private final List<Updatable> timers;
+    private final List<Timeable> timers;
     private final FireAlarm fireAlarm;
     private final AlarmSound sound;
-
+    private final Clock clockTime;
+    private Canvas canvas;
+    private FXGraphics2D g;
+    private boolean updateBackground;
+    private double timer = 0.5;
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
     private int totalFrames = 0;
 
-    private final Clock clockTime;
-
-    public SimulationTab() {
+    /**
+     * Constructor SimulationTab
+     * Builds simulation
+     */
+    public SimulationTab(){
         super("Simulation");
         this.timers = new ArrayList<>();
         this.timers.add(clockTime = new Clock(this));
@@ -75,19 +81,19 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         setContent(mainPane);
 
         GUI.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)) {
-                if (event.getCode() == KeyCode.B) {
+            if(GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)){
+                if(event.getCode() == KeyCode.B){
                     fireAlarm.toggle();
                 }
             }
         });
 
-        new AnimationTimer() {
+        new AnimationTimer(){
             long last = -1;
 
             @Override
-            public void handle(long now) {
-                if (last == -1)
+            public void handle(long now){
+                if(last == -1)
                     last = now;
                 update((now - last) / 1000000000.0);
                 last = now;
@@ -97,31 +103,36 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         draw(g);
     }
 
-    private void update(double deltaTime) {
-        if (timer > -0.1) {
+    /**
+     * Method update
+     * Updates simulation
+     * @param deltaTime increase in time
+     */
+    private void update(double deltaTime){
+        if(timer > -0.1){
             timer -= deltaTime;
         }
 
-        for (Person p : Schedule.getInstance().getAllPersons()) {
-            if (!p.isSpawned() && !fireAlarm.isOn()) {
-                if (timer <= 0) {
+        for(Person p : Schedule.getInstance().getAllPersons()){
+            if(!p.isSpawned() && !fireAlarm.isOn()){
+                if(timer <= 0){
                     p.spawn(map.getStudentSpawn());
                     timer = 0.5;
                 }
-            } else {
+            }else{
                 p.update(deltaTime);
             }
         }
-        
+
         Schedule.getInstance().getRoomList().forEach(room -> room.update(deltaTime));
 
         Schedule.getInstance().getLessonList().forEach(lesson -> {
             int hour = lesson.getStartDate().getHour();
             int minute = lesson.getStartDate().getMinute();
-            if (hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !lesson.getHasTask()) {
+            if(hour == Clock.getTime().getHour() && minute <= Clock.getTime().getMinute() && !lesson.getHasTask()){
                 lesson.setHasTask(true);
                 timers.add(new Timer(lesson, this));
-                lesson.getGroup().getStudents().forEach(s ->{
+                lesson.getGroup().getStudents().forEach(s -> {
                     if(fireAlarm.isOn()){
                         s.setPreviousTask(new LessonTask(s, lesson.getRoom()));
                     }else{
@@ -139,58 +150,73 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         fireAlarm.update(deltaTime);
     }
 
-    private void drawBackground(FXGraphics2D g) {
-        g.setTransform(new AffineTransform());
-        g.setBackground(Color.BLACK);
-        g.setClip(null);
-        g.clearRect(0, 0, (int) this.canvas.getWidth(), (int) this.canvas.getHeight());
+    /**
+     * Method drawBackground
+     * Draws background
+     * @param graphics graphics on which to draw
+     */
+    private void drawBackground(FXGraphics2D graphics){
+        graphics.setTransform(new AffineTransform());
+        graphics.setBackground(Color.BLACK);
+        graphics.setClip(null);
+        graphics.clearRect(0, 0, (int) this.canvas.getWidth(), (int) this.canvas.getHeight());
 
-        g.setTransform(camera.getTransform());
+        graphics.setTransform(camera.getTransform());
 
-        map.draw(g);
+        map.draw(graphics);
 
         updateBackground = false;
     }
 
+    /**
+     * Method draw
+     * Draws actual graphics
+     * @param graphics graphics on which to draw
+     */
     @Override
-    public void draw(FXGraphics2D g2d) {
+    public void draw(FXGraphics2D graphics){
         totalFrames++;
-        if (System.nanoTime() > lastFPSCheck + 1000000000) {
+        if(System.nanoTime() > lastFPSCheck + 1000000000){
             lastFPSCheck = System.nanoTime();
             currentFPS = totalFrames;
             totalFrames = 0;
         }
-        if (updateBackground) {
+        if(updateBackground){
             drawBackground(gBackground);
         }
         long millis = System.nanoTime();
 
         canvas = createNewCanvas();
-        g2d = g;
-        g2d.setTransform(camera.getTransform());
+        graphics = g;
+        graphics.setTransform(camera.getTransform());
 
-        for (Group group : groupList) {
-            for (Person student : group.getStudents()) {
-                student.draw(g2d);
+        for(Group group : groupList){
+            for(Person student : group.getStudents()){
+                student.draw(graphics);
             }
         }
 
-        for (Person teacher : Schedule.getInstance().getTeacherList()) {
-            teacher.draw(g2d);
+        for(Person teacher : Schedule.getInstance().getTeacherList()){
+            teacher.draw(graphics);
         }
-        fireAlarm.draw(g2d);
+        fireAlarm.draw(graphics);
 
-        g2d.setColor(Color.BLUE);
+        graphics.setColor(Color.BLUE);
 
-        g2d.setTransform(new AffineTransform());
-        g2d.setColor(Color.GREEN);
-        g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-        g2d.drawString(currentFPS + "", 2, 25);
+        graphics.setTransform(new AffineTransform());
+        graphics.setColor(Color.GREEN);
+        graphics.setFont(new Font("Arial", Font.PLAIN, 25));
+        graphics.drawString(currentFPS + "", 2, 25);
 
-        clockTime.draw(g2d, canvas);
+        clockTime.draw(graphics, canvas);
     }
 
-    private Canvas createNewCanvas() {
+    /**
+     * Method createNewCanvas
+     * Creates new canvas
+     * @return canvas
+     */
+    private Canvas createNewCanvas(){
         pane.getChildren().remove(canvas);
         this.canvas = new Canvas(canvas.getWidth(), canvas.getHeight());
         pane.getChildren().add(this.canvas);
@@ -199,24 +225,48 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         return this.canvas;
     }
 
-    public Canvas getCanvas() {
+    /**
+     * Method getCanvas
+     * Gets canvas
+     * @return canvas
+     */
+    public Canvas getCanvas(){
         return canvas;
     }
 
-    public TiledMap getMap() {
+    /**
+     * Method getMap
+     * Gets map
+     * @return map
+     */
+    public TiledMap getMap(){
         return map;
     }
 
-    public void setUpdateBackground(boolean updateBackground) {
+    /**
+     * Method setUpdateBackground
+     * Set whether to update background
+     * @param updateBackground boolean to check if background needs to be updated
+     */
+    public void setUpdateBackground(boolean updateBackground){
         this.updateBackground = updateBackground;
     }
 
-    public Pane getPane() {
+    /**
+     * Method getPane
+     * Gets pane
+     * @return pane
+     */
+    public Pane getPane(){
         return pane;
     }
 
+    /**
+     * Method onBeginTime
+     * Starts all objects
+     */
     @Override
-    public void onBeginTime() {
+    public void onBeginTime(){
         this.sound.stop();
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
             s.setDoUpdate(true);
@@ -228,25 +278,34 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
         });
     }
 
+    /**
+     * Method onEndTime
+     * Stops all objects
+     */
     @Override
-    public void onEndTime() {
+    public void onEndTime(){
         this.sound.play();
         Schedule.getInstance().getGroupList().forEach(g -> g.getStudents().forEach(s -> {
-            if (s.isSpawned()) {
+            if(s.isSpawned()){
                 s.leave();
             }
             s.setDoSpawn(false);
         }));
         Schedule.getInstance().getTeacherList().forEach(t -> {
-            if (t.isSpawned()) {
+            if(t.isSpawned()){
                 t.leave();
             }
             t.setDoSpawn(false);
         });
     }
 
+    /**
+     * Method onEndOfClass
+     * Ends a lesson
+     * @param lesson lesson to end
+     */
     @Override
-    public void onEndOfClass(Lesson lesson) {
+    public void onEndOfClass(Lesson lesson){
         lesson.setHasTask(false);
         lesson.getGroup().getStudents().forEach(s -> {
             s.setTask(null);

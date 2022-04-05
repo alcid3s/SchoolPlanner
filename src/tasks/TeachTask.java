@@ -8,10 +8,22 @@ import data.rooms.object.UsableObject;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Class TeachTask
+ * Creates the Task to teach a class
+ */
+
 public class TeachTask extends Task {
     private boolean gotToRoom;
     private double timer;
     private Random random = new Random();
+
+    /**
+     * Constructor TeachTask
+     * Creates a TeachTask for Person
+     * @param p for the Task
+     * @param r for the Task
+     */
 
     public TeachTask(Person p, Room r) {
         super(p, getObjectToUse(p, r), r);
@@ -19,10 +31,23 @@ public class TeachTask extends Task {
         timer = 10 + random.nextInt(20);
     }
 
+    /**
+     * Method getObjectToUse
+     * @param p to set Person
+     * @param r to set Room
+     * @return UsableObject
+     */
+
     private static UsableObject getObjectToUse(Person p, Room r) {
         Optional<UsableObject> object = r.getFreeChair(p);
         return object.orElse(null);
     }
+
+    /**
+     * Method update
+     * Updates task for Person
+     * @param deltaTime to do update
+     */
 
     @Override
     public void update(double deltaTime) {
@@ -58,12 +83,16 @@ public class TeachTask extends Task {
         }
     }
 
+    /**
+     * Method getNewUsableObject
+     * @return UsableObject
+     */
+
     private UsableObject getNewUsableObject() {
         if(room instanceof Classroom) {
             Classroom c = (Classroom) room;
             return c.getFreeSpot();
         }
         return null;
-
     }
 }

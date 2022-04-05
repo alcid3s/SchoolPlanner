@@ -9,13 +9,28 @@ import data.rooms.object.UsableObject;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Class IdleTask
+ *Creates things to do for persons without tasks
+ */
+
 public class IdleTask extends Task {
     private double timer;
     private double maxTimeToMove;
 
+    /**
+     * Constructor IdleTask
+     * Creates a IdleTask for Person
+     * @param p for the Task
+     */
+
     public IdleTask(Person p) {
         super(p, null, null);
     }
+
+    /**
+     * Creates new tasks for Person to do
+     */
 
     private void createNewTask() {
         Random random = new Random();
@@ -35,6 +50,12 @@ public class IdleTask extends Task {
         }
     }
 
+    /**
+     * Method getRoomAndObject
+     * Choses a Room and Object for Person to go to
+     * @param c for Class from Room
+     */
+
     private void getRoomAndObject(Class<? extends Room> c) {
         int i = 0;
         room = null;
@@ -50,6 +71,12 @@ public class IdleTask extends Task {
             }
         }
     }
+
+    /**
+     * Method update
+     * Updates task for Person
+     * @param deltaTime to do update
+     */
 
     @Override
     public void update(double deltaTime) {

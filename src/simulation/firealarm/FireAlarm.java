@@ -20,6 +20,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class FireAlarm
+ * Creates a fire alarm system.
+ */
 public class FireAlarm {
     private final BufferedImage[] sprites;
     private boolean on;
@@ -30,6 +34,10 @@ public class FireAlarm {
     private int currentSprite = 0;
     private final AlarmSound sound;
 
+    /**
+     * Constructor FireAlarm
+     * @param tab of the simulation.
+     */
     public FireAlarm(SimulationTab tab) {
         sound = new AlarmSound("resources/alarm.wav", true);
         this.sprites = getImages();
@@ -51,6 +59,13 @@ public class FireAlarm {
         }
         on = false;
     }
+
+    /**
+     * Method getImages
+     * Method to receive the images of the fire alarm.
+     * The images contains the animation for the fire alarm.
+     * @return the images of the fire alarm.
+     */
 
     private BufferedImage[] getImages() {
         try {
@@ -74,9 +89,19 @@ public class FireAlarm {
         return null;
     }
 
+    /**
+     * Method isOn
+     * @return value of private attribute on
+     */
+
     public boolean isOn() {
         return on;
     }
+
+    /**
+     * Method toggle
+     * Toggles the fire alarm between on and off
+     */
 
     public void toggle() {
         if(this.isOn()) {
@@ -88,6 +113,11 @@ public class FireAlarm {
         }
     }
 
+    /**
+     * Method setOn
+     * @param on to set to
+     */
+
     public void setOn(boolean on) {
         if(on) {
             this.on = true;
@@ -96,6 +126,11 @@ public class FireAlarm {
             this.on = false;
         }
     }
+
+    /**
+     * Method start
+     * Starts the fire alarm sequence
+     */
 
     public void start() {
         List<Person> people = Schedule.getInstance().getAllPersons();
@@ -118,11 +153,21 @@ public class FireAlarm {
         }
     }
 
+    /**
+     * Method execute
+     * Makes all objects of type Person leave the school
+     */
+
     public void execute() {
         List<Person> people = Schedule.getInstance().getAllPersons();
         people.forEach(Person::leave);
 
     }
+
+    /**
+     * Method stop
+     * Stops the fire alarm sequence
+     */
 
     public void stop() {
         List<Person> people = Schedule.getInstance().getAllPersons();
@@ -134,6 +179,11 @@ public class FireAlarm {
         });
 
     }
+
+    /**
+     * Method update
+     * @param deltaTime to take to update
+     */
 
     public void update(double deltaTime) {
         if(this.on) {
@@ -156,6 +206,12 @@ public class FireAlarm {
             }
         }
     }
+
+    /**
+     * Method draw
+     * Draws all objects related to FireAlarm
+     * @param g2d graphical context that needs to draw
+     */
 
     public void draw(FXGraphics2D g2d) {
         if(this.on) {
