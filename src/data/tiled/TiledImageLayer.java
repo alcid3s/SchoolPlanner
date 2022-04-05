@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Class TiledImageLayer
  * Stores data for an Image Layer
  */
+
 public class TiledImageLayer {
     private final int width;
     private final int height;
@@ -24,6 +25,7 @@ public class TiledImageLayer {
      * Constructor for TiledImageLayer
      * @param layerObject of the image layer.
      */
+
     public TiledImageLayer(JsonObject layerObject) {
         this.height = layerObject.getInt("height");
         this.width = layerObject.getInt("width");
@@ -51,6 +53,7 @@ public class TiledImageLayer {
      * @param width location of the tile
      * @param height location of the tile
      */
+
     public void addValue(int data, int width, int height) {
         if (values.length > width && values[width].length > height) {
             values[width][height] = data;
@@ -61,6 +64,7 @@ public class TiledImageLayer {
      * Method toString
      * @return toString
      */
+
     @Override
     public String toString() {
         ArrayList<String> valuesAsString = new ArrayList<>();
@@ -82,6 +86,7 @@ public class TiledImageLayer {
      * Method draw
      * @param graphics to draw the images on.
      */
+
     public void draw(FXGraphics2D graphics) {
         for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
@@ -101,27 +106,34 @@ public class TiledImageLayer {
      * Method getHeight
      * @return private int height;
      */
+
     public int getHeight() {
         return height;
     }
+
     /**
      * Method getWidth
      * @return private int width;
      */
+
     public int getWidth() {
         return width;
     }
+
     /**
      * Method getHeight
      * @return private int height;
      */
+
     public int[][] getValues() {
         return values;
     }
+
     /**
      * Method getName
      * @return private String name;
      */
+
     public String getName() {
         return name;
     }

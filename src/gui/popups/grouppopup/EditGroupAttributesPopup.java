@@ -31,8 +31,10 @@ public class EditGroupAttributesPopup extends Stage{
         Label size = new Label("Group Size: ");
         TextField nameField = new TextField();
         TextField sizeField = new TextField();
+
+        String oldName = group.getName();
         sizeField.setText(group.getSize() + "");
-        nameField.setText(group.getName());
+        nameField.setText(oldName);
 
         GridPane gridPane = new GridPane();
         gridPane.add(name, 0, 0);
@@ -54,7 +56,7 @@ public class EditGroupAttributesPopup extends Stage{
         edit.setOnAction(e -> {
             boolean mayClose = true;
             try {
-                if(!nameField.getText().isEmpty()){
+                if(!nameField.getText().isEmpty() || nameField.getText().equals(oldName)){
                     if(Validation.groupIsUnique(nameField.getText()) || nameField.getText().equals(group.getName())){
                         group.setName(nameField.getText());
                     }else{

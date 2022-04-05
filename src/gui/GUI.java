@@ -58,7 +58,6 @@ public class GUI extends Application{
         tabs.setPrefHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 50);
         tabs.setPrefWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         tabs.autosize();
-        Names.init();
 
         primaryStage.setTitle("SchoolPlanner");
         primaryStage.setScene(scene);

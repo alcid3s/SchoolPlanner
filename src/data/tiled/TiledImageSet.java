@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * Class TiledImageSet
  */
+
 public class TiledImageSet {
     private final HashMap<Integer, BufferedImage> tiles;
 
@@ -17,6 +18,7 @@ public class TiledImageSet {
      * Constructor of TiledImageSet
      * @param tiledSet object of all the images.
      */
+
     public TiledImageSet(JsonObject tiledSet) {
         int columns = tiledSet.getInt("columns");
         int tileWidth = tiledSet.getInt("tilewidth");
@@ -43,6 +45,7 @@ public class TiledImageSet {
      * @param data of the value to check
      * @return boolean that represents if the value is in the hashmap.
      */
+
     public boolean contains(int data) {
         return tiles.containsKey(data);
     }
@@ -52,6 +55,7 @@ public class TiledImageSet {
      * @param id of the value to get
      * @return BufferedImage that matches the id.
      */
+
     public BufferedImage getTileImage(int id) {
         return tiles.get(id);
     }

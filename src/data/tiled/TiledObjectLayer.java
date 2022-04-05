@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Class TiledObjectLayer
  * Holds objects for a specific layer.
  */
+
 public class TiledObjectLayer {
     private final ArrayList<TiledObject> objects;
     private final int x;
@@ -17,6 +18,7 @@ public class TiledObjectLayer {
      * Constructor of TiledObjectLayer
      * @param object where the objects are in.
      */
+
     public TiledObjectLayer(JsonObject object) {
         x = object.getInt("x");
         y = object.getInt("y");
@@ -29,6 +31,7 @@ public class TiledObjectLayer {
      * Method getObjects
      * @return list of all the objects.
      */
+
     public ArrayList<TiledObject> getObjects() {
         return objects;
     }
@@ -37,6 +40,7 @@ public class TiledObjectLayer {
      * Method getX
      * @return private int x
      */
+
     public int getX() {
         return x;
     }
@@ -45,6 +49,7 @@ public class TiledObjectLayer {
      * Method getY
      * @return private int y
      */
+
     public int getY() {
         return y;
     }
@@ -53,6 +58,7 @@ public class TiledObjectLayer {
      * Method getName
      * @return private String name
      */
+
     public String getName() {
         return name;
     }

@@ -8,6 +8,11 @@ import gui.tabs.ScheduleTab;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Class Lesson
+ * Creates a lesson in the application
+ */
+
 public class Lesson implements Comparable<Lesson> {
 
     private Room room;
@@ -18,6 +23,16 @@ public class Lesson implements Comparable<Lesson> {
     private String name;
     private boolean hasTask;
 
+    /**
+     * Constructor
+     * @param name of the lesson
+     * @param room where the lesson needs to be given in
+     * @param teacher that needs to give the lesson
+     * @param group that needs to follow the lesson
+     * @param startDate start time of the lesson
+     * @param endDate end time of the lesson
+     */
+
     public Lesson(String name, Room room, Person teacher, Group group, LocalDateTime startDate, LocalDateTime endDate) {
         this.room = room;
         this.teacher = teacher;
@@ -26,6 +41,12 @@ public class Lesson implements Comparable<Lesson> {
         this.endDate = endDate;
         this.name = name;
     }
+
+    /**
+     * Constructor
+     * Extra to make object of lesson from a JSON file
+     * @param jsonData from loaded file
+     */
 
     public Lesson(String jsonData) {
         String[] values = jsonData.split(";");
@@ -37,61 +58,136 @@ public class Lesson implements Comparable<Lesson> {
         this.endDate = LocalDateTime.parse(values[5]);
     }
 
+    /**
+     * Method getRoom
+     * @return room of lesson
+     */
+
     public Room getRoom() {
         return room;
     }
+
+    /**
+     * Method setRoom
+     * @param room to set to
+     */
 
     public void setRoom(Room room) {
         this.room = room;
     }
 
+    /**
+     * Method getTeacher
+     * @return teacher of lesson
+     */
+
     public Person getTeacher() {
         return teacher;
     }
+
+    /**
+     * Method setTeacher
+     * @param teacher to set to
+     */
 
     public void setTeacher(Person teacher) {
         this.teacher = teacher;
     }
 
+    /**
+     * Method getGroup
+     * @return group of lesson
+     */
+
     public Group getGroup() {
         return group;
     }
+
+    /**
+     * Method setGroup
+     * @param group to set to
+     */
 
     public void setGroup(Group group) {
         this.group = group;
     }
 
+    /**
+     * Method getStartDate
+     * @return start time of lesson
+     */
+
     public LocalDateTime getStartDate() {
         return startDate;
     }
+
+    /**
+     * Method setStartDate
+     * @param time to set to
+     */
 
     public void setStartDate(LocalDateTime time) {
         this.startDate = time;
     }
 
+    /**
+     * Method getEndDate
+     * @return end time of lesson
+     */
+
     public LocalDateTime getEndDate() {
         return endDate;
     }
+
+    /**
+     * Method setEndDate
+     * @param time to set to
+     */
 
     public void setEndDate(LocalDateTime time) {
         this.endDate = time;
     }
 
+    /**
+     * Method getName
+     * @return name of lesson
+     */
+
     public String getName() {
         return name;
     }
+
+    /**
+     * Method setName
+     * @param name to set to
+     */
 
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method setHasTask
+     * @param set to change boolean variable to
+     */
+
     public void setHasTask(boolean set) {
         this.hasTask = set;
     }
 
+    /**
+     * Method getHasTask
+     * @return boolean variable that checks if tasks are enabled
+     */
+
     public boolean getHasTask() {
         return this.hasTask;
     }
+
+    /**
+     * Inherited method toString
+     * @return string of object
+     */
 
     @Override
     public String toString() {
@@ -118,6 +214,12 @@ public class Lesson implements Comparable<Lesson> {
                 endDate;
     }
 
+    /**
+     * Implemented method compareTo
+     * @param l lesson to compare with
+     * @return result of comparison
+     */
+
     @Override
     public int compareTo(Lesson l) {
         if(ScheduleTab.getState() == DrawState.GROUP){
@@ -129,9 +231,19 @@ public class Lesson implements Comparable<Lesson> {
         }
     }
 
+    /**
+     * Method getJsonString
+     * @return string to use for writing JSON files
+     */
+
     public String getJsonString() {
         return name + ";" + room.getName() + ";" + teacher.getName() + ";" + group.getName() + ";" + startDate.toString() + ";" + endDate.toString();
     }
+
+    /**
+     * Method notNull
+     * @return check if lesson is not null
+     */
 
     public boolean notNull() {
         return this.room != null && this.teacher != null && this.group != null;

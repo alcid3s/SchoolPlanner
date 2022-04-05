@@ -12,7 +12,19 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class FileManager
+ * Handles JSON object streams
+ */
+
 public class FileManager implements Serializable {
+
+    /**
+     * Static method saveJson
+     * @param file that needs to be saved
+     * @param schedule root that gives objects that need to be saved
+     * @return boolean that checks if saving was successful
+     */
 
     public static boolean saveJson(File file, Schedule schedule) {
         try {
@@ -43,6 +55,13 @@ public class FileManager implements Serializable {
             return false;
         }
     }
+
+    /**
+     * Static method loadJson
+     * @param file that needs to be loaded
+     * @param schedule root that receives objects that are loaded in
+     * @return boolean that checks if loading was successful
+     */
 
     public static boolean loadJson(File file, Schedule schedule) {
         try {

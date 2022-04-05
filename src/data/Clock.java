@@ -24,7 +24,7 @@ public class Clock implements Timeable {
 
     /**
      * Constructor
-     * @param callback
+     * @param callback to give when a certain requirement has been reached
      */
 
     public Clock(ClockCallback callback) {
@@ -35,9 +35,20 @@ public class Clock implements Timeable {
         this.callback = callback;
     }
 
+    /**
+     * Static method GetTime
+     * @return current time
+     */
+
     public static LocalTime getTime() {
         return time;
     }
+
+    /**
+     * Method draw
+     * @param g2d graphical context that needs to draw the clock
+     * @param canvas where the clock needs to be drawn on
+     */
 
     public void draw(FXGraphics2D g2d, Canvas canvas) {
         AffineTransform transform = g2d.getTransform();
@@ -47,9 +58,19 @@ public class Clock implements Timeable {
         g2d.setTransform(transform);
     }
 
+    /**
+     * Static method resetTime
+     * Method that resets the time of the clock
+     */
+
     public static void resetTime(){
         time = LocalTime.of(6, 59, 0);
     }
+
+    /**
+     * Implemented method update
+     * @param deltaTime to take to update
+     */
 
     @Override
     public void update(double deltaTime) {

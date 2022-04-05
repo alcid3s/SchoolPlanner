@@ -7,8 +7,9 @@ import java.io.File;
 
 /**
  * Class AlarmSound
- * Creates a alarmsound and adds methods to stop and start the sound.
+ * Creates an alarm sound and adds methods to stop and start the sound.
  */
+
 public class AlarmSound {
 
     private AudioInputStream ais;
@@ -20,8 +21,9 @@ public class AlarmSound {
      * Constructor Alarmsound
      * Creates an object AlarmSound
      * @param path of the alarmsound
-     * @param loop boolean if the sound needs to be repeated after its finished.
+     * @param loop boolean if the sound needs to be repeated after its finished
      */
+
     public AlarmSound(String path, boolean loop) {
         this.path = path;
         this.loop = loop;
@@ -35,8 +37,9 @@ public class AlarmSound {
 
     /**
      * Method play
-     * Activates the sound.
+     * Activates the sound
      */
+
     public void play() {
         try{
             this.clip.open(ais);
@@ -52,8 +55,9 @@ public class AlarmSound {
 
     /**
      * Method stop
-     * Stops the sound.
+     * Stops the sound
      */
+
     public void stop() {
         this.clip.stop();
         try{

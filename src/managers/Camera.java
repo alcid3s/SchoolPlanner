@@ -9,11 +9,21 @@ import javafx.scene.input.ScrollEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+/**
+ * Class Camera
+ * Creates a new view for the SimulationTab
+ */
+
 public class Camera {
     private Point2D centerPoint;
     private float zoom = 0.75f;
     private Point2D lastMousePos;
     private final SimulationTab tab;
+
+    /**
+     * Constructor
+     * @param tab root that needs to receive the new view
+     */
 
     public Camera(SimulationTab tab) {
         Node clickEvents = tab.getPane();
@@ -23,6 +33,11 @@ public class Camera {
         clickEvents.setOnMouseDragged(this::mouseDragged);
         clickEvents.setOnScroll(this::mouseScroll);
     }
+
+    /**
+     * Method getTransform
+     * @return new zoomed transform
+     */
 
     public AffineTransform getTransform() {
         AffineTransform tx = new AffineTransform();
@@ -34,6 +49,12 @@ public class Camera {
         return tx;
     }
 
+    /**
+     * Method mouseDragged
+     * Checks if the mouse got dragged over the screen
+     * @param e event from the mouse
+     */
+
     public void mouseDragged(MouseEvent e) {
         if (e.getButton() == MouseButton.PRIMARY) {
             centerPoint = new Point2D.Double(
@@ -44,6 +65,12 @@ public class Camera {
             tab.setUpdateBackground(true);
         }
     }
+
+    /**
+     * Method mouseScroll
+     * Checks if the mouse wheel has been used
+     * @param e event from the mouse
+     */
 
     public void mouseScroll(ScrollEvent e) {
         float zoom = this.zoom * (float) (1 + e.getDeltaY() / 500.0f);

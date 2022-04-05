@@ -61,10 +61,12 @@ public class FireAlarm {
     }
 
     /**
+     * Method getImages
      * Method to receive the images of the fire alarm.
      * The images contains the animation for the fire alarm.
      * @return the images of the fire alarm.
      */
+
     private BufferedImage[] getImages() {
         try {
             BufferedImage image = ImageIO.read(Objects.requireNonNull(Student.class.getClassLoader().getResource("firealarmanimation.png")));
@@ -87,9 +89,19 @@ public class FireAlarm {
         return null;
     }
 
+    /**
+     * Method isOn
+     * @return value of private attribute on
+     */
+
     public boolean isOn() {
         return on;
     }
+
+    /**
+     * Method toggle
+     * Toggles the fire alarm between on and off
+     */
 
     public void toggle() {
         if(this.isOn()) {
@@ -101,6 +113,11 @@ public class FireAlarm {
         }
     }
 
+    /**
+     * Method setOn
+     * @param on to set to
+     */
+
     public void setOn(boolean on) {
         if(on) {
             this.on = true;
@@ -109,6 +126,11 @@ public class FireAlarm {
             this.on = false;
         }
     }
+
+    /**
+     * Method start
+     * Starts the fire alarm sequence
+     */
 
     public void start() {
         List<Person> people = Schedule.getInstance().getAllPersons();
@@ -131,11 +153,20 @@ public class FireAlarm {
         }
     }
 
+    /**
+     * 
+     */
+
     public void execute() {
         List<Person> people = Schedule.getInstance().getAllPersons();
         people.forEach(Person::leave);
 
     }
+
+    /**
+     * Method stop
+     * Stops the fire alarm sequence
+     */
 
     public void stop() {
         List<Person> people = Schedule.getInstance().getAllPersons();
