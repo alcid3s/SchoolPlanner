@@ -17,7 +17,7 @@ public class MapTarget extends Target {
 
     /**
      * Static
-     * Initialises all renderings for the map
+     * Initialises all debug renderings for the map
      */
 
     static {
