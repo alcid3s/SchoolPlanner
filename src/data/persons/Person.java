@@ -268,8 +268,8 @@ public abstract class Person implements Comparable<Person> {
      * @param task to set to the object
      */
 
-    public void setTask(Task task){
-        if(task instanceof TriggerFireAlarmTask){
+    public void setTask(Task task) {
+        if(task instanceof TriggerFireAlarmTask) {
             this.previousTask = this.task;
         }
         this.task = task;
@@ -283,6 +283,8 @@ public abstract class Person implements Comparable<Person> {
     public void leave() {
         if(!(this.task instanceof TriggerFireAlarmTask)){
             this.previousTask = this.task;
+        } else {
+            this.previousTask = new IdleTask(this);
         }
         this.task = new LeaveTask(this);
     }
