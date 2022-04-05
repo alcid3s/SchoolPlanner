@@ -6,15 +6,41 @@ import data.rooms.object.UsableObject;
 
 import java.util.Optional;
 
+/**
+ * Class LessonTask
+ * Creates the Task to follow a Lesson
+ */
+
 public class LessonTask extends Task {
+
+    /**
+     * Constructor LessonTask
+     * Creates a LessonTask for Person
+     * @param p for the Task
+     * @param r for the Task
+     */
+
     public LessonTask(Person p, Room r) {
         super(p, getObjectToUse(p, r), r);
     }
+
+    /**
+     * Finds a object to use for Person in Room
+     * @param p to set Person
+     * @param r to set Room
+     * @return UsableObject
+     */
 
     private static UsableObject getObjectToUse(Person p, Room r) {
         Optional<UsableObject> object = r.getFreeChair(p);
         return object.orElse(null);
     }
+
+    /**
+     * Method update
+     * Updates task for Person
+     * @param deltaTime to do update
+     */
 
     @Override
     public void update(double deltaTime) {
