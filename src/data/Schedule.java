@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class Schedule implements Serializable {
+public class Schedule {
     private static Schedule schedule;
     private ArrayList<Lesson> lessonList;
     private ArrayList<Group> groupList;
@@ -151,22 +151,6 @@ public class Schedule implements Serializable {
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
                 return FileManager.saveJson(file, this);
-            case "rooster":
-                try {
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                    file.createNewFile();
-
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    objectOutputStream.writeObject(this);
-                    objectOutputStream.close();
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
         }
         return false;
     }
@@ -184,21 +168,6 @@ public class Schedule implements Serializable {
         switch (optionalExtension.get().toLowerCase()) {
             case "json":
                 return FileManager.loadJson(file, this);
-            case "rooster":
-                try {
-                    FileInputStream f = new FileInputStream(file);
-                    ObjectInputStream s = new ObjectInputStream(f);
-                    Schedule newSchedule = (Schedule) s.readObject();
-                    schedule.setLessonList(newSchedule.getLessonList());
-                    schedule.setTeacherList(newSchedule.getTeacherList());
-                    schedule.setGroupList(newSchedule.getGroupList());
-                    Clock.resetTime();
-                    ScheduleTab.refreshCanvas();
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
         }
         return false;
     }

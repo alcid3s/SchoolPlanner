@@ -19,7 +19,7 @@ import java.io.Serializable;
  * Superclass to create objects that inherit this class
  */
 
-public abstract class Person implements Comparable<Person>, Serializable {
+public abstract class Person implements Comparable<Person> {
     private String name;
     private final Animation animation;
     final int size;

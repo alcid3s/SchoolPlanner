@@ -8,7 +8,7 @@ import gui.tabs.ScheduleTab;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Lesson implements Comparable<Lesson>, Serializable {
+public class Lesson implements Comparable<Lesson> {
 
     private Room room;
     private Person teacher;
