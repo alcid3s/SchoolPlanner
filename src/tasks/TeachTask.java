@@ -14,7 +14,6 @@ import java.util.Random;
  */
 
 public class TeachTask extends Task {
-    private boolean gotToRoom;
     private double timer;
     private Random random = new Random();
 
@@ -27,7 +26,6 @@ public class TeachTask extends Task {
 
     public TeachTask(Person p, Room r) {
         super(p, getObjectToUse(p, r), r);
-        gotToRoom = false;
         timer = 10 + random.nextInt(20);
     }
 

@@ -93,10 +93,17 @@ public abstract class Person implements Comparable<Person> {
     /**
      * Method update
      * Updates position of object on the canvas
-     * @param deltaTime to do update
+     * @param realDeltaTime to do update
      */
 
-    public void update(double deltaTime) {
+    public void update(double realDeltaTime) {
+        while (realDeltaTime > 0.2) {
+            updateTask(0.2);
+            realDeltaTime -= 0.2;
+        }
+        updateTask(realDeltaTime);
+    }
+    private void updateTask(double deltaTime) {
         if (this.doUpdate) {
             if (this.task == null) {
                 this.task = new IdleTask(this);
@@ -111,6 +118,7 @@ public abstract class Person implements Comparable<Person> {
             this.task.update(deltaTime);
         }
     }
+
 
     /**
      * Method spawn
@@ -268,8 +276,8 @@ public abstract class Person implements Comparable<Person> {
      * @param task to set to the object
      */
 
-    public void setTask(Task task){
-        if(task instanceof TriggerFireAlarmTask){
+    public void setTask(Task task) {
+        if(task instanceof TriggerFireAlarmTask) {
             this.previousTask = this.task;
         }
         this.task = task;
@@ -283,6 +291,8 @@ public abstract class Person implements Comparable<Person> {
     public void leave() {
         if(!(this.task instanceof TriggerFireAlarmTask)){
             this.previousTask = this.task;
+        } else {
+            this.previousTask = new IdleTask(this);
         }
         this.task = new LeaveTask(this);
     }
