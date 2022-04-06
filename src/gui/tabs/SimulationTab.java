@@ -49,6 +49,7 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
     private long lastFPSCheck = 0;
     private int currentFPS = 0;
     private int totalFrames = 0;
+    private boolean bPressed = false;
 
     /**
      * Constructor SimulationTab
@@ -83,9 +84,15 @@ public class SimulationTab extends Tab implements Resizable, ClockCallback, Time
 
         GUI.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if(GUI.getTabPane().getSelectionModel().getSelectedItem().equals(this)){
-                if(event.getCode() == KeyCode.B){
+                if(event.getCode() == KeyCode.B && !bPressed){
                     fireAlarm.toggle();
+                    bPressed = true;
                 }
+            }
+        });
+        GUI.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+            if(event.getCode() == KeyCode.B) {
+                bPressed = false;
             }
         });
 

@@ -127,4 +127,10 @@ public class Classroom extends Room {
         Collections.shuffle(teacherStandLocations);
         return teacherStandLocations.get(0);
     }
+
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+        teacherStandLocations.forEach(UsableObject::update);
+    }
 }
