@@ -1,0 +1,27 @@
+
+{
+    "teachers": [
+        "Jan",
+        "Jessica",
+        "Johan",
+        "Maurice",
+        "Pieter",
+        "Rik"
+    ],
+    "groups": [
+        "Groep A;23",
+        "Groep B;30",
+        "Groep C;10",
+        "Groep D;12",
+        "Groep E;43",
+        "Groep F;17"
+    ],
+    "lessons": [
+        "OOSD;LA136;Jan;Groep A;2022-04-06T09:30;2022-04-06T11:20",
+        "OOSD;LA124;Jessica;Groep B;2022-04-06T08:45;2022-04-06T10:25",
+        "2D Graphics;LA134;Johan;Groep C;2022-04-06T09:30;2022-04-06T12:10",
+        "Workshop Git;LA135;Maurice;Groep D;2022-04-06T08:45;2022-04-06T11:20",
+        "Wiskunde;CollegeHall;Pieter;Groep E;2022-04-06T08:45;2022-04-06T10:50",
+        "OGP;LA137;Rik;Groep F;2022-04-06T09:30;2022-04-06T12:20"
+    ]
+}
